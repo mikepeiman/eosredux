@@ -1,0 +1,288 @@
+#HELPS
+
+-1 ANSI COLOR COLORS~
+Ansi colors can be changed within anything now, to change them, put
+&# in any string. # being the letter of the color you wish to change to.
+For example, &&rred would come out &rred&w.
+
+The current letters for &Rc&Bo&Wl&Go&Pr&Ys&w are:
+&&r &rdarkred   &w&&R &Rbrightred  &w&&g &gdarkgreen  &w&&G &Gbrightgreen &w
+&&b &bdarkblue  &w&&B &Blightblue  &w&&C &Clightcyan  &w&&W &Wwhite       &w
+&&Y &Yyellow    &w&&O &Oorange     &w&&p &pdarkpurple &w&&P &Plightpurple &w
+&&c &cdarkcyan  &w&&w lightgrey  &&z &zdarkgrey   &w&&&& an ampersand (&&)
+~
+
+-1 OLC~
+&RSyntax: &wAEDIT [create/reset]            &W- Area Creation and Repoping
+   	  &wREDIT [create/reset] [vnum]     &W- Room Creation and Editing
+	  &wOEDIT [create] <vnum>           &W- Object Creation and Editing
+	  &wMEDIT [create] <vnum>           &W- Mobile Creation and Editing
+	  &wASAVE <world/area/changed/list> &W- Save Editing to Disk
+	  &wALIST                           &W- Listing of Areas
+	  &wRESET See Help Resets           &W- Set Game Resets
+
+&RDefinition: &w[optional]  <required>
+
+&WThe above commands are used to expand the game world.  The original code it is based
+on was written by Surreality and installed in The Isles by Locke.  It was then
+converted to work with Envy by Jason Dinkel.
+
+Inside an editor, typing COMMANDS lists working commands and ? gives help. AEDIT and 
+REDIT default to the current area or room. EDIT ROOM RESET resets the current room.
+Most commands with n arguments display syntax.
+
+See also help: &RAEDIT REDIT MEDIT OEDIT
+~
+
+101 AUTHORIZE AUTH~
+&RSyntax: &wauth playername yes/no
+	  &wauth playername y/n
+	  &wauth playername message ( to deny   )
+	  &wauth playername deny    ( to deny   )
+	  &wauth playername         ( to accept )
+
+&WExamples:
+      auth fred      
+      auth fred yes  
+      auth fred Please choose a more medieval name.
+
+All new players must be authorized by an immortal.  To be notified when a new player 
+logs on, be sure to have &Rwiznet newbies&W option on.  See HELP WIZNET for more
+information.
+
+~
+0 ASTAT~
+&RSyntax: &wastat
+	&wastat vnum
+	&wastat playername/mobname
+
+&WThis command gives you area information of the requested area. Typing astat by
+itself will give you information on the area you are currently in, typing astat
+vnum will give you information on the area that particular vnum is in, and typing
+astat playername/mobname will give you area information in the area that person/mob
+is in.
+
+~
+0 ALIST~
+&RSyntax: &walist
+
+&WThis command gives you a listing of all the areas along with their
+vnum assignments and the builder(s) assigned to editing them.
+~
+
+0 AEDIT~
+&RSyntax: &waedit          ( Enters the editor for the current area  )
+          &waedit <vnum>   ( Enters the editor for the selected area )
+
+&WThe follow commands are available from within the AEDITOR:
+
+&wage <number>        &W- set the age of the area
+&wbuilder <player>    &W- toggle that builder's access
+&wcommands            &W- prints a list of possible commands
+&wcreate              &W- create a brand new area and switch to it
+&wdone                &W- exits the area editor and returns to normal play
+&wfilename <filename> &W- change the file name for the area. '.are' is appended.
+&wname <name>         &W- change the 'AREAS' name of this area
+&wrecall <room vnum>  &W- set the room to recall to
+&wreset               &W- resets the current area
+&wsecurity <rating>   &W- set the security rating for this area
+&wshow                &W- hitting return, or 'show' shows the area stats
+&wvnum <lower> <upper>&W- set the lower and upper vnum's
+&wlvnum <lower>       &W- set the lower vnum
+&wuvnum <upper>       &W- set the upper vnum
+&w<flags>             &W- area flags, type ? AREA for a list
+~
+
+0 REDIT~
+&RSyntax: &wredit	( Enters the editor for the current room )
+
+&WThe following commands are available from within the REDITOR:
+
+&wcommands            &W- prints a list of possible commands
+&wcreate <vnum>       &W- creates a room with a certain vnum
+&wdesc                &W- edit description of room
+&wdone                &W- exists the room editor and returns to normal play
+&wed                  &W- type this command for additonal extra-description help
+&wformat              &W- format(word-wrap) the room description
+&wname <room title>   &W- changes the room title
+&wshow                &W- hitting return, or 'show' shows the room stats
+&woshow <vnum>        &W- shows an object with given vnum
+&wolist               &W- lists objects in this area.
+&wmshow <vnum>        &W- shows a mobile with given vnum
+&wmlist               &W- lists mobiles in this area.
+&w<room-flags>        &W- room attributes, type ? ROOM for a list
+&w<sector>            &W- terrain of room, type ? SECTOR for a list
+&w<direction>         &W- see help EXIT, or type <dir> ?
+&wwalk <direction>    &W- use the walk command to move in a direction
+~
+
+0 EXIT~
+&RSyntax: &w<dir> <command> <argument(s)>
+
+&WFor exits, type the direction (north/s/e/w) followed by:
+
+&wdig <vnum>         &W- creates the room and makes a two way link
+&wlink <room vnum>   &W- make a two way link
+&wroom <room vnum>   &W- make a one way link (use with caution)
+&wkey <object vnum>  &W- makes specified object the vnum of the key required
+&wname <door name>   &W- makes the door's name/keywords = to the given name
+&wdesc               &W- edit the description of the exit
+&wremove <arg>       &W- used to remove keys, names, and descriptions
+&wdelete             &W- delete this exit
+&w<exit-flags>       &W- type ? EXIT for a list(door, locked etc.)
+
+&WThe exit flags are presented in the following manner.  The capitalized
+flags are ones not included in the reset info.  i.e. closed is due to
+a player closing the door and not due to the door being set to be closed.
+
+-South to [ 3744] Key: [   -1] Exit flags: [door CLOSED pickproof]
+
+~
+0 OEDIT~
+&RSyntax: &woedit <vnum>    ( Enters the editor for the selected object )
+
+&WThe following commands are available from within the OEDITOR:
+
+&waddaffect             &W- applies an affect to an object, no args for help
+&wdelaffect             &W- removes an affect to an object, no args for help
+&wcommands              &W- prints a list of possible commands
+&wcost <currency><amt>  &W- sets the cost value of the object
+&wcreate <vnum>         &W- creates object with specified vnum
+&wdone                  &W- exits the object editor and returns to normal play
+&wed                    &W- type this for info on adding/editing extended descripts
+&wlong                  &W- edit long description (the one in the room)
+&wname <keywords>       &W- sets the keywords on an object
+&wshort <desc>          &W- sets the 'name' of an object (a sword, a fish etc)
+&wshow                  &W- hitting return, or 'show' shows the object stats
+&wv0 <num>              &W- sets the value '0' on the object
+&wv1 <num>              &W- sets the value '1' on the object
+&wv2 <num>              &W- sets the value '2' on the object
+&wv3 <num>              &W- sets the value '3' on the object
+&wweight <num>          &W- sets the weight of the object
+&w<obj-type>            &W- type of object, type ? TYPE for a list
+&w<extra-flags>         &W- attributes of object, type ? EXTRA for a list
+&w<wear-flags>          &W- where object is worn, type ? WEAR for a list
+~
+
+0 MEDIT~
+&RSyntax: &wmedit <vnum>    ( Enters the editor for the selected mobile )
+
+&WThe following commands are available from within the OEDITOR:
+
+&walignment <value>   &W- set the mobile's alignment
+&wcommands            &W- prints a list of possible commands
+&wcreate <vnum>       &W- creates mobile with specified vnum
+&wdesc                &W- edit the mobile's description (when looked at)
+&wdone                &W- exits the mobile editor and returns to normal play
+&wlevel <level>       &W- set the mobile's level
+&wgold <amt>	      &W- set the mobile's gold amount
+&wsilver <amt> 	      &W- set the mobile's silver amount
+&wcopper <amt>        &W- set the mobile's copper amount
+&wlong                &W- edit long description (the one in the room)
+&wname <keywords>     &W- sets the keywords on an mobile
+&wshop                &W- type this command for further information
+&wshort <desc>        &W- sets the 'name' of an mobile (a sword, a fish etc)
+&wshow                &W- hitting return, or 'show' shows the mobile stats
+&wspec                &W- sets a mobiles spec proc, type ? SPEC for a list
+&w<sex>               &W- set the mobile's sex, type ? SEX for a list
+&w<act>               &W- mobiles actions, type ? ACT for a list
+&w<affected-by>       &W- mobile affects, type ? AFFECT for a list
+~
+
+0 RESETS~
+&RSyntax: &wRESET <number> OBJ <vnum> <location on body>    - equips last mobile
+        RESET <number> OBJ <vnum> inside <obj vnum>     - store in container
+        RESET <number> OBJ <vnum> room                  - store in room
+        RESET <number> MOB <vnum> [<max #>]             - load a mobile
+        RESET <number> DELETE                           - delete a reset
+
+&WRESET alone will display the resets in the current room.  The <number> will
+be displayed with this list.  Typing ? WEAR-LOC will list possible locations
+that an object can be loaded to.  The [<max #>] is the maximum number of
+mobiles allowed in this room and will default to 1 if no number is entered.
+
+For resets to be successful make sure that you add them in a logical order.
+For example, if you are equipping a mobile, don't load a container in the 
+room and fill it with some objects and then continue equipping the mobile.
+It is likely that resets will backfire if they are not carefully entered.
+
+If you wish to reset the room then use EDIT ROOM RESET.  
+~
+
+0 ITEM_LIGHT~
+.   value 0    unused
+   value 1    unused
+   value 2    hours of light available, 0 is dead, -1 is infinite            
+   value 3    unused
+~
+
+0 ITEM_STAFF_WAND~
+.   value 0    level
+   value 1    max charges
+   value 2    current charges
+   value 3    spell name
+
+An up-to-date list of spells can be obtained by typing:
+? SPELLS [ignore/attack/defend/self/object/all]
+~
+
+0 ITEM_SCROLL_POTION_PILL~
+.   value 0    level
+   value 1    spell name 1
+   value 2    spell name 2
+   value 3    spell name 3
+
+An up-to-date list of spells can be obtained by typing:
+? SPELLS [ignore/attack/defend/self/object/all]
+~
+
+0 ITEM_WEAPON~
+.   value 0    unused
+   value 1    unused (formerly min damage)
+   value 2    unused (formerly max damage)
+   value 3    weapon type: hit, slice, stab, slash, whip, claw, blast,
+                           pound, crush, grep, bite, pierce, suction, chop
+
+An up-to-date list of weapon types can be obtained by typing
+? WEAPON
+~
+
+0 ITEM_CONTAINER~
+.   value 0    weight capacity
+   value 1    flags: closeable, pickproof, closed, locked            
+   value 2    key vnum
+   value 3    unused
+
+An up-to-date list of flags can be obtained by typing
+? CONTAINER
+~
+
+0 ITEM_DRINK~
+.   value0    capacity
+   value1    current quantity
+   value2    liquid type: water, beer, wine, ale, dark-ale, whisky, lemonade,
+                          firebreather, local-specialty, slime-mold-juice,
+                          milk, tea, coffee, blood, salt-water, cola
+   value3    poisoned?
+
+An up-to-date list of liquids can be obtained by typing
+? LIQUID
+~
+
+0 ITEM_FOOD~
+.   value 0    hours of food value
+   value 1    unused
+   value 2    unused
+   value 3    poisoned?
+~
+
+0 ITEM_MONEY~
+.   value 0    gold
+   value 1    silver
+   value 2    copper
+   value 3    unused
+~
+
+0 $~
+
+#$
