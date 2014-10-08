@@ -13,17 +13,16 @@ envy: $(O_FILES)
 #	@echo "."
 	@echo "[1;35mBuilding Eye of the [1;31mStorm [1;32mII[0;37m"
 	rm -f envy
-	$(CC) $(L_FLAGS) -o envy $(O_FILES)
+	$(CC) $(L_FLAGS) -o envy $(O_FILES) $(LIBS)
 	@echo "Done."
 
 clean:
 	rm -f *.o
 	rm -f envy
-	make
 
 .c.o: merc.h
 #	@echo -n "."
-	$(CC) -c $(C_FLAGS) $(SYSTEM) $<
+	$(CC) -c $(C_FLAGS) $<
 
 1234:
 #	@echo "."
