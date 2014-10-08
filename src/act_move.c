@@ -1488,8 +1488,7 @@ void do_enter ( CHAR_DATA *ch, char *argument )
     rprog_exit_trigger( ch->in_room, ch );
     char_from_room( ch );
     char_to_room( ch, location );
-    send_to_char(AT_BLUE, "You feel dizzy, and when finally you emerge you are
-elsewhere.\n\r", ch );
+    send_to_char(AT_BLUE, "You feel dizzy, and when finally you emerge you are elsewhere.\n\r", ch );
     act(AT_BLUE, "$n steps out of the $p before you.", ch, obj, NULL, TO_ROOM);
     do_look( ch, "auto" );
     for ( fch = in_room->people; fch; fch = fch_next )

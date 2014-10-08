@@ -902,9 +902,21 @@ void load_traps( FILE *fp, OBJ_INDEX_DATA *pObj, ROOM_INDEX_DATA *pRoom,
   {
     pTrap->type = flag_value( (pObj ? oprog_types : (pRoom ? rprog_types :
 			       eprog_types)), fread_word( fp ) );
+    if (pObj && pTrap->type == OBJ_TRAP_ERROR) {
+      bug( "Load_traps: No flag found.", 0 );
+      exit( 1 );
+    } else if (pRoom && pTrap->type == ROOM_TRAP_ERROR) {
+      bug( "Load_traps: No flag found.", 0 );
+      exit( 1 );
+    } else if (pExit && pTrap->type == EXIT_TRAP_ERROR) {
+      bug( "Load_traps: No flag found.", 0 );
+      exit( 1 );
+    }
+
+
+
     switch( pTrap->type )
     {
-    case (pObj ? OBJ_TRAP_ERROR : (pRoom ? ROOM_TRAP_ERROR : EXIT_TRAP_ERROR)):
     case NO_FLAG:
       bug( "Load_traps: No flag found.", 0 );
       exit( 1 );

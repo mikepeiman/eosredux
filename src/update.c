@@ -852,7 +852,7 @@ void char_update( void )
 	  if ( MT( ch ) < pd->cost )
 	    raffect_remove( raf->room, ch, raf );
 	  else
-	    MT( ch ) -= pd->cost;
+	    adjust_mana(ch, -pd->cost);
 	  }
 	if ( ch->gspell && --ch->gspell->timer <= 0 )
 	{

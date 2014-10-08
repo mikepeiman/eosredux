@@ -2465,6 +2465,7 @@ extern  int     gsn_shadow;
 
 #define MT( ch )		( is_class( ch, CLASS_VAMPIRE ) ? ch->bp \
 				  				: ch->mana )
+extern void adjust_mana(CHAR_DATA *, int amount);
 #define MT_MAX( ch )		( is_class( ch, CLASS_VAMPIRE ) \
 				? MAX_BP(ch)			\
 				: MAX_MANA(ch) )

@@ -176,8 +176,6 @@ int	socket		args( ( int domain, int type, int protocol ) );
 /*int	accept		args( ( int s, struct sockaddr *addr, int *addrlen ) );
 int	bind		args( ( int s, struct sockaddr *name, int namelen ) );
 */int	close		args( ( int fd ) );
-int	getpeername	args( ( int s, struct sockaddr *name, int *namelen ) );
-int	getsockname	args( ( int s, struct sockaddr *name, int *namelen ) );
 int	gettimeofday	args( ( struct timeval *tp, struct timezone *tzp ) );
 int	listen		args( ( int s, int backlog ) );
 int	read		args( ( int fd, char *buf, int nbyte ) );
@@ -2757,7 +2755,7 @@ void nanny( DESCRIPTOR_DATA *d, char *argument )
     case CON_CHECK_AUTHORIZE:
     switch ( *argument )
     {
-    case 'y': case 'Y':
+    case 'y': case 'Y': break;
     /*   string_append( ch, &ch->description );*/
     }
        ch->start_align = 'N';

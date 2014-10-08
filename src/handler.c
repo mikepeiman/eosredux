@@ -2692,3 +2692,11 @@ int xp_tolvl( CHAR_DATA *ch )
        }
     return xp_tolvl;
 }
+
+void adjust_mana(CHAR_DATA *ch, int amt) {
+  if (is_class(ch, CLASS_VAMPIRE)) {
+    ch->bp += amt;
+  } else {
+    ch->mana += amt;
+  }
+}

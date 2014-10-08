@@ -16,6 +16,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <arpa/telnet.h>
+#include <errno.h>
 
 #include "merc.h"
 

@@ -2900,8 +2900,7 @@ void do_flee( CHAR_DATA *ch, char *argument )
 
     if ( IS_AFFECTED( ch, AFF_ANTI_FLEE ) )
     {
-      send_to_char( AT_RED, "You cannot!
-", ch );
+      send_to_char( AT_RED, "You cannot!", ch );
       return;
     }
     
@@ -4775,7 +4774,7 @@ void do_multiburst( CHAR_DATA *ch, char *argument )
 					ch, victim );
   }
   if ( ch->level < LEVEL_IMMORTAL )
-	MT( ch ) -= mana;
+    adjust_mana(ch, -mana);
   return;
 }
 
@@ -5594,9 +5593,9 @@ void do_shriek( CHAR_DATA *ch, char *argument )
 	  continue;
 	switch ( obj->item_type )
 	  {
-	  default: continue;
 	  case ITEM_POTION:
 	  case ITEM_CONTAINER:
+	  default: continue;
 	  }
 	if ( obj->item_type == ITEM_CONTAINER )
 	  {

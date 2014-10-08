@@ -737,11 +737,11 @@ void do_cast( CHAR_DATA *ch, char *argument )
     if ( number_percent( ) > ch->pcdata->learned[sn] )
     {
 	send_to_char(AT_BLUE, "You lost your concentration.\n\r", ch );
-	MT( ch ) -= mana / 2;
+	adjust_mana(ch, -(mana/2));
     }
     else
     {
-	MT( ch ) -= mana;
+	adjust_mana(ch, -mana);
 	if ( ( IS_AFFECTED2( ch, AFF_CONFUSED ) )
 	    && number_percent( ) < 10 )
 	{
@@ -1248,8 +1248,7 @@ void spell_draw_strength( int sn, int level, CHAR_DATA *ch, void *vo )
     if ( MAX_HIT(victim) < victim->hit )
      victim->hit = MAX_HIT(victim);
 
-    send_to_char( AT_BLUE, "You draw from your physical strength and
-increase your energy reserve.\n\r", ch );
+    send_to_char( AT_BLUE, "You draw from your physical strength and increase your energy reserve.\n\r", ch );
     act(AT_BLUE, "$n's body weakens.", ch, NULL, NULL, TO_ROOM);
     return;
 }
@@ -3154,8 +3153,7 @@ void spell_identify( int sn, int level, CHAR_DATA *ch, void *vo )
        case 1 :
          {
            if ( obj->ac_charge[1] != -1 )
-              sprintf( buf, "Object creation invoke
-              , with [%d/%d] charges.\n\r",
+              sprintf( buf, "Object creation invoke, with [%d/%d] charges.\n\r",
                     obj->ac_charge[0], obj->ac_charge[1] );
            else
               sprintf( buf, "Object creation invoke, with unlimited charges.\n\r" );
@@ -4065,26 +4063,16 @@ void spell_mind_probe( int sn, int level, CHAR_DATA *ch, void *vo )
 
     send_to_char( AT_GREEN, "You are ", ch );
          if ( GET_AC( victim ) >=  101 ) send_to_char( AT_GREEN, "WORSE than naked!\n\r", ch );
-    else if ( GET_AC( victim ) >=   20 ) send_to_char( AT_GREEN, 
-"naked.\n\r"           , ch );
-    else if ( GET_AC( victim ) >=    0 ) send_to_char( AT_GREEN, "wearing 
-clothes.\n\r" , ch );
-    else if ( GET_AC( victim ) >= - 50 ) send_to_char( AT_GREEN, "slightly 
-armored.\n\r", ch );
-    else if ( GET_AC( victim ) >= -100 ) send_to_char( AT_GREEN, "somewhat 
-armored.\n\r", ch );
-    else if ( GET_AC( victim ) >= -250 ) send_to_char( AT_GREEN, 
-"armored.\n\r"         , ch );
-    else if ( GET_AC( victim ) >= -500 ) send_to_char( AT_GREEN, "well 
-armored.\n\r"    , ch );
-    else if ( GET_AC( victim ) >= -750 ) send_to_char( AT_GREEN, "strongly 
-armored.\n\r", ch );
-    else if ( GET_AC( victim ) >= -1000 ) send_to_char( AT_GREEN, "heavily 
-armored.\n\r" , ch );
-    else if ( GET_AC( victim ) >= -1200 ) send_to_char( AT_GREEN, "superbly 
-armored.\n\r", ch );
-    else if ( GET_AC( victim ) >= -1400 ) send_to_char( AT_GREEN, "divinely 
-armored.\n\r", ch );
+    else if ( GET_AC( victim ) >=   20 ) send_to_char( AT_GREEN, "naked.\n\r"           , ch );
+    else if ( GET_AC( victim ) >=    0 ) send_to_char( AT_GREEN, "wearing clothes.\n\r" , ch );
+    else if ( GET_AC( victim ) >= - 50 ) send_to_char( AT_GREEN, "slightly armored.\n\r", ch );
+    else if ( GET_AC( victim ) >= -100 ) send_to_char( AT_GREEN, "somewhat armored.\n\r", ch );
+    else if ( GET_AC( victim ) >= -250 ) send_to_char( AT_GREEN, "armored.\n\r"         , ch );
+    else if ( GET_AC( victim ) >= -500 ) send_to_char( AT_GREEN, "well armored.\n\r"    , ch );
+    else if ( GET_AC( victim ) >= -750 ) send_to_char( AT_GREEN, "strongly armored.\n\r", ch );
+    else if ( GET_AC( victim ) >= -1000 ) send_to_char( AT_GREEN, "heavily armored.\n\r" , ch );
+    else if ( GET_AC( victim ) >= -1200 ) send_to_char( AT_GREEN, "superbly armored.\n\r", ch );
+    else if ( GET_AC( victim ) >= -1400 ) send_to_char( AT_GREEN, "divinely armored.\n\r", ch );
     else                           send_to_char( AT_GREEN, "invincible!\n\r", ch );
 
     if ( ch->level >= 12 )
@@ -6019,7 +6007,7 @@ void spell_summon_swarm(int sn, int level, CHAR_DATA *ch, void *vo)
     extract_char( mob, TRUE );
     return;
     }    
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   act(AT_GREEN, "$n summons $N.", ch, NULL, mob, TO_ROOM);
 
   mob->master = ch;
@@ -6081,7 +6069,7 @@ void spell_summon_pack(int sn, int level, CHAR_DATA *ch, void *vo)
     extract_char( mob, TRUE );
     return;
     }    
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   act(AT_GREEN, "$N comes to $n aid.", ch, NULL, mob, TO_ROOM);
 
   mob->master = ch;
@@ -6140,7 +6128,7 @@ void spell_summon_demon(int sn, int level, CHAR_DATA *ch, void *vo)
     extract_char( mob, TRUE );
     return;
     }    
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   act(AT_RED, "$n summons $N from the abyss.", ch, NULL, mob, TO_ROOM);
 
   mob->master = ch;
@@ -6199,7 +6187,7 @@ void spell_summon_angel(int sn, int level, CHAR_DATA *ch, void *vo)
     extract_char( mob, TRUE );
     return;
     }    
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   act(AT_WHITE, "$n calls forth $N from Heaven.", ch, NULL, mob, TO_ROOM);
 
   mob->master = ch;
@@ -6258,7 +6246,7 @@ void spell_summon_shadow(int sn, int level, CHAR_DATA *ch, void *vo)
     extract_char( mob, TRUE );
     return;
     }    
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   act(AT_GREY, "$n calls forth $N from the shadow plane.", ch, NULL, mob, TO_ROOM);
 
   mob->master = ch;
@@ -6318,7 +6306,7 @@ void spell_summon_trent(int sn, int level, CHAR_DATA *ch, void *vo)
     extract_char( mob, TRUE );
     return;
     }    
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   act(AT_ORANGE, "$n calls forth $N from the plane of nature.", ch, NULL, mob, TO_ROOM);
 
   mob->master = ch;
@@ -6397,7 +6385,7 @@ void spell_summon_beast(int sn, int level, CHAR_DATA *ch, void *vo)
     extract_char( mob, TRUE );
     return;
     }    
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   act(AT_GREEN, "$n calls forth $N from the forests.", ch, NULL, mob, TO_ROOM);
 
   mob->master = ch;
@@ -7334,7 +7322,7 @@ void spell_healing_hands( int sn, int level, CHAR_DATA *ch, void *vo )
 
     /* Refund mana lost by casting.  Make it seem like a new target type. */
     mana = SPELL_COST( ch, sn );
-    MT( ch ) -= mana;
+    adjust_mana(ch, -mana);
     send_to_char(AT_BLUE, "You cannot cast this spell on yourself.\n\r", ch );
     return;
   }

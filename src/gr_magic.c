@@ -205,11 +205,11 @@ void group_cast( int sn, int level, CHAR_DATA *ch, char *argument )
   if ( number_percent( ) > ch->pcdata->learned[sn] )
   {
     send_to_char(AT_BLUE, "You lost your concentration.\n\r",ch);
-    MT( ch ) -= mana / 2;
+    adjust_mana(ch, -(mana/2));
     return;
   }
 
-  MT( ch ) -= mana;
+  adjust_mana(ch, -mana);
   update_skpell( ch, sn );
 
   switch ( skill_table[sn].target )

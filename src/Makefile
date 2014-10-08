@@ -1,12 +1,7 @@
-CC      = gcc
-PROF    =
-OPTOMIZ = -O2
-DEBUG   = -g3
-WARN    = -Wall
-#C_FLAGS = $(PROF) $(OPTOMIZ) $(WARN) $(DEBUG)
-C_FLAGS = -c -O -Wall -g3
-L_FLAGS = -static -g
-SYSTEM  =
+CC      = clang
+C_FLAGS = -O -Wall -g3
+L_FLAGS = -g3
+LIBS    = -lcrypt
 
 O_FILES = act_comm.o act_info.o act_move.o act_obj.o act_wiz.o comm.o const.o \
           db.o fight.o handler.o magic.o save.o special.o update.o \
