@@ -314,7 +314,7 @@ char		    str_boot_time [ MAX_INPUT_LENGTH ];
 time_t		    current_time;	/* Time of this pulse		*/
 time_t		    exe_comp_time;	/* Time the executable was compiled */
 char *		    exe_file;		/* Name of the executable	*/
-bool		    auth_off;		/* Authorization turned off	*/
+bool		    auth_off = TRUE;	/* Authorization turned off	*/
 
 /*
  * OS-dependent local functions.
@@ -1053,7 +1053,7 @@ void new_descriptor( int control )
     struct hostent         *from;
     char                    buf [ MAX_STRING_LENGTH ];
     int                     desc;
-    int                     size;
+    socklen_t               size;
 
     size = sizeof( sock );
     if ( ( desc = accept( control, (struct sockaddr *) &sock, &size) ) < 0 )
@@ -3862,7 +3862,7 @@ void imc_setup( void )
 void imc_accept( void )
 {
   struct sockaddr_in sock;
-  int size;
+  socklen_t size;
   int desc;
   
   size = sizeof(sock);
