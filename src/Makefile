@@ -1,5 +1,5 @@
 CC      = clang
-C_FLAGS = -O -Wall -g3
+C_FLAGS = -Wall -g3
 L_FLAGS = -g3
 LIBS    = -lcrypt
 
