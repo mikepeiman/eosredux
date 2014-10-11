@@ -18,12 +18,7 @@
  *  around, comes around.                                                  *
  ***************************************************************************/
 
-#define unix 1
-#if defined( macintosh )
-#include <types.h>
-#else
 #include <sys/types.h>
-#endif
 #include <stdio.h>
 #include <time.h>
 #include "merc.h"

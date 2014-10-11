@@ -1,9 +1,5 @@
-#if defined( macintosh )
-#include <types.h>
-#else
 #include <sys/types.h>
 #include <sys/time.h>
-#endif
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,7 +96,7 @@ do { \
 bool start_auth( DESCRIPTOR_DATA *d )
 {
   struct sockaddr_in sock;
-  int tlen;
+  socklen_t tlen;
   struct auth_data *auth;
   int desc;
   
@@ -179,7 +175,8 @@ void send_auth( struct auth_data *auth )
 {
   struct sockaddr_in us, them;
   char authbuf[32];
-  int ulen, tlen, z;
+  socklen_t ulen, tlen;
+  int z;
 
   tlen = ulen = sizeof(us);
   if ( --auth->atimes == 0 )

@@ -3,12 +3,7 @@
  * Put skills that use room affects in here.                                 *
  * -- Hannibal                                                               *
  *****************************************************************************/
-#define unix 1
-#if defined( macintosh )
-#include <types.h>
-#else
 #include <sys/types.h>
-#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

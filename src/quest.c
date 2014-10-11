@@ -216,7 +216,7 @@ void do_quest( CHAR_DATA *ch, char *argument )
             sprintf( buf, "[%5d %10d] [%*s]\n\r", 
                    quest_table[cnt].level,
                    quest_table[cnt].qp, 
-                   30 + strlen( quest_table[cnt].name ) - strlen_wo_col( quest_table[cnt].name ),
+                   (int)(30 + strlen( quest_table[cnt].name ) - strlen_wo_col( quest_table[cnt].name )),
     	           quest_table[cnt].name );
             strcat( result, buf );
         }        

@@ -18,12 +18,7 @@
  *  around, comes around.                                                  *
  ***************************************************************************/
 
-#define unix 1
-#if defined( macintosh )
-#include <types.h>
-#else
 #include <sys/types.h>
-#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6749,12 +6744,8 @@ void do_newcorpse( CHAR_DATA *ch, char *argument )
     fclose( fpReserve );
     
     /* player files parsed directories by Yaz 4th Realm */
-#if !defined( macintosh ) && !defined( MSDOS )
     sprintf( strsave, "%s%c/%s.cps", PLAYER_DIR, LOWER(victim->name[0]),
               capitalize( victim->name ) );
-#else
-    sprintf( strsave, "%s%s.cps", PLAYER_DIR, capitalize( victim->name ) );
-#endif
 
     if ( !( fp = fopen( strsave, "r" ) ) )
     {

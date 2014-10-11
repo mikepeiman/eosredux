@@ -53,15 +53,7 @@
 #define TRUE	 1
 #endif
 
-#if	defined( _AIX )
-#if	!defined( const )
-#define const
-#endif
-typedef int				bool;
-#define unix
-#else
 typedef unsigned char			bool;
-#endif
 
 
 
@@ -3198,89 +3190,6 @@ DECLARE_SPELL_FUN(    spell_pass_plant 		); /*Deck*/
 DECLARE_SPELL_FUN(    spell_soul_bind 		); /*Malaclypse*/
 
 /*
- * OS-dependent declarations.
- * These are all very standard library functions,
- *   but some systems have incomplete or non-ansi header files.
- */
-#if	defined( _AIX )
-char *	crypt		args( ( const char *key, const char *salt ) );
-#endif
-
-#if	defined( apollo )
-int	atoi		args( ( const char *string ) );
-void *	calloc		args( ( unsigned nelem, size_t size ) );
-char *	crypt		args( ( const char *key, const char *salt ) );
-#endif
-
-#if	defined( hpux )
-char *	crypt		args( ( const char *key, const char *salt ) );
-#endif
-
-#if	defined( linux )
-char *	crypt		args( ( const char *key, const char *salt ) );
-#endif
-
-#if	defined( macintosh )
-#define NOCRYPT
-#if	defined( unix )
-#undef	unix
-#endif
-#endif
-
-#if	defined( MIPS_OS )
-char *	crypt		args( ( const char *key, const char *salt ) );
-#endif
-
-#if	defined( MSDOS )
-#define NOCRYPT
-#if	defined( unix )
-#undef	unix
-#endif
-#endif
-
-#if	defined( NeXT )
-char *	crypt		args( ( const char *key, const char *salt ) );
-#endif
-
-#if	defined( sequent )
-char *	crypt		args( ( const char *key, const char *salt ) );
-int	fclose		args( ( FILE *stream ) );
-int	fprintf		args( ( FILE *stream, const char *format, ... ) );
-int	fread		args( ( void *ptr, int size, int n, FILE *stream ) );
-int	fseek		args( ( FILE *stream, long offset, int ptrname ) );
-void	perror		args( ( const char *s ) );
-int	ungetc		args( ( int c, FILE *stream ) );
-#endif
-
-#if	defined( sun )
-char *	crypt		args( ( const char *key, const char *salt ) );
-int	fclose		args( ( FILE *stream ) );
-int	fprintf		args( ( FILE *stream, const char *format, ... ) );
-size_t	fread	args( ( void *ptr, size_t size, size_t n, FILE *stream ) );
-int	fseek		args( ( FILE *stream, long offset, int ptrname ) );
-void	perror		args( ( const char *s ) );
-int	ungetc		args( ( int c, FILE *stream ) );
-#endif
-
-#if	defined( ultrix )
-char *	crypt		args( ( const char *key, const char *salt ) );
-#endif
-
-
-
-/*
- * The crypt(3) function is not available on some operating systems.
- * In particular, the U.S. Government prohibits its export from the
- *   United States to foreign countries.
- * Turn on NOCRYPT to keep passwords in plain text.
- */
-#if	defined( NOCRYPT )
-#define crypt( s1, s2 )	( s1 )
-#endif
-
-
-
-/*
  * Data files used by the server.
  *
  * AREA_LIST contains a list of areas to boot.
@@ -3291,31 +3200,10 @@ char *	crypt		args( ( const char *key, const char *salt ) );
  *   so players can go ahead and telnet to all the other descriptors.
  * Then we close it whenever we need to open a file (e.g. a save file).
  */
-#if defined( macintosh )
-#define PLAYER_DIR	""		/* Player files			*/
-#define NULL_FILE	"proto.are"	/* To reserve one stream	*/
-#endif
-
-#if defined( MSDOS )
-#define PLAYER_DIR	""		/* Player files                 */
-#define NULL_FILE	"nul"		/* To reserve one stream	*/
-#endif
-
-#if defined( unix )
 #define PLAYER_DIR	"../player/"	/* Player files			*/
 #define NULL_FILE	"/dev/null"	/* To reserve one stream	*/
-#endif
-
-#if defined( linux )
-#define PLAYER_DIR	"../player/"	/* Player files			*/
-#define NULL_FILE	"/dev/null"	/* To reserve one stream	*/
-#endif
-
-#if defined( linux )
 #define MOB_DIR		"../MOBProgs/"  	/* MOBProg files	*/
 #define NULL_FILE       "/dev/null"
-#endif
-
 #define AREA_LIST	"area.lst"	/* List of areas		*/
 #define BAN_LIST	"../banned.lst" /* List of banned sites & users */
 #define BUG_FILE	"bugs.txt"      /* For 'bug' and bug( )		*/

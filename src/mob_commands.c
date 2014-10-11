@@ -26,7 +26,6 @@
  *  such installation can be found in INSTALL.  Enjoy........    N'Atas-Ha *
  ***************************************************************************/
 
-#define unix 1
 #include <sys/types.h>
 #include <stdio.h>
 #include <string.h>
