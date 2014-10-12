@@ -51,11 +51,8 @@
 
 #include "merc.h"
 
-bool start_auth args((DESCRIPTOR_DATA * d));
 void auth_maxdesc args((int *maxdesc, fd_set * in_set, fd_set * out_set,
 			fd_set * exc_set));
-void auth_update args((fd_set * in_set, fd_set * out_set, fd_set * exc_set));
-void auth_check args((DESCRIPTOR_DATA * d));
 
 void reset_builder_levels();
 #if defined(HOTREBOOT)
@@ -338,7 +335,6 @@ void game_loop(int control)
 			FD_SET(d->descriptor, &out_set);
 			FD_SET(d->descriptor, &exc_set);
 		}
-		auth_maxdesc(&maxdesc, &in_set, &out_set, &exc_set);
 
 		if (imcdesc > 0) {
 			maxdesc = UMAX(maxdesc, imcdesc);
@@ -358,9 +354,6 @@ void game_loop(int control)
 		 */
 		if (FD_ISSET(control, &in_set))
 			new_descriptor(control);
-/*	if ( port != 1045 )
-        imc_update(&in_set, &out_set, &exc_set); */
-		auth_update(&in_set, &out_set, &exc_set);
 
 		/*
 		 * Kick out the freaky folks.
@@ -627,7 +620,6 @@ void new_descriptor(int control)
 	descriptor_list = dnew;
 
 	write_to_buffer(dnew, "Do you wish to use ANSI?  (Yes/No): ", 0);
-	start_auth(dnew);
 	return;
 }
 
@@ -711,8 +703,6 @@ void close_socket(DESCRIPTOR_DATA * dclose)
 
 	if (d_next == dclose)
 		d_next = d_next->next;
-
-	auth_check(dclose);
 
 	if (dclose == descriptor_list) {
 		descriptor_list = descriptor_list->next;
