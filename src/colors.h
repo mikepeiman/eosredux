@@ -20,7 +20,6 @@
 
 /* ^^ Ansi junk */
 
-
 #define C_TESTCOLOR1	  (AT_PINK)
 #define C_TESTCOLOR2      (AT_PURPLE + AT_BLINK)
 #define C_DEFAULT         (AT_GREY)
