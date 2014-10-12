@@ -310,29 +310,32 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA * mob, CHAR_DATA * actor,
 	if (!str_cmp(buf, "isclan")) {
 		switch (arg[1]) {
 		case 'n':
-			if (actor)
+			if (actor) {
 				if (!IS_NPC(actor)) {
 					lhsvl = actor->clan;
 					rhsvl = atoi(val);
 					return mprog_veval(lhsvl, opr, rhsvl);
 				} else
 					return -1;
+			}
 		case 't':
-			if (vict)
+			if (vict) {
 				if (!IS_NPC(vict)) {
 					lhsvl = vict->clan;
 					rhsvl = atoi(val);
 					return mprog_veval(lhsvl, opr, rhsvl);
 				} else
 					return -1;
+			}
 		case 'r':
-			if (rndm)
+			if (rndm) {
 				if (!IS_NPC(rndm)) {
 					lhsvl = rndm->clan;
 					rhsvl = atoi(val);
 					return mprog_veval(lhsvl, opr, rhsvl);
 				} else
 					return -1;
+			}
 		default:
 			sprintf(log_buf,
 				"Mob: %d bad arg to ifchck 'isclan' (%s)",
@@ -1150,35 +1153,41 @@ bool mprog_do_ifchck(char *ifchck, CHAR_DATA * mob, CHAR_DATA * actor,
 	if (!str_cmp(buf, "lname")) {
 		switch (arg[1]) {	/* arg should be "$*" so just get the letter */
 		case 'n':
-			if (actor)
-				if (!IS_NPC(actor))
+			if (actor) {
+				if (!IS_NPC(actor)) {
 					if (actor->pcdata->lname)
-						return mprog_seval(actor->
-								   pcdata->
-								   lname, opr,
-								   val);
+						return
+						    mprog_seval
+						    (actor->pcdata->lname, opr,
+						     val);
 					else
 						return -1;
+				}
+			}
 		case 't':
-			if (vict)
-				if (!IS_NPC(vict))
+			if (vict) {
+				if (!IS_NPC(vict)) {
 					if (vict->pcdata->lname)
-						return mprog_seval(vict->
-								   pcdata->
-								   lname, opr,
-								   val);
+						return
+						    mprog_seval
+						    (vict->pcdata->lname, opr,
+						     val);
 					else
 						return -1;
+				}
+			}
 		case 'r':
-			if (rndm)
-				if (!IS_NPC(rndm))
+			if (rndm) {
+				if (!IS_NPC(rndm)) {
 					if (rndm->pcdata->lname)
-						return mprog_seval(rndm->
-								   pcdata->
-								   lname, opr,
-								   val);
+						return
+						    mprog_seval
+						    (rndm->pcdata->lname, opr,
+						     val);
 					else
 						return -1;
+				}
+			}
 		default:
 			bug("Mob: %d bad argument to 'Lname'",
 			    mob->pIndexData->vnum);
@@ -1214,8 +1223,8 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA * mob,
 {
 	static char null[1];
 	char buf[MAX_INPUT_LENGTH];
-	char *morebuf = '\0';
-	char *cmnd = '\0';
+	char *morebuf = NULL;
+	char *cmnd = NULL;
 	bool loopdone = FALSE;
 	bool flag = FALSE;
 	int legal;
@@ -1224,10 +1233,12 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA * mob,
 
 	/* check for trueness of the ifcheck */
 	if ((legal = mprog_do_ifchck(ifchck, mob, actor, obj, vo, rndm)))
+	{
 		if (legal == 1)
 			flag = TRUE;
 		else
 			return null;
+	}
 
 	while (loopdone == FALSE) {	/*scan over any existing or statements */
 		cmnd = com_list;
@@ -1243,11 +1254,12 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA * mob,
 		if (!str_cmp(buf, "or")) {
 			if ((legal =
 			     mprog_do_ifchck(morebuf, mob, actor, obj, vo,
-					     rndm)))
+					     rndm))) {
 				if (legal == 1)
 					flag = TRUE;
 				else
 					return null;
+			}
 		} else
 			loopdone = TRUE;
 	}
@@ -1403,16 +1415,17 @@ void mprog_translate(char ch, char *t, CHAR_DATA * mob, CHAR_DATA * actor,
 		break;
 
 	case 'N':
-		if (actor)
-			if (can_see(mob, actor))
+		if (actor) {
+			if (can_see(mob, actor)) {
 				if (IS_NPC(actor))
 					strcpy(t, actor->short_descr);
 				else {
 					strcpy(t, actor->name);
-/*		   strcat( t, " " );*/
 					strcat(t, actor->pcdata->title);
+				}
 			} else
 				strcpy(t, "someone");
+		}
 		break;
 
 	case 't':
@@ -1426,16 +1439,18 @@ void mprog_translate(char ch, char *t, CHAR_DATA * mob, CHAR_DATA * actor,
 		break;
 
 	case 'T':
-		if (vict)
-			if (can_see(mob, vict))
+		if (vict) {
+			if (can_see(mob, vict)) {
 				if (IS_NPC(vict))
 					strcpy(t, vict->short_descr);
 				else {
 					strcpy(t, vict->name);
 					strcat(t, " ");
 					strcat(t, vict->pcdata->title);
+				}
 			} else
 				strcpy(t, "someone");
+		}
 		break;
 
 	case 'r':
@@ -1449,16 +1464,17 @@ void mprog_translate(char ch, char *t, CHAR_DATA * mob, CHAR_DATA * actor,
 		break;
 
 	case 'R':
-		if (rndm)
-			if (can_see(mob, rndm))
+		if (rndm) {
+			if (can_see(mob, rndm)) {
 				if (IS_NPC(rndm))
 					strcpy(t, rndm->short_descr);
 				else {
 					strcpy(t, rndm->name);
-/*		 strcat( t, " " );*/
 					strcat(t, rndm->pcdata->title);
+				}
 			} else
 				strcpy(t, "someone");
+		}
 		break;
 
 	case 'e':
@@ -1763,10 +1779,9 @@ void mprog_wordlist_check(char *arg, CHAR_DATA * mob, CHAR_DATA * actor,
 						     ' ' || *end == '\n'
 						     || *end == '\r'
 						     || *end == '\0')) {
-							mprog_driver(mprg->
-								     comlist,
-								     mob, actor,
-								     obj, vo);
+							mprog_driver
+							    (mprg->comlist, mob,
+							     actor, obj, vo);
 							break;
 						} else
 							dupl = start + 1;

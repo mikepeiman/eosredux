@@ -657,6 +657,7 @@ void do_cast(CHAR_DATA * ch, char *argument)
 		break;
 	}
 	if (!IS_NPC(ch))
+	{
 		if (!is_class(ch, CLASS_VAMPIRE) && ch->mana < mana) {
 			send_to_char(AT_BLUE, "You don't have enough mana.\n\r",
 				     ch);
@@ -667,6 +668,7 @@ void do_cast(CHAR_DATA * ch, char *argument)
 				     ch);
 			return;
 		}
+	}
 
 	if (str_cmp(skill_table[sn].name, "ventriloquate"))
 		say_spell(ch, sn);
@@ -683,6 +685,7 @@ void do_cast(CHAR_DATA * ch, char *argument)
 	WAIT_STATE(ch, skill_table[sn].beats);
 
 	if (!IS_NPC(ch))
+	{
 		if (number_percent() > ch->pcdata->learned[sn]) {
 			send_to_char(AT_BLUE,
 				     "You lost your concentration.\n\r", ch);
@@ -708,6 +711,7 @@ void do_cast(CHAR_DATA * ch, char *argument)
 								 LEVEL_HERO),
 						      ch, vo);
 		}
+	}
 
 	if (IS_NPC(ch))
 		(*skill_table[sn].spell_fun) (sn,
@@ -6921,7 +6925,7 @@ void spell_turn_undead(int sn, int level, CHAR_DATA * ch, void *vo)
 		return;
 	}
 
-	chance = (level * (10 + IS_GOOD(ch) ? 15 : IS_EVIL(ch) ? 0 : 10));
+	chance = (level * (10 + (IS_GOOD(ch) ? 15 : (IS_EVIL(ch) ? 0 : 10))));
 	chance /= victim->level;
 	if (number_percent() < chance && !saves_spell(level, victim)) {
 		act(AT_WHITE, "$n has turned $N!", ch, NULL, victim, TO_ROOM);

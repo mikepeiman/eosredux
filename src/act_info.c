@@ -572,7 +572,7 @@ void show_char_to_char_1(CHAR_DATA * victim, CHAR_DATA * ch, char *argument)
 		return;
 	}
 
-	if ((argument[0] != '\0') && (get_trust(ch) > L_DIR))
+	if ((argument[0] != '\0') && (get_trust(ch) > L_DIR)) {
 		if (!(obj = get_obj_here(victim, argument))) {
 			sprintf(buf, "%s is not carrying that item.\n\r",
 				victim->name);
@@ -612,17 +612,10 @@ void show_char_to_char_1(CHAR_DATA * victim, CHAR_DATA * ch, char *argument)
 			case ITEM_CONTAINER:
 			case ITEM_CORPSE_NPC:
 			case ITEM_CORPSE_PC:
-/*            if ( IS_SET( obj->value[1], CONT_CLOSED ) )   
-  	    {
-                send_to_char(AT_GREEN, "It is closed.\n\r", ch );
-                break;
-            } <so doesn't matter if its closed, look anyways> */
-
 				sprintf(buf, "%s %s has contains:\n\r",
 					capitalize(obj->short_descr),
 					victim->name);
 				send_to_char(AT_WHITE, buf, ch);
-/*            act(AT_WHITE, "$p contains:", ch, obj, NULL, TO_CHAR ); */
 				show_list_to_char(obj->contains, ch, TRUE,
 						  TRUE);
 				oprog_look_in_trigger(obj, ch);
@@ -630,6 +623,7 @@ void show_char_to_char_1(CHAR_DATA * victim, CHAR_DATA * ch, char *argument)
 			}
 			return;
 		}
+	}
 
 	if (victim->description[0] != '\0') {
 		send_to_char(AT_GREEN, victim->description, ch);
@@ -1170,7 +1164,8 @@ void do_look(CHAR_DATA * ch, char *argument)
 	else
 		send_to_char(AT_GREY, "Nothing special there.\n\r", ch);
 	if ((IS_AFFECTED(ch, AFF_SCRY))
-	    /*&& ( pexit->to_room->description[0] != '\0' ) */ ) {
+	    /*&& ( pexit->to_room->description[0] != '\0' ) */
+	    ) {
 		ROOM_INDEX_DATA *rid;
 		if (IS_SET(ch->in_room->room_flags, ROOM_NO_MAGIC)
 		    || IS_SET(pexit->to_room->room_flags, ROOM_NOSCRY)) {
@@ -1369,8 +1364,8 @@ void do_exits(CHAR_DATA * ch, char *argument)
 					"&W%-5s&w - &W%s\n\r",
 					capitalize(dir_name[door]),
 					room_is_dark(pexit->to_room)
-					? "&zToo dark to tell" : pexit->
-					to_room->name);
+					? "&zToo dark to tell" :
+					pexit->to_room->name);
 			}
 		}
 	}
@@ -2052,13 +2047,14 @@ void do_who(CHAR_DATA * ch, char *argument)
 					     iRace++) {
 						if ((!str_cmp
 						     (arg,
-						      (get_race_data(iRace))->
-						      race_name) && !lng)
+						      (get_race_data
+						       (iRace))->race_name)
+						     && !lng)
 						    ||
 						    (!str_cmp
 						     (arg1,
-						      (get_race_data(iRace))->
-						      race_full))) {
+						      (get_race_data
+						       (iRace))->race_full))) {
 							rgfRace[iRace] = TRUE;
 							break;
 						}
@@ -2078,9 +2074,8 @@ void do_who(CHAR_DATA * ch, char *argument)
 
 							if (!str_cmp
 							    (arg1,
-							     strip_color(tClan->
-									 name)))
-							{
+							     strip_color
+							     (tClan->name))) {
 								rgfClan[iClan] =
 								    TRUE;
 								break;
@@ -2725,8 +2720,9 @@ void do_compare(CHAR_DATA * ch, char *argument)
 		for (obj2 = ch->carrying; obj2; obj2 = obj2->next_content) {
 			if (obj2->wear_loc != WEAR_NONE && can_see_obj(ch, obj2)
 			    && obj1->item_type == obj2->item_type
-			    && (obj1->wear_flags & obj2->
-				wear_flags & ~ITEM_TAKE) != 0)
+			    && (obj1->
+				wear_flags & obj2->wear_flags & ~ITEM_TAKE) !=
+			    0)
 				break;
 		}
 
@@ -2817,15 +2813,13 @@ void do_where(CHAR_DATA * ch, char *argument)
 				if (ch->level >= LEVEL_IMMORTAL)
 					sprintf(buf, "%-18s [%c][%5d] %s\n\r",
 						victim->name,
-						victim->
-						fighting ? 'F' : (victim->desc
-								  && victim->
-								  desc->
-								  editor !=
-								  0) ? 'E'
+						victim->fighting ? 'F'
 						: (victim->desc
-						   && victim->desc->
-						   pString) ? 'W' : ' ',
+						   && victim->desc->editor !=
+						   0) ? 'E' : (victim->desc
+							       && victim->
+							       desc->pString) ?
+						'W' : ' ',
 						victim->in_room->vnum,
 						victim->in_room->name);
 				else
@@ -2856,13 +2850,11 @@ void do_where(CHAR_DATA * ch, char *argument)
 				if (ch->level >= LEVEL_IMMORTAL)
 					sprintf(buf, "%-18s [%c][%5d] %s\n\r",
 						PERS(victim, ch),
-						victim->
-						fighting ? 'F' : (victim->desc
-								  && victim->
-								  desc->
-								  editor !=
-								  0) ? 'E' :
-						' ', victim->in_room->vnum,
+						victim->fighting ? 'F'
+						: (victim->desc
+						   && victim->desc->editor !=
+						   0) ? 'E' : ' ',
+						victim->in_room->vnum,
 						victim->in_room->name);
 				else
 					sprintf(buf, "%-28s %s\n\r",
@@ -2884,8 +2876,8 @@ void do_where(CHAR_DATA * ch, char *argument)
 void do_consider(CHAR_DATA * ch, char *argument)
 {
 	CHAR_DATA *victim;
-	char *msg = '\0';
-	char *buf = '\0';
+	char *msg = NULL;
+	char *buf = NULL;
 	char arg[MAX_INPUT_LENGTH];
 	int diff;
 	int hpdiff;
@@ -4680,11 +4672,11 @@ void do_guilds(CHAR_DATA * ch, char *argument)
 
 	for (cnt = 0; guild_table[cnt].name[0] != '\0'; cnt++) {
 		sprintf(buf, "&z[&W%*s&z] [&W%*s&z]\n\r",
-			12 + strlen(guild_table[cnt].name) -
-			strlen_wo_col(guild_table[cnt].name),
+			(int)(12 + strlen(guild_table[cnt].name) -
+			      strlen_wo_col(guild_table[cnt].name)),
 			guild_table[cnt].name,
-			20 + strlen(guild_table[cnt].deity) -
-			strlen_wo_col(guild_table[cnt].deity),
+			(int)(20 + strlen(guild_table[cnt].deity) -
+			      strlen_wo_col(guild_table[cnt].deity)),
 			guild_table[cnt].deity);
 		strcat(result, buf);
 	}
@@ -4730,12 +4722,12 @@ void do_clans(CHAR_DATA * ch, char *argument)
 		sprintf(buf,
 			"&z[&W%3d&z] [&W%*s&z] [&W%*s&z] [&W%7d&z] [&r%6d&z] [&W%7d&z] [&R%6d&z]\n\r",
 			pClan->vnum,
-			18 + strlen(pClan->name) - strlen_wo_col(pClan->name),
-			pClan->name,
-			12 + strlen(pClan->diety) - strlen_wo_col(pClan->diety),
-			pClan->diety,
-			pClan->members,
-			pClan->pkills, pClan->pdeaths, pClan->mkills);
+			(int)(18 + strlen(pClan->name) -
+			      strlen_wo_col(pClan->name)), pClan->name,
+			(int)(12 + strlen(pClan->diety) -
+			      strlen_wo_col(pClan->diety)), pClan->diety,
+			pClan->members, pClan->pkills, pClan->pdeaths,
+			pClan->mkills);
 		strcat(result, buf);
 	}
 

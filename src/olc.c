@@ -215,7 +215,7 @@ char *olc_ed_vnum(CHAR_DATA * ch)
 						break;
 				}
 			if (dir < 6)
-				sprintf(buf, capitalize(dir_name[dir]));
+				sprintf(buf, "%s", capitalize(dir_name[dir]));
 			else
 				sprintf(buf, "Unknown");
 			break;

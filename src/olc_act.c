@@ -3632,7 +3632,7 @@ bool oedit_long(CHAR_DATA * ch, char *argument)
 bool set_value(CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, char *argument, int value)
 {
 	if (argument[0] == '\0') {
-		set_obj_values(ch, pObj, -1, '\0');
+		set_obj_values(ch, pObj, -1, NULL);
 		return FALSE;
 	}
 

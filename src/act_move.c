@@ -293,12 +293,13 @@ void move_char(CHAR_DATA * ch, int door, bool Fall)
 		damage(ch, ch, 5, TYPE_UNDEFINED);
 	}
 
-	if (!IS_NPC(ch))
+	if (!IS_NPC(ch)) {
 		if (!IS_SET(ch->act, PLR_WIZINVIS)) {
 			mprog_greet_trigger(ch);
 			return;
 		} else
 			return;
+	}
 
 	mprog_entry_trigger(ch);
 	mprog_greet_trigger(ch);

@@ -1129,7 +1129,7 @@ void time_update(void)
 	char *curr_time;
 	char buf[MAX_STRING_LENGTH];
 
-	if (down_time == "*")
+	if (!strncmp(down_time, "*", 1))
 		return;
 	curr_time = ctime(&current_time);
 	if (!str_infix(warning1, curr_time)) {

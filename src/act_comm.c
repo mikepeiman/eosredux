@@ -513,23 +513,6 @@ void do_note(CHAR_DATA * ch, char *argument)
 		send_to_char(AT_WHITE, "No such note.\n\r", ch);
 		return;
 	}
-	if (!str_cmp(arg, "test")) {
-		time_t time_n;
-		char fst[MAX_STRING_LENGTH];
-		char sst[MAX_STRING_LENGTH];
-
-		time_n = current_time + (60 * 60 * 24 * 180);
-		act(AT_BLUE, "$t", ch, ctime(&time_n), NULL, TO_CHAR);
-		strcpy(fst, ctime(&time_n));
-		strcpy(sst, fst + 11);
-		sst[8] = '\0';
-		send_to_char(AT_BLUE, sst, ch);
-		sprintf(fst, "\n\r%d %d %d", ("aA" < "aB"), ("Aa" > "aB"),
-			("A" < "b"));
-		send_to_char(AT_BLUE, fst, ch);
-		return;
-	}
-
 	if (!str_cmp(arg, "list")) {
 		char arg1[MAX_STRING_LENGTH];
 		char arg2[MAX_STRING_LENGTH];
@@ -2297,11 +2280,12 @@ void do_quit(CHAR_DATA * ch, char *argument)
 		send_to_char(AT_WHITE, "You cannot quit in this room.\n\r", ch);
 		return;
 	}
-	if (ch->questobj)
+	if (ch->questobj) {
 		if (ch->questobj->carried_by == ch)
 			extract_obj(ch->questobj);	/* if on char extract */
 		else
 			ch->questobj->timer = 1;	/* Let obj_update extract it - Hann */
+	}
 	raffect_remall(ch);
 #ifdef NEW_MONEY
 
