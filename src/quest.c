@@ -16,16 +16,6 @@
  ***************************************************************************/
 
 /***************************************************************************
-*       ROM 2.4 is copyright 1993-1995 Russ Taylor                         *
-*       ROM has been brought to you by the ROM consortium                  *
-*           Russ Taylor (rtaylor@pacinfo.com)                              *
-*           Gabrielle Taylor (gtaylor@pacinfo.com)                         *
-*           Brian Moore (rom@rom.efn.org)                                  *
-*       By using this code, you have agreed to follow the terms of the     *
-*       ROM license, in the file Rom24/doc/rom.license                     *
-***************************************************************************/
-
-/***************************************************************************
 *  Automated Quest code written by Vassago of MOONGATE, moongate.ams.com   *
 *  4000. Copyright (c) 1996 Ryan Addams, All Rights Reserved. Use of this  * 
 *  code is allowed provided you add a credit line to the effect of:        *
@@ -44,10 +34,6 @@
 #include <time.h>
 #include "merc.h"
 
-/* moved to merc.h - Decklarean
-#define IS_QUESTOR( ch )    		( IS_SET( ( ch )->act, PLR_QUESTOR ) )
-*/
-
 /* Object vnums for object quest 'tokens'. These items are worthless and
    are type trash, as they are placed into the world when a player
    receives an object quest. */
@@ -63,11 +49,8 @@
 
 void generate_quest args((CHAR_DATA * ch, CHAR_DATA * questman));
 void quest_update args((void));
-/*bool chance		args( ( int num ) ); */
 ROOM_INDEX_DATA *room;
 int cnt = 0;
-
-/* CHANCE function. I use this everywhere in my code, very handy :> */
 
 bool chance(int num)
 {
@@ -82,9 +65,6 @@ void do_quest(CHAR_DATA * ch, char *argument)
 {
 	CHAR_DATA *questman;
 	OBJ_DATA *obj = NULL, *obj_next;
-
-/*  OBJ_INDEX_DATA   *questinfoobj;
-    MOB_INDEX_DATA   *questinfo; */
 
 	char buf[MAX_STRING_LENGTH];
 	char result[MAX_STRING_LENGTH * 2];
@@ -315,12 +295,6 @@ void do_quest(CHAR_DATA * ch, char *argument)
 				ch->name);
 			do_say(questman, buf);
 		}
-/*        else      
-	{
-    	    act( AT_WHITE, "$N gives $p to $n.", ch, obj, questman, TO_ROOM );
-    	    act( AT_WHITE, "$N gives you $p.",   ch, obj, questman, TO_CHAR );
-	    obj_to_char( obj, ch );
-	} */
 		return;
 	} else if (!strcmp(arg1, "request")) {
 		act(AT_WHITE, "$n asks $N for a quest.", ch, NULL, questman,
@@ -384,7 +358,6 @@ void do_quest(CHAR_DATA * ch, char *argument)
 			    && ch->countdown > 0) {
 				int pointreward, pracreward;
 
-				/*reward = number_range(1500,25000); */
 				pointreward = number_range(10, 30);
 
 				sprintf(buf,
@@ -411,7 +384,6 @@ void do_quest(CHAR_DATA * ch, char *argument)
 				ch->questmob = NULL;
 				ch->questobj = NULL;
 				ch->nextquest = 30;	/* 30 */
-				/*   ch->gold += reward; */
 				ch->questpoints += pointreward;
 
 				return;
@@ -562,10 +534,6 @@ void generate_quest(CHAR_DATA * ch, CHAR_DATA * questman)
 	for (vsearch = char_list; vsearch; vsearch = vsearch_next) {
 		vsearch_next = vsearch->next;
 
-/*	    if ( IS_NPC( vsearch )
-	    && vsearch->pIndexData->vnum == 7 ) 
-		continue;  */
-
 		if (vsearch->deleted)
 			continue;
 
@@ -582,7 +550,6 @@ void generate_quest(CHAR_DATA * ch, CHAR_DATA * questman)
 		    && (vsearch->pIndexData->vnum != 1351)	/* Ravenwood guard */
 		    &&(vsearch->pIndexData->vnum != 1350)
 		    /* Ravenwood guard */
-		    /*             && ( vsearch->pIndexData->vnum != 7 )     Supermob */
 		    &&(ch->level <= vsearch->in_room->area->ulevel)
 		    && (ch->level > vsearch->in_room->area->llevel)
 		    && (!IS_SET(vsearch->act, ACT_TRAIN))
@@ -590,15 +557,8 @@ void generate_quest(CHAR_DATA * ch, CHAR_DATA * questman)
 		    && (!IS_SET(vsearch->in_room->room_flags, ROOM_SAFE))
 		    &&
 		    (!IS_SET(vsearch->in_room->room_flags, ROOM_NO_OFFENSIVE)))
-/*		&& ( !IS_SET( vsearch->in_room->area->area_flags, AREA_PROTOTYPE ) ) */
 		{
 			if (number_range(0, mcounter) == 0) {
-/* 
-sprintf( buf, "%s&W->&X%d&W->&X%s&W->&XHQ&W[&X%c&W]\n\r", 
-vsearch->name, level_diff, vsearch->in_room->area->name,
-( IS_SET( vsearch->in_room->area->area_flags, AREA_NO_QUEST ) ) ? 'Y' : 'N' );
-	    send_to_char( AT_DGREY, buf, ch ); 
-*/
 				victim = vsearch;
 				mcounter++;
 			}
@@ -655,7 +615,6 @@ vsearch->name, level_diff, vsearch->in_room->area->name,
 		}
 
 		questitem = create_object(get_obj_index(objvnum), ch->level);
-/*	obj_to_char(questitem, victim); */
 
 /* Place quest obj in room of victim on ground */
 		obj_to_room(questitem, room);

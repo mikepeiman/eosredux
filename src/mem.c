@@ -52,16 +52,8 @@ RESET_DATA *new_reset_data(void)
 {
 	RESET_DATA *pReset;
 
-/*    if ( !reset_free )
-    {*/
 	pReset = alloc_perm(sizeof(*pReset));
 	top_reset++;
-/*    }
-    else
-    {
-	pReset		= reset_free;
-	reset_free	= reset_free->next;
-    }*/
 
 	pReset->next = NULL;
 	pReset->command = 'X';
@@ -78,8 +70,6 @@ RESET_DATA *new_reset_data(void)
  ****************************************************************************/
 void free_reset_data(RESET_DATA * pReset)
 {
-/*    pReset->next            = reset_free;
-    reset_free              = pReset;*/
 	top_reset--;
 	free_mem(pReset, sizeof(*pReset));
 	return;
@@ -94,16 +84,8 @@ AREA_DATA *new_area(void)
 	AREA_DATA *pArea;
 	char buf[MAX_INPUT_LENGTH];
 
-/*    if ( !area_free )
-    {*/
 	pArea = alloc_perm(sizeof(*pArea));
 	top_area++;
-/*    }
-    else
-    {
-	pArea		= area_free;
-	area_free	= area_free->next;
-    }*/
 
 	pArea->next = NULL;
 	pArea->name = str_dup("New area");
@@ -141,8 +123,6 @@ void free_area(AREA_DATA * pArea)
 	free_string(pArea->filename);
 	free_string(pArea->builders);
 	free_string(pArea->reset_sound);
-/*    pArea->next		=   area_free->next;
-    area_free		=   pArea;*/
 	free_mem(pArea, sizeof(*pArea));
 	return;
 }
@@ -151,16 +131,8 @@ EXIT_DATA *new_exit(void)
 {
 	EXIT_DATA *pExit;
 
-/*    if ( !exit_free )
-    {*/
 	pExit = alloc_perm(sizeof(*pExit));
 	top_exit++;
-/*    }
-    else
-    {
-	pExit           =   exit_free;
-	exit_free       =   exit_free->next;
-    }*/
 
 	pExit->to_room = NULL;
 	pExit->next = NULL;
@@ -201,8 +173,6 @@ void free_exit(EXIT_DATA * pExit)
 		free_trap_data(pTrap);
 	}
 
-/*    pExit->next         =   exit_free;
-    exit_free           =   pExit;*/
 	free_mem(pExit, sizeof(*pExit));
 	return;
 }
@@ -211,16 +181,8 @@ EXTRA_DESCR_DATA *new_extra_descr(void)
 {
 	EXTRA_DESCR_DATA *pExtra;
 
-/*    if ( !extra_descr_free )
-    { */
 	pExtra = alloc_perm(sizeof(*pExtra));
 	top_ed++;
-/*    }
-    else
-    {
-	pExtra              =   extra_descr_free;
-	extra_descr_free    =   extra_descr_free->next;
-    }*/
 
 	pExtra->next = NULL;
 	pExtra->keyword = &str_empty[0];
@@ -236,8 +198,6 @@ void free_extra_descr(EXTRA_DESCR_DATA * pExtra)
 	free_string(pExtra->description);
 
 	top_ed--;
-/*    pExtra->next        =   extra_descr_free;
-    extra_descr_free    =   pExtra;*/
 	free_mem(pExtra, sizeof(*pExtra));
 	return;
 }
@@ -247,16 +207,8 @@ ROOM_INDEX_DATA *new_room_index(void)
 	ROOM_INDEX_DATA *pRoom;
 	int door;
 
-/*    if ( !room_index_free )
-    {*/
 	pRoom = alloc_perm(sizeof(*pRoom));
 	top_room++;
-/*    }
-    else
-    {
-	pRoom           =   room_index_free;
-	room_index_free =   room_index_free->next;
-    }*/
 
 	pRoom->next = NULL;
 	pRoom->people = NULL;
@@ -338,16 +290,8 @@ CLAN_DATA *new_clan_index(void)
 {
 	CLAN_DATA *pClan;
 
-/*    if ( !clan_index_free )
-    {*/
 	pClan = alloc_perm(sizeof(*pClan));
 	top_clan++;
-/*    }
-    else
-    {
-	pClan           =   clan_index_free;
-	clan_index_free =   clan_index_free->next;
-    }*/
 
 	pClan->next = NULL;
 	pClan->bankaccount.gold = 0;
@@ -412,8 +356,6 @@ void free_room_index(ROOM_INDEX_DATA * pRoom)
 		free_reset_data(pReset);
 	}
 
-/*    pRoom->next     =   room_index_free;
-    room_index_free =   pRoom;*/
 	free_mem(pRoom, sizeof(*pRoom));
 	return;
 }
@@ -422,16 +364,8 @@ AFFECT_DATA *new_affect(void)
 {
 	AFFECT_DATA *pAf;
 
-/*    if ( !affect_free )
-    {*/
 	pAf = alloc_perm(sizeof(*pAf));
 	top_affect++;
-/*    }
-    else
-    {
-	pAf             =   affect_free;
-	affect_free     =   affect_free->next;
-    }*/
 
 	pAf->next = NULL;
 	pAf->type = 0;
@@ -470,8 +404,6 @@ void free_alias(ALIAS_DATA * pAl)
 
 void free_affect(AFFECT_DATA * pAf)
 {
-/*    pAf->next           = affect_free;
-    affect_free         = pAf;*/
 	top_affect--;
 	free_mem(pAf, sizeof(*pAf));
 	return;
@@ -482,16 +414,8 @@ SHOP_DATA *new_shop(void)
 	SHOP_DATA *pShop;
 	int buy;
 
-/*    if ( !shop_free )
-    {*/
 	pShop = alloc_perm(sizeof(*pShop));
 	top_shop++;
-/*    }
-    else
-    {
-	pShop           =   shop_free;
-	shop_free       =   shop_free->next;
-    }*/
 
 	pShop->next = NULL;
 	pShop->keeper = 0;
@@ -509,8 +433,6 @@ SHOP_DATA *new_shop(void)
 
 void free_shop(SHOP_DATA * pShop)
 {
-/*    pShop->next = shop_free;
-    shop_free   = pShop;*/
 	top_shop--;
 	free_mem(pShop, sizeof(*pShop));
 	return;
@@ -520,16 +442,8 @@ TRAP_DATA *new_trap_data(void)
 {
 	TRAP_DATA *pTrap;
 
-/*  if ( !trap_free )
-  {*/
 	pTrap = alloc_perm(sizeof(*pTrap));
 	top_trap++;
-/*  }
-  else
-  {
-    pTrap = trap_free;
-    trap_free = trap_free->next;
-  }*/
 
 	pTrap->next = NULL;
 	pTrap->next_here = NULL;
@@ -550,16 +464,8 @@ OBJ_INDEX_DATA *new_obj_index(void)
 	OBJ_INDEX_DATA *pObj;
 	int value;
 
-/*    if ( !obj_index_free )
-    {*/
 	pObj = alloc_perm(sizeof(*pObj));
 	top_obj_index++;
-/*    }
-    else
-    {
-	pObj            =   obj_index_free;
-	obj_index_free  =   obj_index_free->next;
-    }*/
 
 	pObj->next = NULL;
 	pObj->extra_descr = NULL;
@@ -631,8 +537,6 @@ void free_obj_index(OBJ_INDEX_DATA * pObj)
 		free_trap_data(pTrap);
 	}
 
-/*    pObj->next              = obj_index_free;
-    obj_index_free          = pObj;*/
 	free_mem(pObj, sizeof(*pObj));
 	return;
 }
@@ -641,16 +545,8 @@ MOB_INDEX_DATA *new_mob_index(void)
 {
 	MOB_INDEX_DATA *pMob;
 
-/*    if ( !mob_index_free )
-    {*/
 	pMob = alloc_perm(sizeof(*pMob));
 	top_mob_index++;
-/*    }
-    else
-    {
-	pMob            =   mob_index_free;
-	mob_index_free  =   mob_index_free->next;
-    }*/
 
 	pMob->next = NULL;
 	pMob->spec_fun = NULL;
@@ -700,8 +596,6 @@ void free_mprog_data(MPROG_DATA * pMProg)
 	free_string(pMProg->comlist);
 
 	top_mob_prog--;
-/*  pMProg->next = mprog_free;
-  mprog_free = pMProg;*/
 	free_mem(pMProg, sizeof(*pMProg));
 }
 
@@ -729,8 +623,6 @@ void free_mob_index(MOB_INDEX_DATA * pMob)
 		free_shop(pShop);
 	}
 
-/*    pMob->next              = mob_index_free;
-    mob_index_free          = pMob;*/
 	free_mem(pMob, sizeof(*pMob));
 	return;
 }
@@ -740,16 +632,8 @@ MPROG_DATA *new_mprog_data(void)
 {
 	MPROG_DATA *pMProg;
 
-/*  if ( !mprog_free )
-  {*/
 	pMProg = alloc_perm(sizeof(*pMProg));
 	top_mob_prog++;
-/*  }
-  else
-  {
-    pMProg = mprog_free;
-    mprog_free = mprog_free->next;
-  }*/
 
 	pMProg->next = NULL;
 	pMProg->type = 1;

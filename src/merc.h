@@ -3491,7 +3491,6 @@ DECLARE_DO_FUN(do_hedit);	/* XOR 3.14159265359r^2 */
 DECLARE_DO_FUN(do_sedit);	/* Decklarean */
 DECLARE_DO_FUN(do_spedit);	/* Decklarean */
 DECLARE_DO_FUN(do_rename_obj);	/* Decklarean */
-DECLARE_DO_FUN(do_race_edit);	/* Decklarean */
 DECLARE_DO_FUN(do_mreset);	/* Decklarean */
 DECLARE_DO_FUN(do_nedit);	/* Angi */
 DECLARE_DO_FUN(do_asave);
@@ -3619,7 +3618,6 @@ extern RACE_DATA *new_race_data args((void));
 extern void race_sort args((RACE_DATA * pArea));
 extern RACE_DATA *get_race_data args((int vnum));
 extern void save_helps args(());
-extern void wind_update args((AREA_DATA * pArea));
 extern void send_to_area args((AREA_DATA * pArea, char *txt));
 extern ALIAS_DATA *new_alias args(());
 extern void free_alias args((ALIAS_DATA * pAl));

@@ -45,9 +45,6 @@ int get_trust(CHAR_DATA * ch)
 	if (ch->desc && ch->desc->original)
 		ch = ch->desc->original;
 
-/*    if ( IS_CODER( ch ) && ch->trust < 100000 )
-      return 100000;*/
-
 	if (ch->trust != 0)
 		return ch->trust;
 
@@ -485,25 +482,9 @@ void affect_modify(CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd)
 		psn = skill_lookup("pass door");
 		break;
 	case APPLY_HASTE:
-/*
-        psn = skill_lookup("haste");
-        strcpy(buf, "$n is no longer moving so quickly.");
-*/
 		break;
 	case APPLY_FIRESHIELD:
 		psn = skill_lookup("fireshield");
-		/*  if(fAdd)
-		   {
-		   if(IS_AFFECTED(ch, AFF_FIRESHIELD))
-		   break;
-		   if(IS_AFFECTED(ch, AFF_ICESHIELD))
-		   {
-		   affect_strip(ch, (sn = skill_lookup("iceshield")));
-		   send_to_char(AT_LBLUE, skill_table[sn].msg_off, ch);
-		   act(AT_LBLUE, "The icy crust about $n's body melts to a puddle.",
-		   ch, NULL, NULL, TO_ROOM );
-		   }
-		   } */
 		strcpy(buf, "The flames about $n's body burn out.");
 		break;
 	case APPLY_SHOCKSHIELD:
@@ -513,19 +494,6 @@ void affect_modify(CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd)
 		break;
 	case APPLY_ICESHIELD:
 		psn = skill_lookup("iceshield");
-		/* if(fAdd)
-		   {
-		   if(IS_AFFECTED(ch, AFF_ICESHIELD))
-		   break;
-		   if(IS_AFFECTED(ch, AFF_FIRESHIELD))
-		   {
-		   affect_strip(ch, skill_lookup("fireshield"));
-		   send_to_char(AT_RED,
-		   "The flames aboout your body are doused.\n\r", ch);
-		   act(AT_RED, "The flames about $n's body steam away to nothing.",
-		   ch, NULL, NULL, TO_ROOM );
-		   }
-		   } */
 		strcpy(buf, "The icy crust about $n's body melts to a puddle.");
 		break;
 	case APPLY_CHAOS:
@@ -725,17 +693,6 @@ void affect_to_char(CHAR_DATA * ch, AFFECT_DATA * paf)
 
 	paf_new = new_affect();
 
-/* this stuff done in new_affect();
-   if ( !affect_free )
-    {
-	paf_new		= alloc_perm( sizeof( *paf_new ) );
-    }
-    else
-    {
-	paf_new		= affect_free;
-	affect_free	= affect_free->next;
-    } */
-
 	*paf_new = *paf;
 	paf_new->deleted = FALSE;
 	paf_new->next = ch->affected;
@@ -750,16 +707,6 @@ void affect_to_char2(CHAR_DATA * ch, AFFECT_DATA * paf)
 	AFFECT_DATA *paf_new;
 
 	paf_new = new_affect();
-
-/*    if ( !affect_free )
-    {
-	paf_new		= alloc_perm( sizeof( *paf_new ) );
-    }
-    else
-    {
-	paf_new		= affect_free;
-	affect_free	= affect_free->next;
-    } */
 
 	*paf_new = *paf;
 	paf_new->deleted = FALSE;
@@ -1316,7 +1263,6 @@ void obj_to_obj(OBJ_DATA * obj, OBJ_DATA * obj_to)
 			continue;
 		if (obj_to->carried_by) {
 			obj_to->carried_by->carry_weight += get_obj_weight(obj);
-/*	    obj_to->carried_by->carry_number -= get_obj_number( obj );*/
 			break;
 		}
 	}
@@ -1893,9 +1839,6 @@ bool can_see(CHAR_DATA * ch, CHAR_DATA * victim)
 
 	if (ch == victim)
 		return TRUE;
-
-/*    if ( !str_cmp(ch->name, "Hannibal") )
-	return TRUE; */
 
 	if (!IS_NPC(victim)
 	    && IS_SET(victim->act, PLR_WIZINVIS)

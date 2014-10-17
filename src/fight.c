@@ -391,16 +391,7 @@ void one_hit(CHAR_DATA * ch, CHAR_DATA * victim, int dt)
 	}
 
 	victim_ac = UMAX(-15, GET_AC(victim) / 10);
-/*
-    if ( victim->level < L_APP && victim->class == CLASS_VAMPIRE )
-     if ( !IS_SET( victim->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 6 && time_info.hour < 18 )
-      {
-	victim_ac += victim->level * 2;
-      }
-    }
-*/
+
 	if (!can_see(ch, victim))
 		victim_ac -= 4;
 
@@ -641,16 +632,7 @@ void one_dual(CHAR_DATA * ch, CHAR_DATA * victim, int dt)
 	thac0 = interpolate(ch->level, thac0_00, thac0_97)
 	    - GET_HITROLL(ch);
 	victim_ac = UMAX(-15, GET_AC(victim) / 10);
-/*
-    if ( victim->level < L_APP && victim->class == CLASS_VAMPIRE )
-     if ( !IS_SET( victim->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 6 && time_info.hour < 18 )
-      {
-	victim_ac += victim->level * 2;
-      }
-    }
-*/
+
 	if (!can_see(ch, victim))
 		victim_ac -= 4;
 
@@ -672,27 +654,6 @@ void one_dual(CHAR_DATA * ch, CHAR_DATA * victim, int dt)
 	 * Hit.
 	 * Calc damage.
 	 */
-/*	if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) )
-           {
-             if ( number_percent( ) < 50 )
-                spell_fireball ( skill_lookup("fireball"), 5, victim, ch );
-           }
-	if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) )
-           {
-             if ( number_percent( ) < 50 )
-                spell_lightning_bolt ( skill_lookup("lightning bolt"), 15, victim, ch );
-           }
-	if ( IS_AFFECTED( victim, AFF_CHAOS ) )
-           {
-	     if ( number_percent( ) < 50 )
-                spell_energy_drain ( skill_lookup("energy drain"), 25, victim, ch );
-           }
-	if ( IS_AFFECTED( victim, AFF_VIBRATING ) )
-           {
-             if ( number_percent( ) < 50 )
-                spell_psionic_blast ( skill_lookup("psionic blast"), 25, victim, ch );
-           }*/
-
 	if (IS_NPC(ch)) {
 		dam = number_range(ch->level / 3, ch->level);
 		if (wield)
@@ -861,47 +822,7 @@ void damage(CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt)
 		 */
 		if (ch->race == RACE_OGRE)
 			dam -= dam / 20;
-/*
-    if ( ch->level < L_APP && ch->class == CLASS_VAMPIRE )
-     if ( !IS_SET( ch->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 6 && time_info.hour < 18 )
-      {
-       send_to_char( AT_RED, 
-       "The sunlight has weakened your attack.\n\r", ch );
-       dam -= dam / 2;
-      }
-    }
 
-    if ( victim->level < L_APP && victim->class == CLASS_VAMPIRE )
-     if ( !IS_SET( victim->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 6 && time_info.hour < 18 )
-      {
-       send_to_char( AT_RED, 
-       "The sunlight has weakened your defence.\n\r", victim );
-       dam += dam / 2;
-      }
-    }
-
-    if ( ch->class == CLASS_VAMPIRE )
-     if ( !IS_SET( ch->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 23 || time_info.hour < 1 )
-      {
-	dam *= 2;
-      }
-    }
-
-    if ( victim->class == CLASS_VAMPIRE )
-     if ( !IS_SET( victim->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 23 || time_info.hour < 1 )
-      {
-	dam /= 2;
-      }
-    }
-*/
 		/*
 		 * Check for disarm, trip, parry, and dodge.
 		 */
@@ -1191,7 +1112,6 @@ void damage(CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt)
 					    NULL)
 						Cland->pdeaths++;
 				}
-/*            REMOVE_BIT(victim->act, PLR_THIEF);*/
 			}
 			if ((!IS_NPC(ch)) && (IS_NPC(victim))) {
 				CLAN_DATA *pClan;
@@ -1434,17 +1354,7 @@ bool is_safe(CHAR_DATA * ch, CHAR_DATA * victim)
 		return FALSE;
 	if (IS_SET(ch->act, PLR_THIEF)
 	    && (victim->guild && !strcmp(victim->guild->name, "MERCENARY")))
-/*	return FALSE; */
 		return TRUE;
-
-/* SIGH
-  if ( !(IS_SET(ch->act, PLR_PKILLER)) || ( (IS_SET(ch->act, PLR_PKILLER)) &&
-       !(IS_SET(victim->act, PLR_PKILLER)) ) )
-  {
-    send_to_char(AT_WHITE, "You cannot pkill unless you are BOTH pkillers!\n\r", ch );
-    return TRUE;
-  }
-*/
 
 	if (abs(ch->level - victim->level) > 5 && (!IS_NPC(ch))) {
 		send_to_char(AT_WHITE,
@@ -1828,7 +1738,6 @@ void make_corpse(CHAR_DATA * ch)
 	OBJ_DATA *corpse;
 	OBJ_DATA *obj;
 	OBJ_DATA *obj_next;
-/*    ROOM_INDEX_DATA *location;*/
 	char *name;
 	char buf[MAX_STRING_LENGTH];
 
@@ -1950,9 +1859,6 @@ void make_corpse(CHAR_DATA * ch)
 			obj_to_obj(obj, corpse);
 	}
 
-/*    sprintf( buf, "NPC killed: %s -> %d", ch->name, ch->in_room->vnum );
-    log_string( buf, CHANNEL_NONE, -1 );
-    wiznet(buf,NULL,NULL,WIZ_MOBDEATHS,0,0);*/
 	if ((IS_NPC(ch)) && (!IS_SET(ch->act, UNDEAD_TYPE(ch))))
 		corpse->ac_vnum = ch->pIndexData->vnum;
 	obj_to_room(corpse, ch->in_room);
@@ -2150,8 +2056,6 @@ void group_gain(CHAR_DATA * ch, CHAR_DATA * victim)
 		}
 
 		xp = xp_compute(gch, victim) / members;
-/*    sprintf( buf, "%s -> gains %dxp", gch->name, xp);
-    log_string( buf, CHANNEL_NONE, -1 );*/
 		sprintf(buf, "You receive %d experience points.\n\r", xp);
 		send_to_char(AT_WHITE, buf, gch);
 		gain_exp(gch, xp);
@@ -2245,50 +2149,6 @@ int xp_compute(CHAR_DATA * gch, CHAR_DATA * victim)
 	if (gch->level >= LEVEL_HERO && victim->level > gch->level)
 		xp = xp + (10 * (victim->level - gch->level));
 	return xp;
-
-/* OLD xp system
-    int xp;
-    int align;
-    int extra;
-    int level;
-    int number;
-
-    xp    = 150 - URANGE( -10, gch->level - victim->level, 10 ) * 30;
-    align = gch->alignment - victim->alignment;
-
-    if ( align >  500 )
-    {
-	gch->alignment  = UMIN( gch->alignment + ( align - 500 ) / 4,  1000 );
-	xp = 5 * xp / 4;
-    }
-    else if ( align < -500 )
-    {
-	gch->alignment  = UMAX( gch->alignment + ( align + 500 ) / 4, -1000 );
-	xp = 5 * xp / 4;
-    }
-    else
-    {
-	gch->alignment -= victim->alignment / 3;
-	xp = 3 * xp / 4;
-    }
-*/
-	/*
-	 * Adjust for popularity of target:
-	 *   -1/8 for each target over  'par' (down to - 50%)
-	 *   +1/8 for each target under 'par' (  up to + 25%)
-	 */
-/*    level  = URANGE( 0, victim->level, 99 );
-    number = UMAX( 1, kill_table[level].number );
-    if(IS_NPC(victim))
-      extra  = victim->pIndexData->killed - kill_table[level].killed / number;
-    else
-      extra = 0;
-    xp    -= xp * URANGE( -2, extra, 4 ) / 8;
-
-    xp     = number_range( xp * 3 / 4, xp * 5 / 4 );
-    xp     = UMAX( 0, xp );
-    return xp;
-*/
 }
 
 void dam_message(CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt)
@@ -3822,17 +3682,7 @@ void do_feed(CHAR_DATA * ch, char *argument)
 		send_to_char(AT_WHITE, "You aren't fighting anyone.\n\r", ch);
 		return;
 	}
-/*
-    if ( ch->level < L_APP && ch->class == CLASS_VAMPIRE )
-     if ( !IS_SET( ch->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 6 && time_info.hour < 18 )
-      {
-	send_to_char(AT_RED, "You may not feed during the cursed day.\n\r", ch );
-	return;
-      }
-    }
-*/
+
 	if (!check_blind(ch))
 		return;
 
@@ -3961,22 +3811,11 @@ void do_slay(CHAR_DATA * ch, char *argument)
 		return;
 	}
 
-/*    if ( ch == victim )
-    {
-	send_to_char(C_DEFAULT, "Suicide is a mortal sin.\n\r", ch );
-	return;
-    }*/
-
 	if ((!IS_NPC(victim) && victim->level >= ch->level && victim != ch) ||
 	    (IS_NPC(ch) && !IS_NPC(victim))) {
 		send_to_char(C_DEFAULT, "You failed.\n\r", ch);
 		return;
 	}
-/*
-    act(C_DEFAULT, "You slay $M in cold blood!",  ch, NULL, victim, TO_CHAR    );
-    act(C_DEFAULT, "$n slays you in cold blood!", ch, NULL, victim, TO_VICT    );
-    act(C_DEFAULT, "$n slays $N in cold blood!",  ch, NULL, victim, TO_NOTVICT );
-*/
 
 	sprintf(buf, "You %s.", (ch->pcdata && ch->pcdata->slayusee[0] != '\0')
 		? ch->pcdata->slayusee : "slay $N in cold blood.");
@@ -4194,72 +4033,6 @@ void do_throw(CHAR_DATA * ch, char *argument)
 	return;
 }
 
-/*
-void do_track( CHAR_DATA *ch, char *argument )
-{
-   ROOM_INDEX_DATA *room[30];
-   ROOM_INDEX_DATA *to_room;
-   ROOM_INDEX_DATA *in_room;
-   EXIT_DATA *pexit[30];
-   char arg[MAX_STRING_LENGTH];
-   int vnums[30];
-   int dist[30];
-   int sdir[30];
-   int dir[6];
-   int nsdir;
-  
-   nsdir = 1;
-   
-   argument = one_argument( argument, arg );
-   
-   if ( is_number( arg ) || arg[0] == \0' )
-   {
-      send_to_char( AT_WHITE, "Track what?\n\r", ch );
-      return;
-   }
-   
-   in_room = ch->in_room;
-   to_room = ch->in_room;
-   
-   for ( dir = 0; dir != -1; dir++ )
-   {
-      if ( !( pexit[nsdir] = ch->in_room->exit[dir] ) 
-        || ( !( to_room = pexit[nsdir]->to_room ) ) )
-      {
-        if ( dir == 6 )
-          dir = -1;
-        continue;
-        
-        char_from_room( ch );
-        char_to_room( ch, to_room );
-        
-        if ( get_char_room( ch, arg ) )
-           break;
-        
-        
-      }
-  
-   }
-   
-   if ( dir != -1 )
-   {
-     sprintf( log_buf, "You sense the trail of %s to the %s.\n\r",
-          arg, dir_name[dir] );
-     send_to_char( AT_WHITE, log_buf, ch );
-     char_from_room( ch );
-     char_to_room( ch, in_room );
-   }
-   
-   if ( dir == -1 )
-   {
-     sprintf( log_buf, "You can't sense any %s from here.\n\r", arg );
-     send_to_char( AT_WHITE, log_buf, ch );
-     return;
-   }
-   
-   return;
-}
-*/
 
 void do_drain_life(CHAR_DATA * ch, char *argument)
 {
@@ -4340,7 +4113,6 @@ void do_mental_drain(CHAR_DATA * ch, char *argument)
 	if (IS_NPC(ch)
 	    || number_percent() < ch->pcdata->learned[gsn_mental_drain]) {
 		dam = number_range(ch->level / 5, ch->level);
-/*    drain = 2 * ch->level + number_range(ch->level / 4, ch->level * 2);*/
 		dmana = drain =
 		    ch->level + number_range(ch->level / 4, ch->level);
 		if (ch->race == RACE_ILLITHID) {
@@ -4349,7 +4121,6 @@ void do_mental_drain(CHAR_DATA * ch, char *argument)
 		}
 		damage(ch, victim, dam, gsn_mental_drain);
 		update_skpell(ch, gsn_mental_drain);
-/*    ch->hit = UMIN(ch->hit + dam/4, MAX_HIT(ch));*/
 		if (!IS_NPC(victim)) {
 			dmana = UMAX(victim->mana - dmana, 0);
 			drain = UMAX(victim->move - drain, 0);
@@ -4714,8 +4485,6 @@ void do_challenge(CHAR_DATA * ch, char *argument)
 	if (award * 100 >
 	    (ch->money.gold * C_PER_G + ch->money.silver * S_PER_G +
 	     ch->money.copper))
-/*  if ( award > ( ch->money.gold + (ch->money.silver/SILVER_PER_GOLD) +
-               (ch->money.copper/COPPER_PER_GOLD) ) )  */
 	{
 #else
 	if (award > ch->gold) {
@@ -4749,7 +4518,6 @@ void do_challenge(CHAR_DATA * ch, char *argument)
 		sprintf(log_buf,
 			"&C%s &coffers a challenge in the arena for &W%d &cgold coins.",
 			ch->name, award);
-/*  wiznet(log_buf, NULL, NULL, WIZ_DEATHS, 0, 0); */
 	log_string(log_buf, CHANNEL_LOG, -1);
 	challenge(log_buf, 0, 0);
 	send_to_char(C_DEFAULT, "Your challenge has been offered.\n\r", ch);
@@ -4796,8 +4564,6 @@ void do_accept(CHAR_DATA * ch, char *argument)
 #ifdef NEW_MONEY
 	if ((ch->money.gold * C_PER_G + ch->money.silver * S_PER_G +
 	     ch->money.copper) < arena.award * 100)
-/*  if ( (ch->money.gold + (ch->money.silver/SILVER_PER_GOLD) +
-       (ch->money.copper/COPPER_PER_GOLD) ) < arena.award )  */
 	{
 		send_to_char(C_DEFAULT, "You cannot afford that.\n\r", ch);
 		return;
@@ -4832,7 +4598,6 @@ void do_accept(CHAR_DATA * ch, char *argument)
 	do_look(ch, "auto");
 	sprintf(log_buf, "&C%s &chas accepted &C%s&c's challenge.",
 		ch->name, cch->name);
-/*  wiznet(log_buf, NULL, NULL, WIZ_DEATHS, 0, 0); */
 	log_string(log_buf, CHANNEL_LOG, -1);
 	challenge(log_buf, 0, 0);
 	send_to_char(AT_RED, "Be prepared.\n\r", ch);

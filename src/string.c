@@ -28,7 +28,6 @@ void string_number(CHAR_DATA * ch, char *pString)
 	char buf[MAX_STRING_LENGTH];
 	char *posline;
 	int count = 0;
-/*   int cl; */
 
 	buf[0] = '\0';
 
@@ -44,25 +43,6 @@ void string_number(CHAR_DATA * ch, char *pString)
 		for (; *posline != '\0' && *posline != '\n'; posline++, curr++) {
 			oneline[curr] = *posline;
 			/* show the color codes */
-/*      if ( *posline == '&' )  Can't use until &X is redone right. -Deck
-      {
-        if(*(posline+1) == '&' )
-        {    
-          oneline[++curr] = *(++posline);
-        }
-        else
-        {
-          for ( cl = 0; cl < 16; cl++ )
-           if ( *(posline+1) == colors[cl] )
-           {
-             oneline[++curr] = *(++posline);
-             oneline[++curr] = '&';
-             oneline[++curr] = '&';
-             oneline[++curr] = *posline;
-             break;
-           }
-        }
-      }*/
 		}
 
 		if (*posline == '\n') {

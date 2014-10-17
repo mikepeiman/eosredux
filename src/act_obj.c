@@ -128,15 +128,6 @@ bool get_obj(CHAR_DATA * ch, OBJ_DATA * obj, OBJ_DATA * container, bool palming)
 		amount.silver = obj->value[1];
 		amount.copper = obj->value[2];
 
-/*	tot_coins = amount.gold + amount.silver + amount.copper;
-	if ( ( ch->carry_weight + tot_coins/100 ) > can_carry_w( ch ) )
-	{
-	   act(AT_WHITE, "$d: you can't carry that much weight.",
-              ch, NULL, obj->name, TO_CHAR );
-	   return 0;
-	}
-	ch->carry_weight += tot_coins/100; 
-*/
 		add_money(&ch->money, &amount);
 		sprintf(buf, "You counted %s\n\r", money_string(&amount));
 		send_to_char(AT_YELLOW, buf, ch);
@@ -814,8 +805,6 @@ void do_give(CHAR_DATA * ch, char *argument)
 		act(AT_YELLOW, "$n gives $N some coins.", ch, NULL, victim,
 		    TO_NOTVICT);
 
-		/* Change mprog_bribe_trigger to  
-		   ( CHAR_DATA *mob, CHAR_DATA *ch, MONEY_DATA *amount ) */
 		mprog_bribe_trigger(victim, ch, howmuch);
 
 		return;
@@ -1033,9 +1022,6 @@ void do_gorge(CHAR_DATA * ch, char *argument)
 {
 	OBJ_DATA *obj;
 	char arg[MAX_INPUT_LENGTH];
-/*    int       amount;
-    int       liquid;
-*/
 	one_argument(argument, arg);
 
 	if (arg[0] == '\0') {
@@ -1386,7 +1372,6 @@ bool remove_obj(CHAR_DATA * ch, int iWear, bool fReplace)
 		return FALSE;
 	}
 
-/*    unequip_char( ch, obj ); */
 	act(AT_WHITE, "$n stops using $p.", ch, obj, NULL, TO_ROOM);
 	act(AT_WHITE, "You stop using $p.", ch, obj, NULL, TO_CHAR);
 
@@ -2669,7 +2654,6 @@ void do_steal(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!str_prefix(arg1, "coins"))
-/*	|| !str_cmp   ( arg1, "gold"  ) )  */
 	{
 #ifdef NEW_MONEY
 		MONEY_DATA amount;
@@ -3870,13 +3854,7 @@ void do_invoke(CHAR_DATA * ch, char *argument)
 	if (arg2[0] == '\0')
 		victim = rch;
 	else
-/*
-       if ( !(victim = get_char_world( ch, arg2 ) ) )
-          {
-           send_to_char( AT_WHITE, "There is no such person in existance.\n\r", ch );
-           return;
-          }
-*/
+
 	if (gets_zapped(ch, obj)) {
 		act(AT_BLUE, "You are zapped by $p and drop it.", ch, obj, NULL,
 		    TO_CHAR);
@@ -4533,7 +4511,6 @@ void do_repair(CHAR_DATA * ch, char *argument)
 
 void do_account(CHAR_DATA * ch, char *argument)
 {
-/*  char arg [ MAX_STRING_LENGTH ]; */
 	char buf[MAX_STRING_LENGTH];
 	CLAN_DATA *clanacct;
 
@@ -4555,7 +4532,6 @@ void do_account(CHAR_DATA * ch, char *argument)
 			sprintf(buf, "Your account holds %s\n\r",
 				money_string(&ch->pcdata->bankaccount));
 			send_to_char(AT_WHITE, buf, ch);
-/*       return; */
 		} else {
 			int len = 0;
 			len = strlen(ch->name);
@@ -4566,7 +4542,6 @@ void do_account(CHAR_DATA * ch, char *argument)
 				"&wFrom the shocked look on $n'%s face, you can tell that they have nothing in their account.",
 				ch->name[len] == 's' ? "" : "s");
 			act(AT_WHITE, buf, ch, NULL, NULL, TO_ROOM);
-/*      return; */
 		}
 	}
 

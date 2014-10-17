@@ -1,12 +1,12 @@
 CC      = clang
-C_FLAGS = -Wall -g3
-L_FLAGS = -g3
+C_FLAGS = -Wall -g
+L_FLAGS = -g
 LIBS    = -lcrypt
 
 O_FILES = act_comm.o act_info.o act_move.o act_obj.o act_wiz.o comm.o const.o \
           db.o fight.o handler.o magic.o save.o special.o update.o \
           bit.o mem.o olc.o olc_act.o olc_save.o string.o mob_commands.o \
-          mob_prog.o gr_magic.o id.o chat_new.o interp.o\
+          mob_prog.o gr_magic.o chat_new.o interp.o\
 	  chat_act.o ore_prog.o quest.o raceskill.o act_room.o track.o 
 
 envy: $(O_FILES)
@@ -17,8 +17,10 @@ envy: $(O_FILES)
 	@echo "Done."
 
 clean:
-	rm -f *.o
-	rm -f envy
+	@rm -f *.o
+	@rm -f *.c~
+	@rm -f envy
+	@echo "Removed object files and other build artefacts."
 
 .c.o: merc.h
 #	@echo -n "."

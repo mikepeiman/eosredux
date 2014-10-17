@@ -73,15 +73,6 @@ void tprog_cleanup args((void));
 
 #ifdef DUNNO_STRSTR
 char *strstr(const char *s1, const char *s2);
-/*char * strstr(s1,s2) const char *s1; const char *s2;
-{
-  char *cp;
-  int i,j=strlen(s1)-strlen(s2),k=strlen(s2);
-  if(j<0)
-    return NULL;
-  for(i=0; i<=j && strncmp(s1++,s2, k)!=0; i++);
-  return (i>j) ? NULL : (s1-1);
-}*/
 #endif
 
 /***************************************************************************
@@ -198,9 +189,6 @@ bool tprog_percent_check(CHAR_DATA * actor, OBJ_DATA * obj, void *vo,
 	for (tprg = tprogs; tprg != NULL; tprg = tprg->next_here)
 		if ((tprg->type & type)
 		    && (number_percent() < atoi(tprg->arglist))) {
-/*       sprintf( log_buf, "Room: %d", tprg->in_room->vnum );
-       log_string( log_buf, CHANNEL_CODER, -1 ); 
-       log_string( tprg->comlist, CHANNEL_CODER, -1 );   */
 			mprog_driver(tprg->comlist, smob, actor, obj, vo);
 			return TRUE;
 		}

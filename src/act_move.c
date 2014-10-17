@@ -283,13 +283,7 @@ void move_char(CHAR_DATA * ch, int door, bool Fall)
 		act(AT_RED,
 		    "You fall through where the floor should have been!\n\r",
 		    ch, NULL, NULL, TO_CHAR);
-/*
-     char_from_room( ch );
-     char_to_room( ch, to_room );
-     do_look( ch, "auto" ); 
-*/
 		move_char(ch, 5, TRUE);
-/*      act( AT_WHITE, "$n falls down from above.", ch, NULL, NULL, TO_ROOM );   */
 		damage(ch, ch, 5, TYPE_UNDEFINED);
 	}
 
@@ -891,9 +885,6 @@ void do_rest(CHAR_DATA * ch, char *argument)
 			act(AT_CYAN, "$n wakes up and rests.", ch, NULL, NULL,
 			    TO_ROOM);
 		ch->position = POS_RESTING;
-/*
-	send_to_char(AT_CYAN, "You are already sleeping.\n\r",  ch );
-*/
 		rprog_rest_trigger(ch->in_room, ch);
 		break;
 
@@ -1667,27 +1658,6 @@ void do_push(CHAR_DATA * ch, char *argument)
 		return;
 	}
 
-/*  if(abs(ch->level - victim->level) > 5 && !IS_IMMORTAL(ch))
-  {
-    send_to_char(AT_BLUE, "Keep it in level please.\n\r", ch);
-    return;
-  }
-
-  if(IS_SET(victim->in_room->room_flags, ROOM_SAFE)
-    && ch->clan == 0)
-  {
-    send_to_char(AT_BLUE, "Join a clan before messing with clanned people.\n\r", ch);
-    return;
-  }
-
-  if(IS_SET(victim->in_room->room_flags, ROOM_SAFE)
-    && victim->combat_timer==0
-    && victim->clan == 0)*/
-/*  if ( is_safe(ch, victim) )
-  {
-    send_to_char(AT_BLUE, "This room is safe from the likes of you.\n\r", ch);
-    return;
-  }*/
 	if (!str_cmp(arg2, "n") || !str_cmp(arg2, "north"))
 		door = 0;
 	else if (!str_cmp(arg2, "e") || !str_cmp(arg2, "east"))
@@ -1795,27 +1765,6 @@ void do_drag(CHAR_DATA * ch, char *argument)
 		return;
 	}
 
-/*  if(abs(ch->level - victim->level) > 5 && !IS_IMMORTAL(ch))
-  {
-    send_to_char(AT_BLUE, "Keep it in level please.\n\r", ch);
-    return;
-  }
-
-  if(IS_SET(victim->in_room->room_flags, ROOM_SAFE)
-    && ch->clan == 0)
-  {
-    send_to_char(AT_BLUE, "Join a clan before messing with clanned people.\n\r", ch);
-    return;
-  }
-
-  if(IS_SET(victim->in_room->room_flags, ROOM_SAFE)
-    && victim->combat_timer==0
-    && victim->clan == 0)*/
-/*  if ( is_safe( ch, victim ) )
-  {
-    send_to_char(AT_BLUE, "This room is safe from the likes of you.\n\r", ch);
-    return;
-  }*/
 	if (!str_cmp(arg2, "n") || !str_cmp(arg2, "north"))
 		door = 0;
 	else if (!str_cmp(arg2, "e") || !str_cmp(arg2, "east"))
@@ -1904,7 +1853,6 @@ void check_nofloor(CHAR_DATA * ch)
 	    && ((pexit = ch->in_room->exit[5]) != NULL)
 	    && ((to_room = pexit->to_room) != NULL)
 	    && (ch->race != RACE_PIXIE) && (ch->race != RACE_ELDER))
-/*      && ( !IS_AFFECTED( ch, AFF_FLYING ) ) )  */
 	{
 		act(AT_RED,
 		    "You fall through where the floor should have been!", ch,
@@ -1913,12 +1861,7 @@ void check_nofloor(CHAR_DATA * ch)
 		    NULL, TO_ROOM);
 		damage(ch, ch, 5, TYPE_UNDEFINED);
 
-/*char_from_room( ch );
-char_to_room( ch, to_room );
-do_look( ch, "auto" );
-*/
 		move_char(ch, 5, TRUE);
-/*    act( AT_WHITE, "$n falls down from above.", ch, NULL, NULL, TO_ROOM ); */
 	}
 	return;
 }
@@ -1955,21 +1898,6 @@ void do_shadow_walk(CHAR_DATA * ch, char *argument)
 		return;
 	}
 
-/* OLD CODE */
-/*
-    
-    if ( !( victim = get_char_world( ch, arg ) )
-	|| victim->in_room->area != ch->in_room->area
-	|| IS_SET( victim->in_room->room_flags, ROOM_PRIVATE   )
-	|| IS_SET( victim->in_room->room_flags, ROOM_SOLITARY  )
-	|| IS_SET( ch->in_room->room_flags, ROOM_NO_SHADOW )
-        || IS_SET( victim->in_room->room_flags, ROOM_NO_SHADOW )
-	|| IS_AFFECTED( victim, AFF_NOASTRAL ) )
-    {
-	send_to_char(AT_GREY, "The shadows offer no path to that one.\n\r", ch );
-	return;
-    }
-*/
 	for (victim = char_list; victim; victim = victim->next) {
 		if (victim->deleted
 		    || victim->in_room->area != ch->in_room->area

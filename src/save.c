@@ -539,7 +539,6 @@ bool load_char_obj(DESCRIPTOR_DATA * d, char *name)
 				fread_pet(ch, fp);
 			else if (!str_cmp(word, "STORAGE"))
 				fread_obj(ch, fp, TRUE);
-/*  	    else if ( !str_cmp( word, "ALIAS"  ) ) fread_alias ( ch, fp );  */
 			else if (!str_cmp(word, "END"))
 				break;
 			else {
@@ -751,10 +750,6 @@ void fread_char(CHAR_DATA * ch, FILE * fp)
 			KEY("Empower", ch->pcdata->empowerments,
 			    fread_string(fp));
 			if (!str_cmp(word, "End")) {
-				/* Coders have "insane" trusts for a reason ELVIS *
-				 * -- Altrag                                      */
-/*	        if ( ch->trust > 107 && ch->level < 108 && !IS_CODER(ch) )
-		  ch->trust = 0;*/
 				if (IS_CODER(ch))
 					REMOVE_BIT(ch->affected_by2, CODER);
 				return;
@@ -1079,8 +1074,6 @@ void fread_obj(CHAR_DATA * ch, FILE * fp, bool storage)
 					free_string(obj->name);
 					free_string(obj->description);
 					free_string(obj->short_descr);
-/*		    obj->next = obj_free;
-		    obj_free  = obj;*/
 					free_mem(obj, sizeof(*obj));
 					return;
 				} else {
@@ -1456,73 +1449,6 @@ void corpse_back(CHAR_DATA * ch, OBJ_DATA * corpse)
 	fpReserve = fopen(NULL_FILE, "r");
 	ch->pcdata->corpses = 1;
 	return;
-
-	fclose(fpReserve);
-
-	/* Okay, it isn't the first corpse, read the rest */
-/*
-    if ( !( fp = fopen( strsave, "r" ) ) )
-    {
-        sprintf( buf, "Corpse back: fopen %s: ", ch->name );
-	bug( buf, 0 );
-	perror( strsave );
-    }
-    else
-    {
-        for ( i=4 ; i > 0 ; i-- )
-        {
-             corpse_cont[i][0] = fread_number( fp );
-             item_level[i][0]  = fread_number( fp );
-             
-            if ( corpse_cont[i][0] == 99 )
-                break;
-
-            for ( c = 1 ; c < corpse_cont[i][0] +2 ; c++ )
-            {    
-                corpse_cont[i][c] = fread_number ( fp );            
-                item_level[i][c]  = fread_number ( fp );        
-            }
-        }
-        
-    }
-    fclose( fp );
-
-      
-    if ( !( fp = fopen( strsave, "w" ) ) )
-    {
-        sprintf( buf, "Corpse back: fopen %s: ", ch->name );
-	bug( buf, 0 );
-	perror( strsave );
-    }
-    else
-    {
-        for ( i=5 ; i > 0 ; i-- )
-        {
-            if ( corpse_cont[i][0] == 99 )
-                break;
-
-            fprintf( fp, "%d ", corpse_cont[i][0] );
-            fprintf( fp, "%d ",  item_level[i][0] );
-            checksum1 = 0;
-            checksum2 = 0;
-
-            for ( c = 1 ; c < corpse_cont[i][0] +1 ; c++ )
-            {    
-                fprintf( fp, "%d " , corpse_cont[i][c]  );            
-                fprintf( fp, "%d " ,  item_level[i][c]  );
-                checksum1 += corpse_cont[i][c];
-                checksum2 +=  item_level[i][c];
-            }
-            fprintf( fp, "%d ", checksum1  );
-            fprintf( fp, "%d\n", checksum2 );
-        }
-        fprintf( fp, "99 99" );      
-	
-    }
-    fclose( fp );
-    fpReserve = fopen( NULL_FILE, "r" );
-    return;
-*/
 }
 
 void save_finger(CHAR_DATA * ch)
@@ -1568,8 +1494,6 @@ void fwrite_finger(CHAR_DATA * ch, FILE * fp)
 		fprintf(fp, "&CThief: &W%s\n",
 			(IS_SET(ch->act, PLR_THIEF)) ? "Yes" : "No");
 
-/*  fprintf( fp, "Mobs Killed: %-10d",   ch->pcdata->kills	);
-  fprintf( fp, "Deaths: %d\n\n", 	   ch->pcdata->died	); */
 	fprintf(fp, "&CTitle: &W%s\n", ch->pcdata->title);
 	fprintf(fp, "&CEmail: &W%s\n", ch->pcdata->email);
 	fprintf(fp, "&CPlan: &W%s\n", ch->pcdata->plan);

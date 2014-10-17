@@ -56,40 +56,6 @@ char *fix_string(const char *str)
  */
 
 extern char *mprog_type_to_name(int type);
-/*
-{
-   switch( type )
-   {
-    case IN_FILE_PROG:
-      return "in_file_prog";
-    case ACT_PROG:
-      return "act_prog";
-    case SPEECH_PROG:
-      return "speech_prog";
-    case RAND_PROG:
-      return "rand_prog";
-    case FIGHT_PROG:
-      return "fight_prog";
-    case HITPRCNT_PROG:
-      return "hitprcnt_prog";
-    case DEATH_PROG:
-      return "death_prog";
-    case ENTRY_PROG:
-      return "entry_prog";
-    case GREET_PROG:
-      return "greet_prog";
-    case ALL_GREET_PROG:
-      return "all_greet_prog";
-    case GIVE_PROG:
-      return "give_prog";
-    case BRIBE_PROG:
-      return "bribe_prog";
-    default:
-      return "error_prog";
-  }
-  return "error_prog";
-}
-*/
 
 /* TRI
  * This proc is the one that is originally called, it handles going from
@@ -155,9 +121,6 @@ void save_area_list()
 		 * Add any help files that need to be loaded at
 		 * startup to this section.
 		 */
-/*	fprintf( fp, "help.are\n" );   Not used anymore -Deck
-	fprintf( fp, "help1.are\n" );
-	fprintf( fp, "olc.hlp\n" ); */
 		fprintf(fp, "help.dat\n");	/* all help files are here now-Deck */
 		for (pArea = area_first; pArea; pArea = pArea->next) {
 			fprintf(fp, "%s\n", pArea->filename);
@@ -981,7 +944,6 @@ void save_area(AREA_DATA * pArea)
 		fprintf(fp, "Sounds      %s~\n", pArea->reset_sound);
 	fprintf(fp, "End\n\n\n\n");
 
-	/*    save_helps( fp, pArea );  all in seperate file help.dat -deck*//* OLC 1.1b */
 	save_mobiles(fp, pArea);
 	save_objects(fp, pArea);
 	save_rooms(fp, pArea);

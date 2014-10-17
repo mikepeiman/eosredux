@@ -55,11 +55,8 @@ void aggr_update args((void));
 void comb_update args((void));	/* XOR */
 void auc_update args((void));	/* Altrag */
 void rdam_update args((void));	/* Altrag */
-						    /*void    vamdam_update   args( ( void ) );*//* Decklarean */
 void arena_update args((void));	/* Altrag */
 void strew_corpse args((OBJ_DATA * obj, AREA_DATA * inarea));
-/*
-						  void    wind_update     args( ( void ) );    *//* Altrag & TRI */
 void orprog_update args((void));
 void trap_update args((void));
 void rtime_update args((void));	/* Timed room progs */
@@ -107,22 +104,6 @@ void advance_level(CHAR_DATA * ch)
 		add_mana, MT_MAX(ch),
 		is_class(ch, CLASS_VAMPIRE) ? "bp" : "m",
 		add_move, MAX_MOVE(ch), add_prac, ch->practice);
-/*
-    if ( !is_class( ch, CLASS_VAMPIRE ) )
-       sprintf( buf,
-	    "Your gain is: %d/%d hp, %d/%d m, %d/%d mv %d/%d prac.\n\r",
-	    add_hp,	ch->perm_hit,
-	    add_mana,	ch->perm_mana,
-	    add_move,	ch->perm_move,
-	    add_prac,	ch->practice );
-    else
-       sprintf( buf,
-	    "Your gain is: %d/%d hp, %d/%d bp, %d/%d mv %d/%d prac.\n\r",
-	    add_hp,	ch->perm_hit,
-	    add_mana,	ch->perm_bp,
-	    add_move,	ch->perm_move,
-	    add_prac,	ch->practice );
-*/
 	send_to_char(AT_WHITE, buf, ch);
 	save_char_obj(ch, FALSE);
 
@@ -135,11 +116,6 @@ void gain_exp(CHAR_DATA * ch, int gain)
 	if (IS_NPC(ch) || ch->level >= L_CHAMP3)
 		return;
 	ch->exp = UMAX(1000, ch->exp + gain);
-/*
-    while ( ( ch->level < LEVEL_HERO && ch->exp >= 1000 * ( ch->level + 1 ) )
-    || ( ch->level < L_CHAMP1 && ch->exp >= 400000 )
-    || ( ch->level < L_CHAMP2 && ch->exp >= 1000000 )
-    || ( ch->level < L_CHAMP3 && ch->exp >= 2000000 ) ) */
 	while (ch->exp >= xp_tolvl(ch)) {
 		send_to_char(AT_BLUE, "You raise a level!!  ", ch);
 		ch->level += 1;
@@ -163,17 +139,6 @@ int hit_gain(CHAR_DATA * ch)
 		gain = ch->level * 3 / 2;
 	} else {
 		gain = UMIN(5, ch->level);
-/*
-    if ( ch->level < LEVEL_IMMORTAL && ch->class == CLASS_VAMPIRE )
-     if ( !IS_SET( ch->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 6 && time_info.hour < 18 )
-      {
-	send_to_char(AT_RED, "The harsh rays of the sun prevent you from healing.\n\r", ch );
-	return 0;
-      }
-    }
-*/
 
 		switch (ch->position) {
 		case POS_SLEEPING:
@@ -202,16 +167,7 @@ int hit_gain(CHAR_DATA * ch)
 			gain /= 2;
 
 	}
-/*
-    if ( ch->class == CLASS_VAMPIRE )
-     if ( !IS_SET( ch->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 23 || time_info.hour < 1 )
-      {
-	gain *= 4;
-      }
-    }
-*/
+
 	if (IS_AFFECTED(ch, AFF_POISON) && gain > 0)
 		gain /= 10;
 
@@ -769,8 +725,6 @@ void char_update(void)
 				}
 
 				affect_remove(ch, paf);
-/*		if ( paf->bitvector == AFF_FLYING ) 
-		  check_nofloor( ch ); --Angi */
 			}
 		}
 		for (paf = ch->affected2; paf; paf = paf->next) {
@@ -866,7 +820,6 @@ void char_update(void)
 			if (ch->deleted)
 				continue;
 			if (ch == ch_save) {
-/*	        send_to_char( AT_ORANGE, "Autosaved.\n\r", ch ); */
 				save_char_obj(ch, FALSE);
 			}
 			if (ch == ch_quit)
@@ -1022,7 +975,6 @@ void aggr_update(void)
 		ch = d->character;
 
 		if (d->connected != CON_PLAYING || !ch
-/*	    || ch->level >= LEVEL_IMMORTAL*/
 		    || !ch->in_room)
 			continue;
 
@@ -1032,12 +984,9 @@ void aggr_update(void)
 
 			if (!IS_NPC(mch)
 			    || mch->deleted || IS_AFFECTED(mch, AFF_STUN)
-/*		|| !IS_SET( mch->act, ACT_AGGRESSIVE )*/
 			    || mch->fighting || IS_AFFECTED(mch, AFF_CHARM)
 			    || !IS_AWAKE(mch)
-/*		|| ( IS_SET( mch->act, ACT_WIMPY ) && IS_AWAKE( ch ) )*/
 			    || !can_see(mch, ch)
-/*		|| IS_AFFECTED( ch, AFF_PEACE )*/
 			    || mch->wait > 0 || ch->wait > 0)
 				continue;
 
@@ -1096,25 +1045,6 @@ void aggr_update(void)
 
 			multi_hit(mch, victim, TYPE_UNDEFINED);
 
-/*        if ( IS_NPC( mch ) && mch->mpactnum > 0
-	    && mch->in_room->area->nplayer > 0 )
-        {
-            MPROG_ACT_LIST * tmp_act, *tmp2_act;
-	    for ( tmp_act = mch->mpact; tmp_act != NULL;
-		 tmp_act = tmp_act->next )
-	    {
-                 mprog_wordlist_check( tmp_act->buf,mch, tmp_act->ch,
-                               	      tmp_act->obj, tmp_act->vo, ACT_PROG );
-                 free_string( tmp_act->buf );
-            }
-            for ( tmp_act = mch->mpact; tmp_act != NULL; tmp_act = tmp2_act )
-	    {
-                 tmp2_act = tmp_act->next;
-                 free_mem( tmp_act, sizeof( MPROG_ACT_LIST ) );
-            }
-            mch->mpactnum = 0;
-            mch->mpact    = NULL;
-        }*/
 		}		/* mch loop */
 
 	}			/* descriptor loop */
@@ -1230,9 +1160,6 @@ void list_update(void)
 						}
 					}
 
-/*		paf->next   = affect_free;
-		affect_free = paf;*/
-/*		free_mem( paf, sizeof( *paf ) );*/
 					free_affect(paf);
 				}
 			}
@@ -1267,9 +1194,6 @@ void list_update(void)
 						}
 					}
 
-/*		    paf->next   = affect_free;
-		    affect_free = paf;*/
-/*		    free_mem( paf, sizeof( *paf ) ); */
 					free_affect(paf);
 				}
 			}
@@ -1316,11 +1240,6 @@ void list_update(void)
 				ed_next = ed->next;
 
 				if (obj->deleted) {
-/*		  free_string( ed->description );
-		  free_string( ed->keyword     ); */
-/*		  ed->next         = extra_descr_free;
-		  extra_descr_free = ed;*/
-/*		  free_mem( ed, sizeof( *ed ) );*/
 					free_extra_descr(ed);
 				}
 			}
@@ -1349,9 +1268,6 @@ void list_update(void)
 						}
 					}
 
-/*		  paf->next   = affect_free;
-		  affect_free = paf;*/
-/*		  free_mem( paf, sizeof( *paf ) ); */
 					free_affect(paf);
 				}
 			}
@@ -1383,8 +1299,6 @@ void list_update(void)
 				free_string(obj->short_descr);
 				--obj->pIndexData->count;
 
-/*	      obj->next	= obj_free;
-	      obj_free	= obj;*/
 				free_mem(obj, sizeof(*obj));
 			}
 		}
@@ -1437,8 +1351,6 @@ void update_handler(void)
 		pulse_point = number_range(PULSE_TICK / 2, 3 * PULSE_TICK / 2);
 		weather_update();
 		rtime_update();
-/*	vamdam_update   ( );
-	wind_update     ( ); */
 		quest_update();
 		char_update();
 		obj_update();
@@ -1462,7 +1374,6 @@ void update_handler(void)
 
 	chat_update();
 
-//    time_update( );
 	aggr_update();
 	tail_chain();
 	return;
@@ -1674,91 +1585,11 @@ void rdam_update()
 	return;
 }
 
-/* This does the damage for vampiers when there out during the day 
-   basicaly a rip off of rdam_update.  -Decklarean*/
-/*
-void vamdam_update( )
-{
-  DESCRIPTOR_DATA *d;
-  CHAR_DATA *ch;
-  for ( d = descriptor_list; d; d = d->next )
-  {
-    if ( d->connected != CON_PLAYING )
-     continue;
-
-    ch = d->original ? d->original : d->character;
-    if ( !( ch->in_room ) )
-     continue;
-
-    if ( ch->level < L_APP && is_class( ch, CLASS_VAMPIRE ) )
-     if ( !IS_SET( ch->in_room->room_flags, ROOM_INDOORS ) )
-     {
-      if ( time_info.hour > 5 && time_info.hour < 18 )
-      {
-       send_to_char( AT_RED, 
-       "Intense pain washes through your body under the light of the sun.\n\r", ch );
-       act( AT_RED, "Smoke rises from $n under the glarying light of the sun.", ch,
-        NULL, NULL, TO_ROOM );
-
-       damage( ch, ch, (ch->level / 2) , TYPE_UNDEFINED );
-       ch->bp -= ch->bp / 6;
-      }
-    }
-  }
-
-  return;
-}
-*/
-
 /* Wind timer routines.. needs updates for weather stuff.. -- Altrag */
 const char *dir_wind[] = { "north", "northeast", "east", "southeast",
 	"south", "southwest", "west", "northwest"
 };
 
-/*
-const char *wind_str [] = {"almost no", "a little bit of", "a strong"};
-
-void wind_update( void )
-{
-  AREA_DATA *pArea;
-  DESCRIPTOR_DATA *d;
-
-  for ( pArea = area_first; pArea; pArea = pArea->next )
-  {
-    pArea->windstr += number_range( UMIN(pArea->windstr - 5, -15), 
-				    UMAX(pArea->windstr + 5, 15) );
-    if ( pArea->windstr < 0 )
-    {
-      pArea->windstr = -pArea->windstr;
-      pArea->winddir = number_fuzzy(pArea->winddir);
-      if (pArea->winddir < 0 )
-	pArea->winddir = 7;
-      if (pArea->winddir > 7 )
-	pArea->winddir = 0;
-    }
-  }
-
-  for ( d = descriptor_list; d; d = d->next )
-  {
-    if ( d->connected == CON_PLAYING
-	&& IS_OUTSIDE( d->character )
-	&& IS_AWAKE( d->character )
-	&& !IS_SET(d->character->in_room->room_flags, ROOM_INDOORS ) )
-    {
-      char buf[MAX_STRING_LENGTH];
-
-      pArea = d->character->in_room->area;
-      if ( pArea->windstr > 0 )
-	sprintf(buf, "There is %s wind blowing from the %s.\n\r",
-		wind_str[pArea->windstr / 5], dir_wind[pArea->winddir]);
-      else
-	strcpy(buf, "There is no wind at all.\n\r");
-      send_to_char(C_DEFAULT, buf, d->character);
-    }
-  }
-  return;
-}
-*/
 /* END */
 
 void strew_corpse(OBJ_DATA * obj, AREA_DATA * inarea)

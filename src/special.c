@@ -667,8 +667,6 @@ bool spec_executioner(CHAR_DATA * ch)
 		"%s is a %s!  JUSTICE WILL PREVAIL! I SENTENCE %s TO DEATH!!!",
 		victim->name, crime, victim->name);
 	do_yell(ch, buf);
-/*    if ( crime != "THIEF" )
-       { */
 	multi_hit(ch, victim, TYPE_UNDEFINED);
 
 	guard = create_mobile(get_mob_index(MOB_VNUM_CITYGUARD));
@@ -683,11 +681,6 @@ bool spec_executioner(CHAR_DATA * ch)
 	guard->position = POS_FIGHTING;
 	guard->summon_timer = 15;
 
-/*         char_to_room( create_mobile( get_mob_index( MOB_VNUM_CITYGUARD) ),
-		 ch->in_room );
-         char_to_room( create_mobile( get_mob_index( MOB_VNUM_CITYGUARD ) ),
-		 ch->in_room ); */
-	/*  } */
 	return TRUE;
 }
 

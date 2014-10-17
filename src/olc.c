@@ -25,11 +25,7 @@
  */
 void save_area args((AREA_DATA * pArea));
 void forge_pay_cost args((CHAR_DATA * ch));
-/* AREA_DATA  *get_area_data	args( ( int vnum ) ); */
 MPROG_DATA *get_mprog_data args((MOB_INDEX_DATA * pMob, int vnum));
-/*
-TRAP_DATA  *get_trap_data       args( ( void *vo, int vnum, int type ) );
-*/
 /* Executed from comm.c.  Minimizes compiling when changes are made. */
 bool run_olc_editor(DESCRIPTOR_DATA * d)
 {
@@ -518,7 +514,6 @@ const struct olc_cmd_type tedit_table[] = {
 
 	{"arglist", tedit_arglist,},
 	{"comlist", tedit_comlist,},
-/*    {   "disarmable",  tedit_disarmable,        },*/
 
 	{"?", show_help,},
 	{"version", show_version,},
@@ -548,11 +543,6 @@ const struct olc_cmd_type hedit_table[] = {
 
 const struct olc_cmd_type mreset_table[] = {
 /*  {   command		function		}, */
-
-/*    {	"add",		mreset_add		},
-    {	"delet",	mreset_delet		},
-    {	"delete",	mreset_delete		},
-    {   "max_in_room",  mreset_max_in_room	}, */
 
 	{"?", show_help},
 	{"commands", show_commands},
@@ -795,9 +785,6 @@ void aedit(CHAR_DATA * ch, char *argument)
 		send_to_char(C_DEFAULT,
 			     "AEdit:  Insufficient security to modify area.\n\r",
 			     ch);
-/*    else if ( IS_SWITCHED( ch ) )
-	send_to_char( C_DEFAULT, "AEdit: Cannot edit while switched.\n\r",
-			ch ); */
 
 	if (command[0] == '\0') {
 		aedit_show(ch, argument);
@@ -859,9 +846,6 @@ void redit(CHAR_DATA * ch, char *argument)
 			     "REdit:  Insufficient security to modify room.\n\r",
 			     ch);
 	}
-/*    else if ( IS_SWITCHED( ch ) )
-	send_to_char( C_DEFAULT, "REdit: Cannot edit while switched.\n\r",
-	  	  	ch ); */
 
 	if (command[0] == '\0') {
 		redit_show(ch, argument);
@@ -972,9 +956,6 @@ void oedit(CHAR_DATA * ch, char *argument)
 		send_to_char(C_DEFAULT,
 			     "OEdit: Insufficient security to modify area.\n\r",
 			     ch);
-/*    else if ( IS_SWITCHED( ch ) )
-	send_to_char( C_DEFAULT, "OEdit: Cannot edit while switched.\n\r",
-			ch ); */
 
 	if (command[0] == '\0') {
 		oedit_show(ch, argument);
@@ -1077,9 +1058,6 @@ void medit(CHAR_DATA * ch, char *argument)
 		send_to_char(C_DEFAULT,
 			     "MEdit: Insufficient security to modify area.\n\r",
 			     ch);
-/*    else if ( IS_SWITCHED( ch ) )
-	send_to_char( C_DEFAULT, "MEdit: Cannot edit while switched.\n\r",
-			ch ); */
 
 	if (command[0] == '\0') {
 		medit_show(ch, argument);
@@ -1250,7 +1228,6 @@ void tedit(CHAR_DATA * ch, char *argument)
 					     "Room changed.  Returning to REditor.\n\r",
 					     ch);
 				edit_done(ch);
-/*	redit( ch, arg );*/
 				return;
 			}
 		}
@@ -1265,11 +1242,6 @@ void tedit(CHAR_DATA * ch, char *argument)
 					TRAP_DATA *trap =
 					    (TRAP_DATA *) ch->desc->pEdit;
 
-/*	  for ( trap = pExit->traps; trap; trap = trap->next_here )
-	    if ( trap == (TRAP_DATA *)ch->desc->pEdit )
-	      break;
-	  if ( trap )
-	    break;*/
 					if (trap->on_exit == pExit)
 						break;
 				}
@@ -1278,7 +1250,6 @@ void tedit(CHAR_DATA * ch, char *argument)
 					     "Room changed.  Returning to REditor.\n\r",
 					     ch);
 				edit_done(ch);
-/*	redit(ch, arg);*/
 				return;
 			}
 			pArea = ch->in_room->area;
@@ -1949,7 +1920,6 @@ void display_resets(CHAR_DATA * ch)
 				break;
 			}
 
-/*	    if ( pMob->pShop ) */
 			if ((pMob->pShop) && (pReset->arg2 == WEAR_NONE)) {	/* Angi */
 				sprintf(buf,
 					"O[%5d] %-13.13s in the inventory of S[%5d]       %-15.15s\n\r",
@@ -2146,95 +2116,35 @@ void do_resets(CHAR_DATA * ch, char *argument)
 			free_reset_data(pReset);
 			send_to_char(C_DEFAULT, "Reset deleted.\n\r", ch);
 		}
-/*      else if ( (!str_cmp( arg2, "mob" ) && is_number( arg3 ))
-	     || (!str_cmp( arg2, "obj" ) && is_number( arg3 ))
-	     || (!str_cmp( arg2, "ran" ) && is_number( arg3 )) ) */
 		/*
 		 * Add a reset.
 		 * ------------
 		 */
-/*      { */
 		/*
 		 * Check for Mobile reset.
 		 * -----------------------
 		 */
-/*	if ( !str_cmp( arg2, "mob" ) )
-        {
-	  pReset = new_reset_data();
-	  pReset->command = 'M';
-	  pReset->arg1    = atoi( arg3 );
-			  pReset->arg2    = is_number( arg4 ) ? atoi( arg4 ) : 1 ;*//* Max # */
-/*	  pReset->arg3    = ch->in_room->vnum;
-	}
-	else if ( !str_cmp( arg2, "obj" ) ) */
 		/*
 		 * Check for Object reset.
 		 * -----------------------
 		 */
-/*	{
-	  pReset = new_reset_data();
-	  pReset->arg1    = atoi( arg3 ); */
 		/*
 		 * Inside another object.
 		 * ----------------------
 		 */
-/*	  if ( !str_prefix( arg4, "inside" ) ) 
-	  {
-	    pReset->command = 'P';
-	    pReset->arg2    = 0;
-	    pReset->arg3    = is_number( arg5 ) ? atoi( arg5 ) : 1;
-	  }
-	  else if ( !str_cmp( arg4, "room" ) ) */
 		/*
 		 * Inside the room.
 		 * ----------------
 		 */
-/*	  {
-	    pReset = new_reset_data();
-	    pReset->command = 'O';
-	    pReset->arg2     = 0;
-	    pReset->arg3     = ch->in_room->vnum;
-	  }
-	  else */
 		/*
 		 * Into a Mobile's inventory.
 		 * --------------------------
 		 */
-/*	  {
-	    if ( flag_value( wear_loc_flags, arg4 ) == NO_FLAG )
-	    {
-	      send_to_char(C_DEFAULT, "Resets: '? wear-loc'\n\r", ch );
-	      return;
-	    }
-	    pReset = new_reset_data();
-	    pReset->arg3 = flag_value( wear_loc_flags, arg4 );
-	    if ( pReset->arg2 == WEAR_NONE )
-	      pReset->command = 'G';
-	    else
-	      pReset->command = 'E';
-	  }
-	}
-	else if ( !str_cmp( arg2, "ran" ) ) */
 		/*
 		 * Random Exit Resets.
 		 * Added By Altrag.
 		 */
-/*	{
-	  pReset = new_reset_data();
-	  pReset->command = 'R';
-	  pReset->arg1    = atoi( arg3 );
-	  pReset->arg2    = ch->in_room->vnum;
-        }
-                                        
-	add_reset( ch->in_room, pReset, atoi( arg1 ) );
-	send_to_char(C_DEFAULT, "Reset added.\n\r", ch );
-      } */
 		else {
-/*	send_to_char(C_DEFAULT, "Syntax: RESET <number> OBJ <vnum> <wear_loc>\n\r", ch );
-	send_to_char(C_DEFAULT, "        RESET <number> OBJ <vnum> in <vnum>\n\r", ch );
-	send_to_char(C_DEFAULT, "        RESET <number> OBJ <vnum> room\n\r", ch );
-	send_to_char(C_DEFAULT, "        RESET <number> MOB <vnum> [<max #>]\n\r", ch );
-	send_to_char(C_DEFAULT, "        RESET <number> RAN <last-door>\n\r", ch ); */
 			send_to_char(C_DEFAULT,
 				     "Syntax: &BRESET &W(displays resets in room)",
 				     ch);
@@ -2269,7 +2179,6 @@ void do_alist(CHAR_DATA * ch, char *argument)
 			prot = "*";
 		else
 			prot = " ";
-/*	sprintf( buf, "[%3d] %s%-29.29s (%-5d-%5d) %-12.12s [%3d] [%-8.8s]\n\r",*/
 		sprintf(buf,
 			"&z[&W%3d&z] &R%s&B%-29.29s &z(&W%-5d-%5d&z) &G%-12.12s &z[&w%3d&z][&W%-8.8s&z]\n\r",
 			pArea->vnum, prot, &pArea->name[8], pArea->lvnum,
@@ -2299,16 +2208,6 @@ void hedit(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!str_cmp(command, "done")) {
-/*    HELP_DATA *pHelp;
-    static int counter;
-
-    counter++;
-    if ( counter >= 5 )
-    {
-      EDIT_HELP(ch, pHelp);
-      save_area(pHelp->area);
-      counter = 0;
-    } */
 		save_helps();
 		edit_done(ch);
 		return;
@@ -2352,12 +2251,6 @@ void do_hedit(CHAR_DATA * ch, char *argument)
 				     ch);
 			return;
 		}
-/*    if(help_free)
-    {
-      pHelp = help_free;
-      help_free = help_free->next;
-    }
-    else*/
 		pHelp = alloc_perm(sizeof(*pHelp));
 
 		if (!help_first)
@@ -2365,7 +2258,6 @@ void do_hedit(CHAR_DATA * ch, char *argument)
 		if (help_last)
 			help_last->next = pHelp;
 
-/*    pHelp->area = help_last->area; */
 		help_last = pHelp;
 		pHelp->next = NULL;
 		top_help++;
@@ -2411,16 +2303,6 @@ void mreset(CHAR_DATA * ch, char *argument)
 		edit_done(ch);
 		return;
 	}
-
-	/* Call editor function */
-/*  for(cmd = 0;*reset_table[cmd].name;cmd++)
-  {
-    if(!str_prefix(command, reset_table[cmd].name))
-    {
-      (*reset_table[cmd].olc_fun) (ch, argument);
-      return;
-    }
-  }*/
 
 	/* Default to Standard Interpreter. */
 	interpret(ch, arg);
@@ -2523,18 +2405,6 @@ void do_sedit(CHAR_DATA * ch, char *argument)
 			social_last->next = pSocial;
 
 		social_last = pSocial;
-/*    pSocial->next = NULL;
-    top_social++;
-
-    free_string( pSocial->name		);
-    free_string( pSocial->char_no_arg	);
-    free_string( pSocial->others_no_arg	);
-    free_string( pSocial->char_found	);
-    free_string( pSocial->others_found	);
-    free_string( pSocial->vict_found	);
-    free_string( pSocial->char_auto	);
-    free_string( pSocial->others_auto	); */
-
 		pSocial->name = str_dup(argument);
 
 	} else {
@@ -2839,14 +2709,6 @@ void do_nedit(CHAR_DATA * ch, char *argument)
 	strcpy(arg, argument);
 	argument = one_argument(argument, command);
 
-/*  if( argument[0] == '\0' )
-  {
-    send_to_char( C_DEFAULT, 
-     "Syntax: nedit <keyword>\n\rSyntax: nedit create <keyword>\n\r",
-     ch );
-    return;
-  }
-*/
 	if (command[0] == 'c' && !str_prefix(command, "create")) {
 		if (argument[0] == '\0') {
 			send_to_char(C_DEFAULT,

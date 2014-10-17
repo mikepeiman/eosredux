@@ -217,8 +217,6 @@ void do_mpkill(CHAR_DATA * ch, char *argument)
 	one_argument(argument, arg);
 
 	if (arg[0] == '\0') {
-		/*bug( "MpKill - no argument: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"MpKill - no argument: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -226,8 +224,6 @@ void do_mpkill(CHAR_DATA * ch, char *argument)
 	}
 
 	if ((victim = get_char_room(ch, arg)) == NULL) {
-		/*bug( "MpKill - Victim not in room: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"MpKill - Victim not in room: vnum %d name %s short %s .",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -236,8 +232,6 @@ void do_mpkill(CHAR_DATA * ch, char *argument)
 	}
 
 	if (victim == ch) {
-		/*bug( "MpKill - Bad victim to attack: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"MpKill - Bad victim to attack: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -246,8 +240,6 @@ void do_mpkill(CHAR_DATA * ch, char *argument)
 	}
 
 	if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim) {
-		/*bug( "MpKill - Charmed mob attacking master: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"MpKill - Charmed mob attacking master: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -256,8 +248,6 @@ void do_mpkill(CHAR_DATA * ch, char *argument)
 	}
 
 	if (ch->position == POS_FIGHTING) {
-		/*bug( "MpKill - Already fighting: vnum %d",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"MpKill - Already fighting: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -290,7 +280,6 @@ void do_mpjunk(CHAR_DATA * ch, char *argument)
 	one_argument(argument, arg);
 
 	if (arg[0] == '\0') {
-		/*bug( "Mpjunk - No argument: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpjunk - No argument: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -339,7 +328,6 @@ void do_mpechoaround(CHAR_DATA * ch, char *argument)
 	argument = one_argument(argument, arg);
 
 	if (arg[0] == '\0') {
-		/*bug( "Mpechoaround - No argument:  vnum %d.", ch->pIndexData->vnum); */
 		sprintf(log_buf,
 			"Mpechoaround - No argument: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -348,8 +336,6 @@ void do_mpechoaround(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!(victim = get_char_room(ch, arg))) {
-		/*bug( "Mpechoaround - victim does not exist: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpechoaround - victim does not exist: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -379,8 +365,6 @@ void do_mpechoat(CHAR_DATA * ch, char *argument)
 	argument = one_argument(argument, arg);
 
 	if (arg[0] == '\0' || argument[0] == '\0') {
-		/*bug( "Mpechoat - No argument:  vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpechoat - No argument: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -389,8 +373,6 @@ void do_mpechoat(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!(victim = get_char_room(ch, arg))) {
-/*        bug( "Mpechoat - victim does not exist: vnum %d.",
-	    ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpechoat - victim does not exist: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -415,8 +397,6 @@ void do_mpecho(CHAR_DATA * ch, char *argument)
 		return;
 
 	if (argument[0] == '\0') {
-		/*bug( "Mpecho - called w/o argument: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpecho - called w/o argument: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -450,7 +430,6 @@ void do_mpmload(CHAR_DATA * ch, char *argument)
 	one_argument(argument, arg);
 
 	if (arg[0] == '\0' || !is_number(arg)) {
-		/*bug( "Mpmload - Bad vnum as arg: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpmload - Bad vnum as arg: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -459,7 +438,6 @@ void do_mpmload(CHAR_DATA * ch, char *argument)
 	}
 
 	if ((pMobIndex = get_mob_index(atoi(arg))) == NULL) {
-		/*bug( "Mpmload - Bad mob vnum: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpmload - Bad mob vnum: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -492,8 +470,6 @@ void do_mpoload(CHAR_DATA * ch, char *argument)
 	argument = one_argument(argument, arg2);
 
 	if (arg1[0] == '\0' || !is_number(arg1)) {
-		/*bug( "Mpoload - Bad syntax: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpoload - Bad syntax: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -502,7 +478,6 @@ void do_mpoload(CHAR_DATA * ch, char *argument)
 	}
 
 	if ((pObjIndex = get_obj_index(atoi(arg1))) == NULL) {
-		/*bug( "Mpoload - Bad vnum arg: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpoload - Bad vnum arg: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -512,13 +487,11 @@ void do_mpoload(CHAR_DATA * ch, char *argument)
 
 	if (arg2[0] == '\0') {
 		level = pObjIndex->level;
-		/* level = get_trust( ch ); */
 	} else {
 		/*
 		 * New feature from Alander.
 		 */
 		if (!is_number(arg2)) {
-			/*bug( "Mpoload - Bad syntax: vnum %d.", ch->pIndexData->vnum ); */
 			sprintf(log_buf,
 				"Mpoload - Bad syntax: vnum %d name %s short %s.",
 				ch->pIndexData->vnum, ch->name,
@@ -528,7 +501,6 @@ void do_mpoload(CHAR_DATA * ch, char *argument)
 		}
 		level = atoi(arg2);
 		if (level < 0 || level > get_trust(ch)) {
-			/*bug( "Mpoload - Bad level: vnum %d.", ch->pIndexData->vnum ); */
 			sprintf(log_buf,
 				"Mpoload - Bad level: vnum %d name %s short %s.",
 				ch->pIndexData->vnum, ch->name,
@@ -593,7 +565,6 @@ void do_mppurge(CHAR_DATA * ch, char *argument)
 		if ((obj = get_obj_here(ch, arg))) {
 			extract_obj(obj);
 		} else {
-			/*bug( "Mppurge - Bad argument: vnum %d.", ch->pIndexData->vnum ); */
 			sprintf(log_buf,
 				"Mppurge - Bad argument: vnum %d name %s short %s.",
 				ch->pIndexData->vnum, ch->name,
@@ -604,7 +575,6 @@ void do_mppurge(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!IS_NPC(victim)) {
-		/*bug( "Mppurge - Purging a PC: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mppurge - Purging a PC: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -633,7 +603,6 @@ void do_mpgoto(CHAR_DATA * ch, char *argument)
 
 	one_argument(argument, arg);
 	if (arg[0] == '\0') {
-		/*bug( "Mpgoto - No argument: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpgoto - No argument: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -642,7 +611,6 @@ void do_mpgoto(CHAR_DATA * ch, char *argument)
 	}
 
 	if ((location = find_location(ch, arg)) == NULL) {
-		/*bug( "Mpgoto - No such location: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpgoto - No such location: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -682,7 +650,6 @@ void do_mpat(CHAR_DATA * ch, char *argument)
 	argument = one_argument(argument, arg);
 
 	if (arg[0] == '\0' || argument[0] == '\0') {
-		/*bug( "Mpat - Bad argument: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpat - Bad argument: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -691,7 +658,6 @@ void do_mpat(CHAR_DATA * ch, char *argument)
 	}
 
 	if ((location = find_location(ch, arg)) == NULL) {
-		/*bug( "Mpat - No such location: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpat - No such location: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -743,7 +709,6 @@ void do_mptransfer(CHAR_DATA * ch, char *argument)
 	argument = one_argument(argument, arg2);
 
 	if (arg1[0] == '\0') {
-		/*bug( "Mptransfer - Bad syntax: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mptransfer - Bad syntax: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -787,8 +752,6 @@ void do_mptransfer(CHAR_DATA * ch, char *argument)
 		location = ch->in_room;
 	} else {
 		if ((location = find_location(ch, arg2)) == NULL) {
-			/*bug( "Mptransfer - No such location: vnum %d.",
-			   ch->pIndexData->vnum ); */
 			sprintf(log_buf,
 				"Mptransfer - No such location: vnum %d name %s short %s.",
 				ch->pIndexData->vnum, ch->name,
@@ -798,8 +761,6 @@ void do_mptransfer(CHAR_DATA * ch, char *argument)
 		}
 
 		if (room_is_private(location)) {
-/*	    bug( "Mptransfer - Private room: vnum %d.",
-		ch->pIndexData->vnum );*/
 			sprintf(log_buf,
 				"Mptransfer - Private room: vnum %d name %s short %s.",
 				ch->pIndexData->vnum, ch->name,
@@ -810,8 +771,6 @@ void do_mptransfer(CHAR_DATA * ch, char *argument)
 	}
 
 	if ((victim = get_char_world(ch, arg1)) == NULL) {
-		/*bug( "Mptransfer - No such person: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mptransfer - No such person: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -820,8 +779,6 @@ void do_mptransfer(CHAR_DATA * ch, char *argument)
 	}
 
 	if (victim->in_room == NULL) {
-		/*bug( "Mptransfer - Victim in Limbo: vnum %d.",
-		   ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mptransfer - Victim in Limbo: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -859,7 +816,6 @@ void do_mpforce(CHAR_DATA * ch, char *argument)
 	argument = one_argument(argument, arg);
 
 	if (arg[0] == '\0' || argument[0] == '\0') {
-		/*bug( "Mpforce - Bad syntax: vnum %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpforce - Bad syntax: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);
@@ -884,8 +840,6 @@ void do_mpforce(CHAR_DATA * ch, char *argument)
 		CHAR_DATA *victim;
 
 		if ((victim = get_char_room(ch, arg)) == NULL) {
-			/*bug( "Mpforce - No such victim: vnum %d.", 
-			   ch->pIndexData->vnum ); */
 			sprintf(log_buf,
 				"Mpforce - No such victim: vnum %d name %s short %s.",
 				ch->pIndexData->vnum, ch->name,
@@ -895,8 +849,6 @@ void do_mpforce(CHAR_DATA * ch, char *argument)
 		}
 
 		if (victim == ch) {
-			/*bug( "Mpforce - Forcing oneself: vnum %d.",
-			   ch->pIndexData->vnum ); */
 			sprintf(log_buf,
 				"Mpforce - Forcing oneself: vnum %d name %s short %s.",
 				ch->pIndexData->vnum, ch->name,
@@ -930,7 +882,6 @@ void do_mpteleport(CHAR_DATA * ch, char *argument)
 	pArea = ch->in_room->area;
 
 	if (!pArea) {
-		/*bug( "Mpteleport: not in area - %d.", ch->pIndexData->vnum ); */
 		sprintf(log_buf,
 			"Mpteleport - not in area: vnum %d name %s short %s.",
 			ch->pIndexData->vnum, ch->name, ch->short_descr);

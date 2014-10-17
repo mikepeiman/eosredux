@@ -69,9 +69,6 @@ bool can_go(CHAR_DATA * ch, int dir)
 	if (!exit->to_room)
 		return FALSE;
 
-/*  if ( !IS_SAME_AREA(room, exit->to_room) )
-    return FALSE;*/
-
 	if (IS_SET(exit->exit_info, EX_BASHED))
 		return TRUE;
 
@@ -241,8 +238,6 @@ void do_track(CHAR_DATA * ch, char *argument)
 
 #ifdef TRACK_IS_SKILL
 		{
-/*	   int counter;*/
-
 			if (!IS_NPC(ch)
 			    && ch->pcdata->learned[gsn_track] <
 			    number_percent()) {
@@ -269,22 +264,6 @@ void do_track(CHAR_DATA * ch, char *argument)
 						     ch);
 					return;
 				}
-/*	     for( counter = 0; counter < 50; counter++ )
-	     {
-	       dir = number_door();
-	       if ( can_go( ch, dir ) &&
-		    IS_SAME_AREA(ch->in_room, ch->in_room->exit[dir]->to_room))
-		 break;
-	       dir = -1;
-	     }
-	     for ( vch = char_list; vch; vch = vch->next )
-	     {
-	       if ( vch->deleted || !IS_NPC(vch) )
-		 continue;
-	       if ( number_range(0,numv) == 0 )
-		 vict = vch;
-	       numv++;
-	     }*/
 			} else
 				update_skpell(ch, gsn_track);
 			if (dir < 0) {
@@ -312,23 +291,14 @@ void do_track(CHAR_DATA * ch, char *argument)
 void hunt_victim(CHAR_DATA * ch)
 {
 	int dir;
-/*   int found;
-   CHAR_DATA *tmp;*/
 	char buf[MAX_STRING_LENGTH];
 
 	if (!ch || ch->fighting || !ch->hunting)
 		return;
 
 	/* make sure the char still exists */
-/*   for (found = FALSE, tmp = char_list; tmp && !found; tmp = tmp->next)
-   {
-     if ( tmp->deleted )
-       continue;
-     if (ch->hunting == tmp)
-       found = 1;
-   }*/
 
-	if ( /*!found || */ !can_see(ch, ch->hunting)) {
+	if ( !can_see(ch, ch->hunting)) {
 		if (IS_NPC(ch))
 			do_say(ch, "Damn!  My prey is gone!!");
 		else if (ch->desc)

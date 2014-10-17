@@ -87,8 +87,6 @@ void note_delete(NOTE_DATA * pnote)
 	free_string(pnote->to_list);
 	free_string(pnote->date);
 	free_string(pnote->sender);
-/*  pnote->next = note_free;
-  note_free = pnote;*/
 	free_mem(pnote, sizeof(*pnote));
 }
 
@@ -164,24 +162,12 @@ bool check_note_room(CHAR_DATA * ch, NOTE_DATA * pnote)
 
 bool is_note_to(CHAR_DATA * ch, NOTE_DATA * pnote)
 {
-	/*   CLAN_DATA  *pClan; */
-
 	if (!check_note_room(ch, pnote))
 		return FALSE;
 
 	if (!str_cmp(ch->name, pnote->sender))
 		return TRUE;
 
-/*    for ( pClan = clan_first->next; pClan; pClan = pClan->next )
-    {
-        if ( ( ch->clan == pClan->vnum ) && 
-             ( !str_cmp( pnote->to_list, strip_color( pClan->name ) ) ) )
-        {
-           return TRUE;  <search for clan name in arg1 >
-           break;
-        }
-    }
-*/
 	if (is_name(NULL, "all", pnote->to_list))
 		return TRUE;
 
@@ -234,11 +220,6 @@ bool is_note_to(CHAR_DATA * ch, NOTE_DATA * pnote)
 	    is_name(NULL, "council", pnote->to_list))
 		return TRUE;
 
-/*    if ( IS_CODER( ch ) && ( is_name(NULL, "coder", pnote->to_list )
-			  || is_name(NULL, "code", pnote->to_list )
-			  || is_name(NULL, "coders", pnote->to_list ) ) )
-	return TRUE;*/
-
 	if (ch->guild && (!str_cmp(ch->guild->name, "CREATION") &&
 			  is_name(NULL, "CREATION", pnote->to_list)))
 		return TRUE;
@@ -273,19 +254,7 @@ bool is_note_to(CHAR_DATA * ch, NOTE_DATA * pnote)
 	    )
 	    )
 		return TRUE;
-/*
-    if (    (    ch->guild 
-              && (    !str_cmp( ch->guild->name, "IMP" )
-                  && is_name(NULL, "IMP", pnote->to_list ) 
-                 )
-            )
-         ||
-            (
-              ch->level == L_IMP;
-            ) 
-       )
-        return TRUE;
-*/
+
 	if (is_name(NULL, ch->name, pnote->to_list))
 		return TRUE;
 
@@ -374,8 +343,6 @@ void note_remove(CHAR_DATA * ch, NOTE_DATA * pnote)
 	free_string(pnote->to_list);
 	free_string(pnote->date);
 	free_string(pnote->sender);
-/*    pnote->next	= note_free;
-    note_free	= pnote;*/
 	free_mem(pnote, sizeof(*pnote));
 
 	/*
@@ -411,9 +378,6 @@ void do_note(CHAR_DATA * ch, char *argument)
 	char arg[MAX_INPUT_LENGTH];
 	int vnum;
 	int anum;
-
-/*    if ( IS_NPC( ch ) )
-	return;*/
 
 	argument = one_argument(argument, arg);
 	smash_tilde(argument);
@@ -568,11 +532,6 @@ void do_note(CHAR_DATA * ch, char *argument)
 		if (IS_NPC(ch))
 			return;
 
-/*	if ( !str_cmp( argument, "all" ) )
-	{
-	    fAll = TRUE;
-	    anum = 0;
-	}*/
 		else if (argument[0] == '\0' || !str_prefix(argument, "next"))
 			/* read next unread note */
 		{
@@ -684,8 +643,6 @@ void do_note(CHAR_DATA * ch, char *argument)
 			free_string(ch->pnote->to_list);
 			free_string(ch->pnote->date);
 			free_string(ch->pnote->sender);
-/*	    ch->pnote->next	= note_free;
-	    note_free		= ch->pnote;*/
 			free_mem(ch->pnote, sizeof(*ch->pnote));
 			ch->pnote = NULL;
 		}
@@ -903,15 +860,6 @@ void talk_channel(CHAR_DATA * ch, char *argument, int channel, const char *verb)
 	}
 
 	REMOVE_BIT(ch->deaf, channel);
-/*
-    if (    IS_QUESTOR( ch ) 
-         && channel != CHANNEL_SHOUT 
-         && channel != CHANNEL_YELL  )
-    {
-        send_to_char(AT_WHITE, "You can't do that your questing.\n\r", ch);
-        return;
-    }
-*/
 
 	switch (channel) {
 	default:
@@ -1030,21 +978,6 @@ void talk_channel(CHAR_DATA * ch, char *argument, int channel, const char *verb)
 			    && vch->in_room->area != ch->in_room->area)
 				continue;
 
-/* If ch is not in Mudschool, don't send to chars in mudschool unless you are Immortal  
-	    if ( ( !IS_SET( ch->in_room->area->area_flags, AREA_MUDSCHOOL ) )
-		 && ( ch->level < LEVEL_IMMORTAL ) )
-		if ( ( IS_SET( vch->in_room->area->area_flags, AREA_MUDSCHOOL ) ) 
-		   && ( vch->level < LEVEL_IMMORTAL ) )
-		   continue;
-
-   If ch IS in Mudschool, send only to chars in mudschool and Immortals 
-	    if ( ( IS_SET( ch->in_room->area->area_flags, AREA_MUDSCHOOL ) ) 
-		 && ( ch->level < LEVEL_IMMORTAL ) )
-		if ( ( !IS_SET( vch->in_room->area->area_flags, AREA_MUDSCHOOL ) )
-		   && ( vch->level < LEVEL_IMMORTAL ) )
-		   continue;
-*/
-
 			position = vch->position;
 			if (channel != CHANNEL_SHOUT && channel != CHANNEL_YELL)
 				vch->position = POS_STANDING;
@@ -1078,13 +1011,6 @@ void talk_channel(CHAR_DATA * ch, char *argument, int channel, const char *verb)
 				act(AT_PINK, buf, ch, argument, vch, TO_VICT);
 				break;
 			case CHANNEL_VENT:
-
-/* so only trust 112+ can see person's name */
-/*                     if ( vch->trust > 111 )
-		         sprintf( buf, "&W<VENT> $n: '$t'" ); 
-		     else
-  			 sprintf( buf, "&W<VENT>: '$t'" );   */
-
 				act(AT_WHITE, buf, ch, argument, vch, TO_VICT);
 				break;
 			}
@@ -1582,8 +1508,6 @@ void do_tell(CHAR_DATA * ch, char *argument)
 	 * Can tell to PC's anywhere, but NPC's only in same room.
 	 * -- Furey
 	 */
-/*   if ( !( victim = get_char_world( ch, arg ) )
-	|| ( IS_NPC( victim ) && victim->in_room != ch->in_room ) ) */
 	if ((!(victim = get_pc_world(ch, arg))
 	     && !(victim = get_char_world(ch, arg)))
 	    || (IS_NPC(victim)
@@ -1606,12 +1530,6 @@ void do_tell(CHAR_DATA * ch, char *argument)
 		act(AT_WHITE, "$E is link-dead.", ch, 0, victim, TO_CHAR);
 		return;
 	}
-/*    if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_AFK ) )
-	{
-	act( AT_WHITE, "$E is AFK at the moment.", ch, 0, victim, 
-	TO_CHAR );
-	return;
-	} */
 	if (!IS_NPC(victim) && IS_SET(victim->act, PLR_AFK)) {
 		sprintf(buf, "%s %s.", victim->name,
 			(victim->pcdata && victim->pcdata->afkchar[0] != '\0')
@@ -1771,443 +1689,6 @@ void do_emote(CHAR_DATA * ch, char *argument)
 	return;
 }
 
-/*
- * All the posing stuff.
- */
-#if 0
-struct pose_table_type {
-	char *message[2 * MAX_CLASS];
-};
-
-const struct pose_table_type pose_table[] = {
-	{
-	 {
-	  "You sizzle with energy.",
-	  "$n sizzles with energy.",
-	  "You feel very holy.",
-	  "$n looks very holy.",
-	  "You perform a small card trick.",
-	  "$n performs a small card trick.",
-	  "You show your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "Stop it with the Ouija board, will ya?",
-	  "Great, $n is playing with $s Ouija board again.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature." "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "You turn into a butterfly, then return to your normal shape.",
-	  "$n turns into a butterfly, then returns to $s normal shape.",
-	  "You nonchalantly turn wine into water.",
-	  "$n nonchalantly turns wine into water.",
-	  "You wiggle your ears alternately.",
-	  "$n wiggles $s ears alternately.",
-	  "You crack nuts between your fingers.",
-	  "$n cracks nuts between $s fingers.",
-	  "You read everyone's mind....and shudder with disgust.",
-	  "$n reads your mind...eww, you pervert!",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "Blue sparks fly from your fingers.",
-	  "Blue sparks fly from $n's fingers.",
-	  "A halo appears over your head.",
-	  "A halo appears over $n's head.",
-	  "You nimbly tie yourself into a knot.",
-	  "$n nimbly ties $mself into a knot.",
-	  "You grizzle your teeth and look mean.",
-	  "$n grizzles $s teeth and looks mean.",
-	  "You show everyone your awards for perfect school attendance",
-	  "You aren't impressed by $n's school attendance awards.  Geek.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "Little red lights dance in your eyes.",
-	  "Little red lights dance in $n's eyes.",
-	  "You recite words of wisdom.",
-	  "$n recites words of wisdom.",
-	  "You juggle with daggers, apples, and eyeballs.",
-	  "$n juggles with daggers, apples, and eyeballs.",
-	  "You hit your head, and your eyes roll.",
-	  "$n hits $s head, and $s eyes roll.",
-	  "A will-o-the-wisp arrives with your slippers.",
-	  "A will-o-the-wisp affives with $n's slippers.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "A slimy green monster appears before you and bows.",
-	  "A slimy green monster appears before $n and bows.",
-	  "Deep in prayer, you levitate.",
-	  "Deep in prayer, $n levitates.",
-	  "You steal the underwear off every person in the room.",
-	  "Your underwear is gone!  $n stole it!",
-	  "Crunch, crunch -- you munch a bottle.",
-	  "Crunch, crunch -- $n munches a bottle.",
-	  "What's with the extra leg?",
-	  "Why did $n sprout an extra leg just now?",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "You turn everybody into a little pink elephant.",
-	  "You are turned into a little pink elephant by $n.",
-	  "An angel consults you.",
-	  "An angel consults $n.",
-	  "The dice roll ... and you win again.",
-	  "The dice roll ... and $n wins again.",
-	  "... 98, 99, 100 ... you do pushups.",
-	  "... 98, 99, 100 ... $n does pushups.",
-	  "The spoons flee as you begin to concentrate.",
-	  "The spoons flee as $n begins to concentrate.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "A small ball of light dances on your fingertips.",
-	  "A small ball of light dances on $n's fingertips.",
-	  "Your body glows with an unearthly light.",
-	  "$n's body glows with an unearthly light.",
-	  "You count the money in everyone's pockets.",
-	  "Check your money, $n is counting it.",
-	  "Arnold Schwarzenegger admires your physique.",
-	  "Arnold Schwarzenegger admires $n's physique.",
-	  "Stop wiggling your brain at people.",
-	  "Make $n stop wiggling $s brain at you!",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "Smoke and fumes leak from your nostrils.",
-	  "Smoke and fumes leak from $n's nostrils.",
-	  "A spotlight hits you.",
-	  "A spotlight hits $n.",
-	  "You balance a pocket knife on your tongue.",
-	  "$n balances a pocket knife on your tongue.",
-	  "Watch your feet, you are juggling granite boulders.",
-	  "Watch your feet, $n is juggling granite boulders.",
-	  "MENSA called...they want your opinion on something.",
-	  "MENSA just called $n for consultation.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "The light flickers as you rap in magical languages.",
-	  "The light flickers as $n raps in magical languages.",
-	  "Everyone levitates as you pray.",
-	  "You levitate as $n prays.",
-	  "You produce a coin from everyone's ear.",
-	  "$n produces a coin from your ear.",
-	  "Oomph!  You squeeze water out of a granite boulder.",
-	  "Oomph!  $n squeezes water out of a granite boulder.",
-	  "Chairs fly around the room at your slightest whim.",
-	  "Chairs fly around the room at $n's slightest whim.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "Your head disappears.",
-	  "$n's head disappears.",
-	  "A cool breeze refreshes you.",
-	  "A cool breeze refreshes $n.",
-	  "You step behind your shadow.",
-	  "$n steps behind $s shadow.",
-	  "You pick your teeth with a spear.",
-	  "$n picks $s teeth with a spear.",
-	  "Oof...maybe you shouldn't summon any more hippopotamuses.",
-	  "Oof!  Guess $n won't be summoning any more hippos for a while.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "A fire elemental singes your hair.",
-	  "A fire elemental singes $n's hair.",
-	  "The sun pierces through the clouds to illuminate you.",
-	  "The sun pierces through the clouds to illuminate $n.",
-	  "Your eyes dance with greed.",
-	  "$n's eyes dance with greed.",
-	  "Everyone is swept off their foot by your hug.",
-	  "You are swept off your feet by $n's hug.",
-	  "Oops...your hair is sizzling from thinking too hard.",
-	  "Oops...$n's hair is sizzling from thinking too hard.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "The sky changes color to match your eyes.",
-	  "The sky changes color to match $n's eyes.",
-	  "The ocean parts before you.",
-	  "The ocean parts before $n.",
-	  "You deftly steal everyone's weapon.",
-	  "$n deftly steals your weapon.",
-	  "Your karate chop splits a tree.",
-	  "$n's karate chop splits a tree.",
-	  "What?  You were too busy concentrating.",
-	  "What?  Oh, $n was lost in thought...again.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "The stones dance to your command.",
-	  "The stones dance to $n's command.",
-	  "A thunder cloud kneels to you.",
-	  "A thunder cloud kneels to $n.",
-	  "The Grey Mouser buys you a beer.",
-	  "The Grey Mouser buys $n a beer.",
-	  "A strap of your armor breaks over your mighty thews.",
-	  "A strap of $n's armor breaks over $s mighty thews.",
-	  "Will you get down here before you get hurt?",
-	  "Quick, get a stick, $n is doing $s pinata impression again.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "The heavens and grass change colour as you smile.",
-	  "The heavens and grass change colour as $n smiles.",
-	  "The Burning Man speaks to you.",
-	  "The Burning Man speaks to $n.",
-	  "Everyone's pocket explodes with your fireworks.",
-	  "Your pocket explodes with $n's fireworks.",
-	  "A boulder cracks at your frown.",
-	  "A boulder cracks at $n's frown.",
-	  "Careful...don't want to disintegrate anyone!",
-	  "LOOK OUT!  $n is trying to disintegrate something!",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "Everyone's clothes are transparent, and you are laughing.",
-	  "Your clothes are transparent, and $n is laughing.",
-	  "An eye in a pyramid winks at you.",
-	  "An eye in a pyramid winks at $n.",
-	  "Everyone discovers your dagger a centimeter from their eye.",
-	  "You discover $n's dagger a centimeter from your eye.",
-	  "Mercenaries arrive to do your bidding.",
-	  "Mercenaries arrive to do $n's bidding.",
-	  "You run off at the mouth about 'mind over matter'.",
-	  "Yeah, yeah, mind over matter.  Shut up, $n.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "A black hole swallows you.",
-	  "A black hole swallows $n.",
-	  "Valentine Michael Smith offers you a glass of water.",
-	  "Valentine Michael Smith offers $n a glass of water.",
-	  "Where did you go?",
-	  "Where did $n go?",
-	  "Four matched Percherons bring in your chariot.",
-	  "Four matched Percherons bring in $n's chariot.",
-	  "Thud.",
-	  "Thud.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You proclaim 'I vant to suck your blood!'",
-	  "$n proclaims 'I vant to suck your blood!'."}
-	 },
-
-	{
-	 {
-	  "The world shimmers in time with your whistling.",
-	  "The world shimmers in time with $n's whistling.",
-	  "The great god Mota gives you a staff.",
-	  "The great god Mota gives $n a staff.",
-	  "Click.",
-	  "Click.",
-	  "Atlas asks you to relieve him.",
-	  "Atlas asks $n to relieve him.",
-	  "You charm the pants off everyone...and refuse to give them back.",
-	  "Your pants are charmed off by $n, and $e won't give them back.",
-	  "You talk to some nearby bugs.",
-	  "$n converses with nature.",
-	  "You show off your bulging muscles.",
-	  "$n shows $s bulging muscles.",
-	  "You preach about the wonders of the church.",
-	  "$n gives you a sermon.",
-	  "You play a short rift on your lute.",
-	  "$n plays a short rift on $s lute.",
-	  "You kill Strahd in a few rounds and take over Ravenloft.",
-	  "After quickly dispatching Strahd, $n takes over Ravenloft."}
-	 }
-};
-
-void do_pose(CHAR_DATA * ch, char *argument)
-{
-	int level;
-	int pose;
-
-	if (IS_NPC(ch))
-		return;
-
-	level = UMIN(ch->level, sizeof(pose_table) / sizeof(pose_table[0]) - 1);
-	pose = number_range(0, level);
-
-	act(AT_PINK, pose_table[pose].message[2 * ch->class + 0], ch, NULL,
-	    NULL, TO_CHAR);
-	act(AT_PINK, pose_table[pose].message[2 * ch->class + 1], ch, NULL,
-	    NULL, TO_ROOM);
-
-	return;
-}
-#endif
-
 void do_info(CHAR_DATA * ch, char *argument)
 {
 	info(argument, 0, 0);
@@ -2348,7 +1829,6 @@ void do_quit(CHAR_DATA * ch, char *argument)
 		}
 	}
 
-/*    close_socket( ch->desc );*/
 	if (IS_AFFECTED2(ch, AFF_PLOADED))
 		REMOVE_BIT(ch->affected_by2, AFF_PLOADED);
 	if (ch->level != L_IMP) {
@@ -2592,13 +2072,10 @@ void do_delete(CHAR_DATA * ch, char *argument)
 	sprintf(log_buf, "rm -f %s%c/%s", PLAYER_DIR, LOWER(ch->name[0]),
 		capitalize(ch->name));
 	system(log_buf);
-	/*  remove(log_buf); *//* Don't think was working right */
 	strcat(log_buf, ".fng");
 	system(log_buf);
-/*  remove(log_buf); */
 	sprintf(log_buf, "rm %s%c/%s.cps", PLAYER_DIR, LOWER(ch->name[0]),
 		capitalize(ch->name));
-/*  remove(log_buf);*/
 	system(log_buf);
 
 	delete_playerlist(ch->name);
@@ -2843,30 +2320,6 @@ void do_group(CHAR_DATA * ch, char *argument)
 							      CLASS_VAMPIRE) ?
 					"&Rblood" : "&Gmana", gch->move,
 					MAX_MOVE(gch), gch->exp);
-/*
-		if ( !is_class( gch, CLASS_VAMPIRE ) )
-		  sprintf( buf,
-		  "[&R%2d %s&G] %-12s &Y%4d/%4d &Ghp &C%4d/%4d &Gmana &P%4d/%4d &Gmv &R%5d &Gxp\n\r",
-			gch->level,
-			IS_NPC( gch ) ? "Mob"
-			              : class_table[prime_class(gch)].who_name,
-			capitalize( PERS( gch, ch ) ),
-			gch->hit,   MAX_HIT( gch ),
-			gch->mana,  MAX_MANA(gch),
-			gch->move,  MAX_MOVE(gch),
-			gch->exp );
-		else 
-		  sprintf( buf,
-		  "[&R%2d %s&G] %-12s &Y%4d/%4d &Ghp &R%4d/%4d &Gbp &P%4d/%4d &Gmv &R%5d &Gxp\n\r",
-			gch->level,
-			IS_NPC( gch ) ? "Mob"
-			              : class_table[prime_class(gch)].who_name,
-			capitalize( PERS( gch, ch ) ),
-			gch->hit,   MAX_HIT( gch ),
-			gch->bp,    MAX_BP( gch ),
-			gch->move,  MAX_MOVE(gch),
-			gch->exp );
-*/
 				if (gch->gspell && gch->gspell->timer > 0)
 					send_to_char(AT_YELLOW, buf, ch);
 				else

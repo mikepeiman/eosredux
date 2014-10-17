@@ -29,7 +29,7 @@
 /*
  * New typedefs.
  */
-typedef bool OLC_FUN args((CHAR_DATA * ch, char *argument));
+typedef bool OLC_FUN (CHAR_DATA * ch, char *argument);
 #define DECLARE_OLC_FUN( fun )	OLC_FUN    fun
 
 /*
@@ -56,22 +56,22 @@ typedef bool OLC_FUN args((CHAR_DATA * ch, char *argument));
 /*
  * Interpreter Prototypes
  */
-void aedit args((CHAR_DATA * ch, char *argument));
-void redit args((CHAR_DATA * ch, char *argument));
-void medit args((CHAR_DATA * ch, char *argument));
-void oedit args((CHAR_DATA * ch, char *argument));
-void cedit args((CHAR_DATA * ch, char *argument));
-void mpedit args((CHAR_DATA * ch, char *argument));
-void hedit args((CHAR_DATA * ch, char *argument));
-void tedit args((CHAR_DATA * ch, char *argument));
-void sedit args((CHAR_DATA * ch, char *argument));
-void rename_object args((CHAR_DATA * ch, char *argument));
-void forge_obj args((CHAR_DATA * ch, OBJ_DATA * to_forge));
-void forge_object args((CHAR_DATA * ch, char *argument));
-void mreset args((CHAR_DATA * ch, char *argument));
-void spedit args((CHAR_DATA * ch, char *argument));
-void nedit args((CHAR_DATA * ch, char *argument));
-void race_edit args((CHAR_DATA * ch, char *argument));
+void aedit (CHAR_DATA * ch, char *argument);
+void redit (CHAR_DATA * ch, char *argument);
+void medit (CHAR_DATA * ch, char *argument);
+void oedit (CHAR_DATA * ch, char *argument);
+void cedit (CHAR_DATA * ch, char *argument);
+void mpedit (CHAR_DATA * ch, char *argument);
+void hedit (CHAR_DATA * ch, char *argument);
+void tedit (CHAR_DATA * ch, char *argument);
+void sedit (CHAR_DATA * ch, char *argument);
+void rename_object (CHAR_DATA * ch, char *argument);
+void forge_obj (CHAR_DATA * ch, OBJ_DATA * to_forge);
+void forge_object (CHAR_DATA * ch, char *argument);
+void mreset (CHAR_DATA * ch, char *argument);
+void spedit (CHAR_DATA * ch, char *argument);
+void nedit (CHAR_DATA * ch, char *argument);
+void race_edit (CHAR_DATA * ch, char *argument);
 
 /*
  * OLC Constants
@@ -97,11 +97,11 @@ struct editor_cmd_type {
 /*
  * Utils.
  */
-AREA_DATA *get_vnum_area args((int vnum));
-AREA_DATA *get_area_data args((int vnum));
-int flag_value args((const struct flag_type * flag_table, char *argument));
-char *flag_string args((const struct flag_type * flag_table, int bits));
-void add_reset args((ROOM_INDEX_DATA * room, RESET_DATA * pReset, int index));
+AREA_DATA *get_vnum_area (int vnum);
+AREA_DATA *get_area_data (int vnum);
+int flag_value (const struct flag_type * flag_table, char *argument);
+char *flag_string (const struct flag_type * flag_table, int bits);
+void add_reset (ROOM_INDEX_DATA * room, RESET_DATA * pReset, int index);
 
 /*
  * Interpreter Table Prototypes
@@ -125,10 +125,10 @@ extern const struct olc_cmd_type race_edit_table[];
 /*
  * General Functions
  */
-bool show_commands args((CHAR_DATA * ch, char *argument));
-bool show_help args((CHAR_DATA * ch, char *argument));
-bool edit_done args((CHAR_DATA * ch));
-bool show_version args((CHAR_DATA * ch, char *argument));
+bool show_commands (CHAR_DATA * ch, char *argument);
+bool show_help (CHAR_DATA * ch, char *argument);
+bool edit_done (CHAR_DATA * ch);
+bool show_version (CHAR_DATA * ch, char *argument);
 
 /*
  * Area Editor Prototypes
@@ -392,38 +392,38 @@ DECLARE_OLC_FUN(race_edit_delete);
  */
 /* mem.c - memory prototypes. */
 #define ED	EXTRA_DESCR_DATA
-RESET_DATA *new_reset_data args((void));
-void free_reset_data args((RESET_DATA * pReset));
-AREA_DATA *new_area args((void));
-void free_area args((AREA_DATA * pArea));
-EXIT_DATA *new_exit args((void));
-void free_exit args((EXIT_DATA * pExit));
-ED *new_extra_descr args((void));
-void free_extra_descr args((ED * pExtra));
-ROOM_INDEX_DATA *new_room_index args((void));
-void free_room_index args((ROOM_INDEX_DATA * pRoom));
-AFFECT_DATA *new_affect args((void));
-void free_affect args((AFFECT_DATA * pAf));
-SHOP_DATA *new_shop args((void));
-void free_shop args((SHOP_DATA * pShop));
-OBJ_INDEX_DATA *new_obj_index args((void));
-void free_obj_index args((OBJ_INDEX_DATA * pObj));
-MOB_INDEX_DATA *new_mob_index args((void));
-void free_mob_index args((MOB_INDEX_DATA * pMob));
-CLAN_DATA *new_clan_index args((void));
-void free_clan_index args((CLAN_DATA * pClan));
+RESET_DATA *new_reset_data (void);
+void free_reset_data (RESET_DATA * pReset);
+AREA_DATA *new_area (void);
+void free_area (AREA_DATA * pArea);
+EXIT_DATA *new_exit (void);
+void free_exit (EXIT_DATA * pExit);
+ED *new_extra_descr (void);
+void free_extra_descr (ED * pExtra);
+ROOM_INDEX_DATA *new_room_index (void);
+void free_room_index (ROOM_INDEX_DATA * pRoom);
+AFFECT_DATA *new_affect (void);
+void free_affect (AFFECT_DATA * pAf);
+SHOP_DATA *new_shop (void);
+void free_shop (SHOP_DATA * pShop);
+OBJ_INDEX_DATA *new_obj_index (void);
+void free_obj_index (OBJ_INDEX_DATA * pObj);
+MOB_INDEX_DATA *new_mob_index (void);
+void free_mob_index (MOB_INDEX_DATA * pMob);
+CLAN_DATA *new_clan_index (void);
+void free_clan_index (CLAN_DATA * pClan);
 /* -- Altrag */
-MPROG_DATA *new_mprog_data args((void));
-void free_mprog_data args((MPROG_DATA * pMProg));
-TRAP_DATA *new_trap_data args((void));
-void free_trap_data args((TRAP_DATA * pTrap));
+MPROG_DATA *new_mprog_data (void);
+void free_mprog_data (MPROG_DATA * pMProg);
+TRAP_DATA *new_trap_data (void);
+void free_trap_data (TRAP_DATA * pTrap);
 /* Decklarean */
-SOCIAL_DATA *new_social_index args((void));
-void free_social_index args((SOCIAL_DATA * pSocial));
+SOCIAL_DATA *new_social_index (void);
+void free_social_index (SOCIAL_DATA * pSocial);
 /* Angi */
-NEWBIE_DATA *new_newbie_index args((void));
+NEWBIE_DATA *new_newbie_index (void);
 /* Decklarean */
-RACE_DATA *new_race_data args((void));
-void free_race_data args((RACE_DATA * pRace));
+RACE_DATA *new_race_data (void);
+void free_race_data (RACE_DATA * pRace);
 
 #undef	ED

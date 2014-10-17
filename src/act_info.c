@@ -64,12 +64,7 @@ char *const where_name[] = {
  * Local functions.
  */
 char *format_obj_to_char args((OBJ_DATA * obj, CHAR_DATA * ch, bool fShort));
-void show_list_to_char args((OBJ_DATA * list, CHAR_DATA * ch,
-			     bool fShort, bool fShowNothing));
 void show_char_to_char_0 args((CHAR_DATA * victim, CHAR_DATA * ch));
-
-/* void	show_char_to_char_1	args( ( CHAR_DATA *victim, CHAR_DATA *ch )
-); */
 
 void show_char_to_char_1
 args((CHAR_DATA * victim, CHAR_DATA * ch, char *argument));
@@ -871,14 +866,8 @@ void do_look(CHAR_DATA * ch, char *argument)
 		send_to_char(AT_WHITE, ch->in_room->name, ch);
 		send_to_char(AT_WHITE, "\n\r", ch);
 
-		/* This is where the exits thing used to be (Ne was here) 
-		   if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOEXIT ) )
-		   do_exits( ch, "auto" );
-		 */
-
 		if (arg1[0] == '\0'
 		    || (!IS_NPC(ch) && !IS_SET(ch->act, PLR_BRIEF)))
-/* Thalador room color change */
 			send_to_char(ch->in_room->area->def_color,
 				     ch->in_room->description, ch);
 
@@ -1174,15 +1163,6 @@ void do_look(CHAR_DATA * ch, char *argument)
 		}
 		act(AT_BLUE, "You scry to the $T.", ch, NULL, dir_name[door],
 		    TO_CHAR);
-/*	send_to_char(AT_WHITE, pexit->to_room->name, ch );
-	send_to_char(AT_WHITE, "\n\r", ch );
-
-	if ( arg1[0] == '\0'
-	    || ( !IS_NPC( ch ) && !IS_SET( ch->act, PLR_BRIEF ) ) )
-	    send_to_char(AT_YELLOW, pexit->to_room->description, ch );
-	do_scry_exits( ch, pexit->to_room );
-	show_list_to_char( pexit->to_room->contents, ch, FALSE, FALSE );
-	show_char_to_char( pexit->to_room->people,   ch );*/
 		rid = ch->in_room;
 		ch->in_room = pexit->to_room;
 		do_look(ch, "");
@@ -1242,14 +1222,6 @@ void do_examine(CHAR_DATA * ch, char *argument)
 				     (obj->pIndexData->cost.gold * C_PER_G +
 				      obj->pIndexData->cost.silver * S_PER_G +
 				      obj->pIndexData->cost.copper));
-/*
-	    if ( (obj->pIndexData->cost.gold + (obj->pIndexData->cost.silver/SILVER_PER_GOLD) +
-		 (obj->pIndexData->cost.copper/COPPER_PER_GOLD) ) > 0 )
-		brk = ( (obj->cost.gold + (obj->cost.silver/SILVER_PER_GOLD) +
-		        (obj->cost.copper/COPPER_PER_GOLD) ) * 100 ) / ( obj->pIndexData->cost.gold +
-			(obj->pIndexData->cost.silver/SILVER_PER_GOLD) +
-			(obj->pIndexData->cost.copper/COPPER_PER_GOLD) );
-*/
 #else
 			if (obj->pIndexData->cost > 0)
 				brk = (obj->cost * 100) / obj->pIndexData->cost;
@@ -1665,64 +1637,6 @@ void do_score(CHAR_DATA * ch, char *argument)
 			IS_SET(ch->act, PLR_CLOAKED) ? "ON" : "OFF");
 		send_to_char(AT_YELLOW, buf, ch);
 	}
-/*    if ( ch->affected )
-    {
-	for ( paf = ch->affected; paf; paf = paf->next )
-	{
-	    if ( paf->deleted )
-	        continue;
-
-	    if ( !printed )
-	    {
-		send_to_char( AT_CYAN, "You are affected by:\n\r", ch );
-		printed = TRUE;
-	    }
-
-	    sprintf( buf, "Spell: '%s'", skill_table[paf->type].name );
-            send_to_char( AT_WHITE, buf, ch );
-	    if ( ch->level >= 20 )
-	    {
-		sprintf( buf,
-			" modifies %s by %d for %d hours",
-			affect_loc_name( paf->location ),
-			paf->modifier,
-			paf->duration );
-		send_to_char(AT_WHITE, buf, ch );
-	    }
-
-	    send_to_char( AT_WHITE, ".\n\r", ch );
-	}
-    }
-
-    if ( ch->affected2 )
-    {
-	for ( paf = ch->affected2; paf; paf = paf->next )
-	{
-	    if ( paf->deleted )
-	        continue;
-
-	    if ( !printed )
-	    {
-		send_to_char( AT_CYAN, "You are affected by:\n\r", ch );
-		printed = TRUE;
-	    }
-
-	    sprintf( buf, "Spell: '%s'", skill_table[paf->type].name );
-            send_to_char( AT_WHITE, buf, ch );
-	    if ( ch->level >= 20 )
-	    {
-		sprintf( buf,
-			" modifies %s by %d for %d hours",
-			affect_loc_name( paf->location ),
-			paf->modifier,
-			paf->duration );
-		send_to_char(AT_WHITE, buf, ch );
-	    }
-
-	    send_to_char( AT_WHITE, ".\n\r", ch );
-	}
-    }*/
-
 	return;
 }
 
@@ -1938,7 +1852,6 @@ void do_who(CHAR_DATA * ch, char *argument)
 	bool rgfClass[MAX_CLASS];
 	bool fClassRestrict;
 	bool fClanRestrict;
-/*    bool	     fGuildRestrict; */
 	bool fImmortalOnly;
 	bool fHeroOnly;
 	bool fRaceRestrict;
@@ -1947,8 +1860,6 @@ void do_who(CHAR_DATA * ch, char *argument)
 	int iRace;
 	int iClan;
 	bool rgfClan[MAX_CLAN];
-/*    int	 	     iGuild; 
-    bool	     rgfGuild [ MAX_CLAN ];  */
 	bool rgfRace[MAX_RACE];
 	int num_of_imm = 0;
 	int noclass[MAX_CLASS];
@@ -1964,7 +1875,6 @@ void do_who(CHAR_DATA * ch, char *argument)
 	fRaceRestrict = FALSE;
 	fNameRestrict = FALSE;
 	fClanRestrict = FALSE;
-/*    fGuildRestrict = FALSE;  */
 	tClan = NULL;
 
 	for (iClass = 0; iClass < MAX_CLASS; iClass++)
@@ -2086,25 +1996,6 @@ void do_who(CHAR_DATA * ch, char *argument)
 							fNameRestrict = TRUE;
 						}
 
-/*		if ( iClan >= MAX_CLAN )
-		{ 
-		  fClanRestrict = FALSE;   
-		  fGuildRestrict = TRUE;
-		  for ( iGuild = 0; guild_table[iGuild].name[0] != '\0'; iGuild++ )
-		  {
-		     if ( !str_cmp( arg1, guild_table[iGuild].name ) )
-		     {
-		       rgfGuild[iGuild] = TRUE;
-		       break;
-		     }
-		  }
-		
-		if ( guild_table[iGuild].name[0] == '\0' )
-		{
-		  fGuildRestrict = FALSE;
-		  fNameRestrict = TRUE;
-		} 
- 		} */
 					}
 				}
 
@@ -2147,8 +2038,6 @@ void do_who(CHAR_DATA * ch, char *argument)
 		    || (fClassRestrict && !rgfClass[prime_class(wch)])
 		    || (fRaceRestrict && !rgfRace[wch->race])
 		    || (fNameRestrict && str_prefix(arg1, wch->name))
-/*	    || ( fGuildRestrict && str_cmp( wch->guild->name,
-guild_table[iGuild].name ) )   */
 		    || (fClanRestrict && !rgfClan[wch->clan]))
 			continue;
 
@@ -2411,7 +2300,6 @@ guild_table[iGuild].name ) )   */
 			sprintf(buf + strlen(buf), "%s%s%s%s ",
 				wch->name,
 				(wch->pcdata->lname[0] != '\0') ? " " : "",
-/*	  wch->name, ( *wch->pcdata->lname != 39 ) ? " " : "",  */
 				wch->pcdata->lname, wch->pcdata->title);
 		else
 			sprintf(buf + strlen(buf), "%s%s ",
@@ -2467,154 +2355,6 @@ guild_table[iGuild].name ) )   */
 			     ch);
 	return;
 }
-
-/* Outdated by my changes to normal who ( besides, i'm too lazy to type
-   whoi or whois :)   -  TRI
-   Contributed by Kaneda 
-void do_whois( CHAR_DATA *ch, char *argument )
-{
-    DESCRIPTOR_DATA *d;
-    char             buf  [ MAX_STRING_LENGTH  ];
-    char             name [ MAX_INPUT_LENGTH   ];
-    bool             found;
-    argument = one_argument( argument, name );
-    found = FALSE;
-    if( name[0] == '\0' )
-    {
-	send_to_char(AT_DGREEN, "Usage:  whois <name>\n\r", ch );
-	return;
-    }
-
-    name[0] = UPPER( name[0] );
-
-    buf[0] = '\0';
-    for( d = descriptor_list ; d ; d = d->next )
-    {
-	CHAR_DATA       *wch;
-	char      const *class;
-        char      const *race;
-	char             clan[MAX_STRING_LENGTH];
-	CLAN_DATA       *pClan;
-	
-	wch = ( d->original ) ? d->original : d->character; 
-
-	if( d->connected != CON_PLAYING || !can_see( ch, wch ) )
-	    continue;
-  
-	if( str_prefix( name, wch->name ) )
-	    continue;
-
-	found = TRUE;
-	class = class_table[ wch->class ].who_name;
-	if( wch->level >= LEVEL_HERO )
-	    switch( wch->level )
-	    {
-              case L_IMP: class = "STORM LORD"; break;
-	      case L_CON: class = " COUNCIL  "; break;
-	      case L_DIR: class = " GUARDIAN "; break;
-	      case L_SEN: class = " CREATOR  "; break;
-	      case L_GOD: 
-	             if ( wch->sex == 2 )
-	                class = " GODDESS  ";
-	             else
-	                class = "   GOD    ";
-	             break;
-	      case L_DEM: class = "  DEITY   ";break;
-	      case L_JUN: class = "  SAINT   "; break;
-	      case L_APP: class = "  AVATAR  "; break;
-	      case LEVEL_HERO: class = " CHAMPION "; break;
-	    }
-        race = (get_race_data(wch->race))->race_name;    
-         Clan Stuff 
-        if (wch->clan != 0)
-          {
-            pClan = get_clan_index(wch->clan);
-           if IS_SET(pClan->settings, CLAN_PKILL)
-              switch ( wch->clev )
-              {
-               default:
-                  sprintf( clan, "-<%s>-", pClan->name ); break;
-               case 0:
-                  sprintf( clan, "-<%s>-", pClan->name ); break;
-               case 1:
-                  sprintf( clan, "-<Centurion of %s>-", pClan->name ); break;
-               case 2:
-                  sprintf( clan, "-<Council of %s>-", pClan->name ); break;
-               case 3:
-                  sprintf( clan, "-<Leader of %s>-", pClan->name ); break;
-               case 4:
-                  sprintf( clan, "-<Champion of %s>-", pClan->name ); break;
-               case 5:
-                  sprintf( clan, "-<Deity of %s>-", pClan->name ); break;
-              }
-           else
-              switch ( wch->clev )
-              {
-               default:
-                  sprintf( clan, "(%s)", pClan->name ); break;
-               case 0:
-                  sprintf( clan, "(%s)", pClan->name ); break;
-               case 1:
-                  sprintf( clan, "(Centurion of %s)", pClan->name ); break;
-               case 2:
-                  sprintf( clan, "(Council of %s)", pClan->name ); break;
-               case 3:
-                  sprintf( clan, "(Leader of %s)", pClan->name ); break;
-               case 4:
-                  sprintf( clan, "(Champion of %s)", pClan->name ); break;
-               case 5:
-                  sprintf( clan, "(Deity of %s)", pClan->name ); break;
-              }
- 	}
-	*
-	 * Format it up.
-	 *
-	if ( wch->level < LEVEL_HERO )
-	  sprintf( buf + strlen( buf ), "[%2d %s %s] ",
-	   wch->level, race, class );
-	else
-	  sprintf( buf + strlen( buf ), "[%s] ", class);
-        send_to_char( AT_WHITE, buf, ch );
-
-        if(wch->guild != NULL)
-        {
-          buf[0] = '\0';
-          sprintf(buf+strlen(buf), "[%s", wch->guild->name);
-          send_to_char(wch->guild->color, buf, ch);
-          buf[0] = '\0';
-	  switch(wch->guild_rank)
-          {
-	    case 0: sprintf(buf+strlen(buf), "] ");		break;
-	    case 1: sprintf(buf+strlen(buf), " Lord] ");	break;
-	    case 2: sprintf(buf+strlen(buf), " High Lord] ");	break;
-	    case 3: sprintf(buf+strlen(buf), " Overlord] ");	break;
-            cast 4: sprintf(buf+strlen(buf), " Diety] ");       break;
-            default: sprintf(buf+strlen(buf), "Bug] ");		break;
-          }
-          send_to_char(wch->guild->color, buf, ch);
-        }
-	buf[0] = '\0';
-	if ( wch->pcdata->lname )
-	  sprintf( buf + strlen( buf ), "%s%s%s%s. ",
-	    wch->name, ( wch->pcdata->lname[0] != '\0' ) ? " " : "", 
-	    wch->pcdata->lname, wch->pcdata->title );
-	else
-  	  sprintf( buf + strlen( buf ), "%s%s. ", 
-	    wch->name, wch->pcdata->title );
-        send_to_char(AT_GREEN, buf, ch);
-	buf[0] = '\0';
-        if (wch->clan != 0)
-          sprintf( buf + strlen( buf ), "%s\n\r",  clan );
-        else sprintf( buf, "\n\r" );
-        send_to_char( AT_RED, buf, ch );
-	buf[0] = '\0';
-      }
-
-    if ( !found )
-        send_to_char(AT_DGREEN, "No one matches the given criteria.\n\r", ch );
-    return;
-}
-*/
 
 void do_inventory(CHAR_DATA * ch, char *argument)
 {
@@ -3015,35 +2755,7 @@ void do_title(CHAR_DATA * ch, char *argument)
 
 void do_description(CHAR_DATA * ch, char *argument)
 {
-/*    if ( argument[0] != '\0' )
-    {
-	buf[0] = '\0';
-	smash_tilde( argument );
-	if ( argument[0] == '+' )
-	{
-	    if ( ch->description )
-		strcat( buf, ch->description );
-	    argument++;
-	    while ( isspace( *argument ) )
-		argument++;
-	}
-
-	if ( strlen( buf ) + strlen( argument ) >=  MAX_STRING_LENGTH  - 2 )
-	{
-	    send_to_char(AT_CYAN, "Description too long.\n\r", ch );
-	    return;
-	}
-
-	strcat( buf, argument );
-	strcat( buf, "\n\r" );
-	free_string( ch->description );
-	ch->description = str_dup( buf );
-    }*/
-
 	string_append(ch, &ch->description);
-
-/*    send_to_char(AT_CYAN, "Your description is:\n\r", ch );
-    send_to_char(AT_CYAN, ch->description ? ch->description : "(None).\n\r", ch );*/
 	return;
 }
 
@@ -3200,7 +2912,6 @@ void do_practice(CHAR_DATA * ch, char *argument)
 			ch->practice--;
 			ch->pcdata->learned[sn] +=
 			    int_app[get_curr_int(ch)].learn;
-/*	    ch->pcdata->learned[sn] += ( ( get_curr_int( ch ) * 4 ) / 3 );*/
 			if (ch->pcdata->learned[sn] < adept) {
 				act(C_DEFAULT, "You practice $T.",
 				    ch, NULL, skill_table[sn].name, TO_CHAR);
@@ -3346,14 +3057,11 @@ void do_socials(CHAR_DATA * ch, char *argument)
 {
 	char buf[MAX_STRING_LENGTH];
 	char buf1[MAX_STRING_LENGTH];
-/*    int  iSocial;*/
 	int col;
 	SOCIAL_DATA *pSocial;
 
 	buf1[0] = '\0';
 	col = 0;
-/*    for ( iSocial = 0; social_table[iSocial].name[0] != '\0';iSocial++)*/
-
 	for (pSocial = social_first; pSocial; pSocial = pSocial->next) {
 		sprintf(buf, "%-12s", pSocial->name);
 		strcat(buf1, buf);
@@ -3448,12 +3156,6 @@ void do_channels(CHAR_DATA * ch, char *argument)
 
 		send_to_char(AT_PINK, !IS_SET(ch->deaf, CHANNEL_CLAN)
 			     ? " +CLAN" : " -clan", ch);
-/* 	if( ch->level > 2 )
-        send_to_char(AT_WHITE, !IS_SET( ch->deaf, CHANNEL_VENT )
-                     ? " +VENT"
-                     : " -vent",
-                     ch );
-*/
 		if (IS_HERO(ch)) {	/* XOR */
 			send_to_char(AT_PINK, !IS_SET(ch->deaf, CHANNEL_HERO)
 				     ? " +HERO" : " -hero", ch);
@@ -3583,7 +3285,6 @@ void do_channels(CHAR_DATA * ch, char *argument)
 			bit = CHANNEL_CHALLENGE;
 		else if (!str_cmp(arg + 1, "clan"))
 			bit = CHANNEL_CLAN;
-/*      else if ( !str_cmp( arg+1, "vent"     ) ) bit = CHANNEL_VENT;  */
 		else if (!str_cmp(arg + 1, "classmaster"))
 			bit = CHANNEL_CLASS_MASTER;
 		else if (!str_cmp(arg + 1, "clanmaster"))
@@ -3794,16 +3495,6 @@ void do_config(CHAR_DATA * ch, char *argument)
 	return;
 }
 
-/*
-do_immlist replaced this - Decklarean
-void do_wizlist ( CHAR_DATA *ch, char *argument )
-{
-
-    do_help ( ch, "wizlist" );
-    return;
-
-}
-*/
 void do_spells(CHAR_DATA * ch, char *argument)
 {
 	char buf[MAX_STRING_LENGTH];
@@ -4955,155 +4646,6 @@ void do_autocoins(CHAR_DATA * ch, char *argument)
 	return;
 }
 
-/*
-void do_vsi( CHAR_DATA *ch )
-{
-  char limbm[MAX_STRING_LENGTH];
-  int limb;
-  for ( limb = 1; limb <= 2; limb++ )
-  {
-  switch( ch->arm[limb]->hp )
-  {
-     case 1:
-       sprintf( limbm, "&RYour fingers from your %s hand are missing, and they are %s\n\r",
-        ( limb == 1 ) ? "left" : "right", bleedinglev( ch->arm[limb]->bl );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 2:
-       sprintf( limbm, "&RYour %s hand is missing, and it is %s\n\r", 
-        ( limb == 1 ) ? "left" : "right", bleedinglev( ch->arm[limb]->bl );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 3:
-       sprintf( limbm, "&RYour %s arm is missing past the elbow, and it is %s\n\r", 
-        ( limb == 1 ) ? "left" : "right", bleedinglev( ch->arm[limb]->bl );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 4:
-       sprintf( limbm, "&RYou &B*&RWHOLE&B*&R %s arm is missing!, and it is %s\n\r",
-        ( limb == 1 ) ? "left" : "right", bleedinglev( ch->arm[limb]->bl ); 
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     default:
-       break;
-   }
-   }
-   
-   switch( ch->neck->hp )
-   {
-     case 1:
-       sprintf( limbm, "&RYour neck is lightly hurt, and it is %s\n\r",
-        bleedinglev( ch->neck->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 2:
-       sprintf( limbm, "&RYour neck is severely hurt, and it is %s\n\r",
-        bleedinglev( ch->neck->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 3:
-       sprintf( limbm, "&RYour neck is broken!, and it is %s\n\r",
-         bleedinglev( ch->neck->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 4:
-       sprintf( limbm, "&RYour head is missing!, and your neck is %s\n\r",
-        bleedinglev( ch->neck->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     default:
-       break;
-   }
-
-   switch( ch->eyes->hp )
-   {
-     case 1:
-       sprintf( limbm, "&ROne of your eyes has been gouged out, and it is %s\n\r",
-        bleedinglev( ch->eyes->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 2:
-       sprintf( limbm, "&RBoth of your eyes have been gouged out!, they are %s\n\r",
-        bleedinglev( ch->eyes->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     default:
-       break;
-   }
-   
-   switch( ch->torso->hp )
-   {
-     case 1:
-       sprintf( limbm, "&RYour torso is lightly wounded, and it is %s\n\r",
-         bleedinglev( ch->torso->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 2:
-       sprintf( limbm, "&RYour torso is badly wounded, and it is %s\n\r",
-         bleedinglev( ch->torso->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 3:
-       sprintf( limbm, "&RYour torso is severely wounded!, and it is %s\n\r",
-         bleedinglev( ch->torso->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     case 4:
-       sprintf( limbm, "&RYour bodyis missing halfway through your torso and down!,and it is %s\n\r",
-        bleedintlev( ch->torso->bl ) );
-       send_to_char( AT_WHITE, limbm, ch );
-       break;
-     default:
-       break;
-   }
-   
-   for ( limb = 1; limb <= 2; limb++ )
-   {
-     switch( ch->leg[limb]->hp )
-     {
-       case 1:
-         sprintf( limbm, "&RYour %s foot is missing, and it is %s\n\r",
-          ( limb == 1 ) ? "left" : "right", bleedinglev( ch->leg[limb]->bl ) );
-         send_to_char( AT_WHITE, limbm, ch );
-         break;
-       case 2:
-         sprintf( limbm, "&RYour %s leg is missing from the knee down, and it is %s\n\r",
-          (limb == 1 ) ? "left" : "right", bleedinglev( ch->leg[limb]->bl ) );
-         send_to_char( AT_WHITE, limbm, ch );
-         break;
-       case 3:
-         sprintf( limbm, "&RYour whole %s leg is missing!, and it is %s\n\r",
-          ( limb == 1 ) ? "left" : "right", bleedinglev( ch->leg[limb]->bl ) );
-         send_to_char( AT_WHITE, limbm, ch );
-         break;
-       default:
-         break;
-     }
-   }
- return;
- }
- */
-
-/*
-char *bleedinglev( int blvl )
-{
-  switch( blvl )
-  {
-    case 0:
-      return "not bleeding.";
-    case 1:
-      return "bleeding lightly.";
-    case 2:
-      return "bleeding a lot.";
-    case 3: 
-      return "bleeding severely!";
-    default:
-      return "";
-  }
-  return "";
-}
-*/
-
 void do_farsight(CHAR_DATA * ch, char *argument)
 {
 	CHAR_DATA *victim;
@@ -5397,7 +4939,6 @@ MONEY_DATA *spend_money(MONEY_DATA * a, MONEY_DATA * b)
 		}
 		if (b->gold > 0) {
 			if (a->copper <= b->gold * C_PER_G)
-/*      if ( ( a->copper / COPPER_PER_GOLD ) <= b->gold ) */
 			{
 				b->gold -= (a->copper / COPPER_PER_GOLD);
 				a->copper %= COPPER_PER_GOLD;
@@ -5407,7 +4948,6 @@ MONEY_DATA *spend_money(MONEY_DATA * a, MONEY_DATA * b)
 			}
 		}
 	}
-/* if b->gold != 0 now, then bug( etc.. ) */
 
 	if (b->silver > 0) {
 		if ((a->gold * SILVER_PER_GOLD) <= b->silver) {
@@ -5419,7 +4959,6 @@ MONEY_DATA *spend_money(MONEY_DATA * a, MONEY_DATA * b)
 		}
 		if (b->silver > 0) {
 			if (a->copper <= b->silver * S_PER_G)
-/*      if ( ( a->copper / COPPER_PER_SILVER ) <= b->silver ) */
 			{
 				b->silver -= (a->copper / COPPER_PER_SILVER);
 				a->copper %= COPPER_PER_SILVER;
