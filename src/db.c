@@ -188,8 +188,6 @@ int gsn_domination;
 int gsn_heighten;
 int gsn_shadow;
 
-int port;
-
 /*
  * Locals.
  */

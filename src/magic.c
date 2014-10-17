@@ -28,8 +28,7 @@
 /*
  * External functions.
  */
-bool is_safe args((CHAR_DATA * ch, CHAR_DATA * victim));
-void set_fighting args((CHAR_DATA * ch, CHAR_DATA * victim));
+extern void set_fighting(CHAR_DATA * ch, CHAR_DATA * victim);
 
 /*
  * Local functions.

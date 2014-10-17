@@ -3233,7 +3233,7 @@ int strlen_wo_col args((char *argument));
 char *strip_color args((char *argument));
 /* Multiclass stuff -- Hann */
 bool can_use_skpell args((CHAR_DATA * ch, int sn));
-bool is_class args((CHAR_DATA * ch, int class));
+extern bool is_class(CHAR_DATA * ch, int class);
 bool has_spells args((CHAR_DATA * ch));
 int prime_class args((CHAR_DATA * ch));
 int number_classes args((CHAR_DATA * ch));
@@ -3425,7 +3425,7 @@ bool can_go args((CHAR_DATA * ch, int dir));
  * chatmode.c
  */
 void start_chat_mode args((DESCRIPTOR_DATA * d));
-void chat_interp args((CHAR_DATA * ch, char *argument));
+extern void chat_interp(CHAR_DATA * ch, char *argument);
 
 #undef	CD
 #undef	MID

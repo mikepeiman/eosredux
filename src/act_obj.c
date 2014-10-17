@@ -28,7 +28,7 @@
 /*
  * External functions.
  */
-void show_list_to_char(OBJ_DATA * list, CHAR_DATA * ch, bool fShort,
+extern void show_list_to_char(OBJ_DATA * list, CHAR_DATA * ch, bool fShort,
 		       bool fShowNothing);
 
 /*

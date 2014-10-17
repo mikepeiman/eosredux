@@ -6053,9 +6053,8 @@ return;
  
  
  
-BAN_DATA * ban_free;
-
-BAN_DATA * ban_list;
+extern BAN_DATA * ban_free;
+extern BAN_DATA * ban_list;
 
 void do_permban(CHAR_DATA * ch, char *argument) 
 {

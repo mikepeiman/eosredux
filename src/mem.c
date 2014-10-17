@@ -42,8 +42,6 @@ TRAP_DATA               *       trap_free;
 RESET_DATA		*	reset_free;
 HELP_DATA		*	help_free;*/
 
-HELP_DATA *help_last;
-
 /*****************************************************************************
  Name:		new_reset_data
  Purpose:	Creates and clears a reset structure.

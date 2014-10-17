@@ -46,7 +46,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#ifndef S_SPLINT_S
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 
 #include "merc.h"
@@ -121,7 +123,7 @@ char *set_str_color args((int AType, const char *txt));
 
 /* Semi-local functions that arent OS dependant.. :)..
    -- Altrag */
-void note_cleanup args((void));
+extern void note_cleanup(void);
 int port;
 #if defined (HOTREBOOT)
 int control;
@@ -183,7 +185,7 @@ int main(int argc, char **argv)
 	 */
 	if (!(fpReserve = fopen(NULL_FILE, "r"))) {
 		perror(NULL_FILE);
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
 
 	/*
@@ -193,10 +195,10 @@ int main(int argc, char **argv)
 	if (argc > 1) {
 		if (!is_number(argv[1])) {
 			fprintf(stderr, "Usage: %s [port #]\n", argv[0]);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		} else if ((port = atoi(argv[1])) <= 1024) {
 			fprintf(stderr, "Port number must be above 1024.\n");
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 	}
 
@@ -221,7 +223,7 @@ int main(int argc, char **argv)
 	if (!fHotReboot)	/* We already have the port if hot rebooting */
 #endif
 		if ((control = init_socket(port)) < 0)
-			exit(1);
+			exit(EXIT_FAILURE);
 	sprintf(log_buf, "EnvyMud is ready to rock on port %d.", port);
 	log_string(log_buf, CHANNEL_NONE, -1);
 	{
@@ -254,7 +256,7 @@ int main(int argc, char **argv)
 	 * That's all, folks.
 	 */
 	log_string("Normal termination of game.", CHANNEL_NONE, -1);
-	exit(0);
+	exit(EXIT_SUCCESS);
 	return 0;
 }
 
@@ -346,7 +348,7 @@ void game_loop(int control)
 		if (select(maxdesc + 1, &in_set, &out_set, &exc_set, &null_time)
 		    < 0) {
 			perror("Game_loop: select: poll");
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 
 		/*
@@ -499,7 +501,7 @@ void game_loop(int control)
 				if (select(0, NULL, NULL, NULL, &stall_time) <
 				    0) {
 					perror("Game_loop: select: stall");
-					exit(0);
+					exit(EXIT_FAILURE);
 				}
 			}
 		}
@@ -3357,7 +3359,7 @@ void hotreboot_recover()
 		perror("hotreboot_recover:fopen");
 		log_string("HotReboot file not found. Exitting.\n\r",
 			   CHANNEL_GOD, 0);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	unlink(HOTREBOOT_FILE);	/* In case something crashes - doesn't prevent reading */
