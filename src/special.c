@@ -31,31 +31,31 @@ extern void trip args((CHAR_DATA * ch, CHAR_DATA * victim));
 /*
  * The following special functions are available for mobiles.
  */
-DECLARE_SPEC_FUN(spec_breath_any);
-DECLARE_SPEC_FUN(spec_breath_acid);
-DECLARE_SPEC_FUN(spec_breath_fire);
-DECLARE_SPEC_FUN(spec_breath_frost);
-DECLARE_SPEC_FUN(spec_breath_gas);
-DECLARE_SPEC_FUN(spec_breath_lightning);
-DECLARE_SPEC_FUN(spec_cast_adept);
-DECLARE_SPEC_FUN(spec_cast_healer);
-DECLARE_SPEC_FUN(spec_cast_cleric);
-DECLARE_SPEC_FUN(spec_cast_ghost);
-DECLARE_SPEC_FUN(spec_cast_judge);
-DECLARE_SPEC_FUN(spec_cast_mage);
-DECLARE_SPEC_FUN(spec_cast_psionicist);
-DECLARE_SPEC_FUN(spec_cast_undead);
-DECLARE_SPEC_FUN(spec_executioner);
-DECLARE_SPEC_FUN(spec_fido);
-DECLARE_SPEC_FUN(spec_guard);
-DECLARE_SPEC_FUN(spec_janitor);
-DECLARE_SPEC_FUN(spec_mayor);
-DECLARE_SPEC_FUN(spec_poison);
-DECLARE_SPEC_FUN(spec_repairman);
-DECLARE_SPEC_FUN(spec_thief);
-DECLARE_SPEC_FUN(spec_wanderer);
-DECLARE_SPEC_FUN(spec_summon_demon);
-DECLARE_SPEC_FUN(spec_summon_light);
+static DECLARE_SPEC_FUN(spec_breath_any);
+static DECLARE_SPEC_FUN(spec_breath_acid);
+static DECLARE_SPEC_FUN(spec_breath_fire);
+static DECLARE_SPEC_FUN(spec_breath_frost);
+static DECLARE_SPEC_FUN(spec_breath_gas);
+static DECLARE_SPEC_FUN(spec_breath_lightning);
+static DECLARE_SPEC_FUN(spec_cast_adept);
+static DECLARE_SPEC_FUN(spec_cast_healer);
+static DECLARE_SPEC_FUN(spec_cast_cleric);
+static DECLARE_SPEC_FUN(spec_cast_ghost);
+static DECLARE_SPEC_FUN(spec_cast_judge);
+static DECLARE_SPEC_FUN(spec_cast_mage);
+static DECLARE_SPEC_FUN(spec_cast_psionicist);
+static DECLARE_SPEC_FUN(spec_cast_undead);
+static DECLARE_SPEC_FUN(spec_executioner);
+static DECLARE_SPEC_FUN(spec_fido);
+static DECLARE_SPEC_FUN(spec_guard);
+static DECLARE_SPEC_FUN(spec_janitor);
+static DECLARE_SPEC_FUN(spec_mayor);
+static DECLARE_SPEC_FUN(spec_poison);
+static DECLARE_SPEC_FUN(spec_repairman);
+static DECLARE_SPEC_FUN(spec_thief);
+static DECLARE_SPEC_FUN(spec_wanderer);
+static DECLARE_SPEC_FUN(spec_summon_demon);
+static DECLARE_SPEC_FUN(spec_summon_light);
 
 /*
  * Special Functions Table.	OLC
@@ -158,7 +158,7 @@ static bool dragon(CHAR_DATA * ch, char *spell_name)
 /*
  * Special procedures for mobiles.
  */
-bool spec_breath_any(CHAR_DATA * ch)
+static bool spec_breath_any(CHAR_DATA * ch)
 {
 	if (ch->position != POS_FIGHTING)
 		return FALSE;
@@ -182,22 +182,22 @@ bool spec_breath_any(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_breath_acid(CHAR_DATA * ch)
+static bool spec_breath_acid(CHAR_DATA * ch)
 {
 	return dragon(ch, "acid breath");
 }
 
-bool spec_breath_fire(CHAR_DATA * ch)
+static bool spec_breath_fire(CHAR_DATA * ch)
 {
 	return dragon(ch, "fire breath");
 }
 
-bool spec_breath_frost(CHAR_DATA * ch)
+static bool spec_breath_frost(CHAR_DATA * ch)
 {
 	return dragon(ch, "frost breath");
 }
 
-bool spec_breath_gas(CHAR_DATA * ch)
+static bool spec_breath_gas(CHAR_DATA * ch)
 {
 	int sn;
 
@@ -210,12 +210,12 @@ bool spec_breath_gas(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_breath_lightning(CHAR_DATA * ch)
+static bool spec_breath_lightning(CHAR_DATA * ch)
 {
 	return dragon(ch, "lightning breath");
 }
 
-bool spec_cast_adept(CHAR_DATA * ch)
+static bool spec_cast_adept(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 
@@ -280,7 +280,7 @@ bool spec_cast_adept(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_cast_healer(CHAR_DATA * ch)
+static bool spec_cast_healer(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 
@@ -353,7 +353,7 @@ bool spec_cast_healer(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_cast_cleric(CHAR_DATA * ch)
+static bool spec_cast_cleric(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	char *spell;
@@ -463,7 +463,7 @@ bool spec_cast_cleric(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_cast_judge(CHAR_DATA * ch)
+static bool spec_cast_judge(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	char *spell;
@@ -489,7 +489,7 @@ bool spec_cast_judge(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_cast_mage(CHAR_DATA * ch)
+static bool spec_cast_mage(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	char *spell;
@@ -562,7 +562,7 @@ bool spec_cast_mage(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_cast_undead(CHAR_DATA * ch)
+static bool spec_cast_undead(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	char *spell;
@@ -633,7 +633,7 @@ bool spec_cast_undead(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_executioner(CHAR_DATA * ch)
+static bool spec_executioner(CHAR_DATA * ch)
 {
 	CHAR_DATA *guard;
 	CHAR_DATA *victim;
@@ -684,7 +684,7 @@ bool spec_executioner(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_fido(CHAR_DATA * ch)
+static bool spec_fido(CHAR_DATA * ch)
 {
 	OBJ_DATA *obj;
 	OBJ_DATA *obj_next;
@@ -717,7 +717,7 @@ bool spec_fido(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_guard(CHAR_DATA * ch)
+static bool spec_guard(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	CHAR_DATA *ech;
@@ -787,7 +787,7 @@ bool spec_guard(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_janitor(CHAR_DATA * ch)
+static bool spec_janitor(CHAR_DATA * ch)
 {
 	OBJ_DATA *trash;
 	OBJ_DATA *trash_next;
@@ -812,7 +812,7 @@ bool spec_janitor(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_mayor(CHAR_DATA * ch)
+static bool spec_mayor(CHAR_DATA * ch)
 {
 	static const char *path;
 	static const char open_path[] =
@@ -914,7 +914,7 @@ bool spec_mayor(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_poison(CHAR_DATA * ch)
+static bool spec_poison(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 
@@ -929,7 +929,7 @@ bool spec_poison(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_thief(CHAR_DATA * ch)
+static bool spec_thief(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 #ifdef NEW_MONEY
@@ -999,7 +999,7 @@ bool spec_thief(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_wanderer(CHAR_DATA * ch)
+static bool spec_wanderer(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	char *spell;
@@ -1060,7 +1060,7 @@ bool spec_wanderer(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_summon_demon(CHAR_DATA * ch)
+static bool spec_summon_demon(CHAR_DATA * ch)
 {
 	MOB_INDEX_DATA *pMob;
 	CHAR_DATA *demon;
@@ -1129,7 +1129,7 @@ bool spec_summon_demon(CHAR_DATA * ch)
 	return FALSE;
 }
 
-bool spec_summon_light(CHAR_DATA * ch)
+static bool spec_summon_light(CHAR_DATA * ch)
 {
 	MOB_INDEX_DATA *pMob;
 	CHAR_DATA *light;
@@ -1202,7 +1202,7 @@ bool spec_summon_light(CHAR_DATA * ch)
 /*
  * Psionicist spec_fun by Thelonius for EnvyMud.
  */
-bool spec_cast_psionicist(CHAR_DATA * ch)
+static bool spec_cast_psionicist(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	char *spell;
@@ -1282,7 +1282,7 @@ bool spec_cast_psionicist(CHAR_DATA * ch)
 	return TRUE;
 }
 
-bool spec_cast_ghost(CHAR_DATA * ch)
+static bool spec_cast_ghost(CHAR_DATA * ch)
 {
 	CHAR_DATA *victim;
 	char *spell;
@@ -1375,7 +1375,7 @@ bool spec_cast_ghost(CHAR_DATA * ch)
 /*
  * spec_fun to repair bashed doors by Thelonius for EnvyMud.
  */
-bool spec_repairman(CHAR_DATA * ch)
+static bool spec_repairman(CHAR_DATA * ch)
 {
 	EXIT_DATA *pexit;
 	EXIT_DATA *pexit_rev;

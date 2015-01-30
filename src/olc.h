@@ -98,7 +98,7 @@ struct editor_cmd_type {
  * Utils.
  */
 AREA_DATA *get_vnum_area (int vnum);
-AREA_DATA *get_area_data (int vnum);
+extern AREA_DATA *get_area_data (int vnum);
 int flag_value (const struct flag_type * flag_table, char *argument);
 char *flag_string (const struct flag_type * flag_table, int bits);
 void add_reset (ROOM_INDEX_DATA * room, RESET_DATA * pReset, int index);
@@ -393,37 +393,37 @@ DECLARE_OLC_FUN(race_edit_delete);
 /* mem.c - memory prototypes. */
 #define ED	EXTRA_DESCR_DATA
 RESET_DATA *new_reset_data (void);
-void free_reset_data (RESET_DATA * pReset);
-AREA_DATA *new_area (void);
-void free_area (AREA_DATA * pArea);
-EXIT_DATA *new_exit (void);
-void free_exit (EXIT_DATA * pExit);
+extern void free_reset_data (RESET_DATA * pReset);
+extern AREA_DATA *new_area (void);
+extern void free_area (AREA_DATA * pArea);
+extern EXIT_DATA *new_exit (void);
+extern void free_exit (EXIT_DATA * pExit);
 ED *new_extra_descr (void);
 void free_extra_descr (ED * pExtra);
-ROOM_INDEX_DATA *new_room_index (void);
-void free_room_index (ROOM_INDEX_DATA * pRoom);
-AFFECT_DATA *new_affect (void);
-void free_affect (AFFECT_DATA * pAf);
-SHOP_DATA *new_shop (void);
-void free_shop (SHOP_DATA * pShop);
+extern ROOM_INDEX_DATA *new_room_index (void);
+extern void free_room_index (ROOM_INDEX_DATA * pRoom);
+extern AFFECT_DATA *new_affect (void);
+extern void free_affect (AFFECT_DATA * pAf);
+extern SHOP_DATA *new_shop (void);
+extern void free_shop (SHOP_DATA * pShop);
 OBJ_INDEX_DATA *new_obj_index (void);
-void free_obj_index (OBJ_INDEX_DATA * pObj);
-MOB_INDEX_DATA *new_mob_index (void);
-void free_mob_index (MOB_INDEX_DATA * pMob);
-CLAN_DATA *new_clan_index (void);
+extern void free_obj_index (OBJ_INDEX_DATA * pObj);
+extern MOB_INDEX_DATA *new_mob_index (void);
+extern void free_mob_index (MOB_INDEX_DATA * pMob);
+extern CLAN_DATA *new_clan_index (void);
 void free_clan_index (CLAN_DATA * pClan);
 /* -- Altrag */
-MPROG_DATA *new_mprog_data (void);
-void free_mprog_data (MPROG_DATA * pMProg);
-TRAP_DATA *new_trap_data (void);
-void free_trap_data (TRAP_DATA * pTrap);
+extern MPROG_DATA *new_mprog_data (void);
+extern void free_mprog_data (MPROG_DATA * pMProg);
+extern TRAP_DATA *new_trap_data (void);
+extern void free_trap_data (TRAP_DATA * pTrap);
 /* Decklarean */
-SOCIAL_DATA *new_social_index (void);
-void free_social_index (SOCIAL_DATA * pSocial);
+extern SOCIAL_DATA *new_social_index (void);
+extern void free_social_index (SOCIAL_DATA * pSocial);
 /* Angi */
-NEWBIE_DATA *new_newbie_index (void);
+extern NEWBIE_DATA *new_newbie_index (void);
 /* Decklarean */
 RACE_DATA *new_race_data (void);
-void free_race_data (RACE_DATA * pRace);
+extern void free_race_data (RACE_DATA * pRace);
 
 #undef	ED

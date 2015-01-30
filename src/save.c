@@ -41,8 +41,8 @@ void update_playerlist args((CHAR_DATA * ch));
 /*
  * Local functions.
  */
-void fwrite_char args((CHAR_DATA * ch, FILE * fp));
-void fwrite_obj args((CHAR_DATA * ch, OBJ_DATA * obj,
+static void fwrite_char args((CHAR_DATA * ch, FILE * fp));
+static void fwrite_obj args((CHAR_DATA * ch, OBJ_DATA * obj,
 		      FILE * fp, int iNest, bool storage));
 static void fread_char(CHAR_DATA * ch, FILE * fp);
 static void fread_obj(CHAR_DATA * ch, FILE * fp, bool storage);
@@ -130,7 +130,7 @@ void save_char_obj(CHAR_DATA * ch, bool leftgame)
 /*
  * Write the char.
  */
-void fwrite_char(CHAR_DATA * ch, FILE * fp)
+static void fwrite_char(CHAR_DATA * ch, FILE * fp)
 {
 	AFFECT_DATA *paf;
 	int sn;
@@ -310,7 +310,7 @@ void fwrite_char(CHAR_DATA * ch, FILE * fp)
 /*
  * Write an object and its contents.
  */
-void fwrite_obj(CHAR_DATA * ch, OBJ_DATA * obj, FILE * fp, int iNest,
+static void fwrite_obj(CHAR_DATA * ch, OBJ_DATA * obj, FILE * fp, int iNest,
 		bool storage)
 {
 	AFFECT_DATA *paf;

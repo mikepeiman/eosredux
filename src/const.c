@@ -8417,7 +8417,7 @@ spell_null, TAR_IGNORE, POS_STANDING,
 L_APP, L_APP, L_APP, L_APP, L_APP, L_APP}, 
 spell_thunder_strike, TAR_CHAR_OFFENSIVE, POS_FIGHTING, 
 NULL, 15, 12, 
-"thunder strike", "!thunder strike!", "", SLOT(0) 
+"thunder strike", "!thunder strike!", "", FALSE, SLOT(0) 
 }, 
  
 {
@@ -8436,7 +8436,7 @@ NULL, 15, 12,
 L_APP, L_APP, L_APP, L_APP, L_APP, L_APP}, 
 spell_war_cry, TAR_CHAR_OFFENSIVE, POS_FIGHTING, 
 NULL, 15, 12, 
-"war cry", "!War cry!", "", SLOT(0) 
+"war cry", "!War cry!", "", FALSE, SLOT(0) 
 }, 
  
 {
@@ -8548,7 +8548,7 @@ spell_null, TAR_IGNORE, POS_STANDING,
 	  999, 999}, 
 spell_null, 0, 0, 
 NULL, 0, 0, 
-"", "", "", SLOT(0) 
+"", "", "", FALSE, SLOT(0) 
 } 
 };
 
