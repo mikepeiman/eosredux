@@ -4229,7 +4229,7 @@ void parse_ban(char *argument, BAN_DATA * banned)
 
 	is_at = strchr(argument, '@');
 	if (!is_at) {
-		banned->name = strdup(argument);
+		banned->name = str_dup(argument);
 		return;
 	}
 	u = n = 0;

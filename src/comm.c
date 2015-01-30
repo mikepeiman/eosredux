@@ -107,7 +107,7 @@ bool auth_off = TRUE;		/* Authorization turned off     */
  */
 void game_loop args((int control));
 int init_socket args((int port));
-void new_descriptor args((int control));
+static void new_descriptor(int control);
 bool read_from_descriptor args((DESCRIPTOR_DATA * d));
 bool write_to_descriptor args((char *txt, int length, DESCRIPTOR_DATA * d));
 bool check_parse_name args((char *name));
@@ -536,7 +536,7 @@ void init_descriptor(DESCRIPTOR_DATA * dnew, int desc)
 }
 #endif
 
-void new_descriptor(int control)
+static void new_descriptor(int control)
 {
 #if !defined( HOTREBOOT )
 	static DESCRIPTOR_DATA d_zero;
@@ -1222,7 +1222,7 @@ void write_to_buffer(DESCRIPTOR_DATA * d, const char *txt, int length)
  * If this gives errors on very long blocks (like 'ofind all'),
  *   try lowering the max block size.
  */
-const char colors[16] = ".rgObpcwzRGYBPCW";
+const char colors[17] = ".rgObpcwzRGYBPCW";
 bool write_to_descriptor(char *txt, int length, DESCRIPTOR_DATA * d)
 {
 	char *ntxt;

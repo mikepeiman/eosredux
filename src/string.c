@@ -21,7 +21,7 @@
 
 /* Decklarean */
 extern const char colors[];
-void string_number(CHAR_DATA * ch, char *pString)
+static void string_number(CHAR_DATA * ch, char *pString)
 {
 
 	char buf2[MAX_STRING_LENGTH];

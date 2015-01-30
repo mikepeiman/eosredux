@@ -44,22 +44,14 @@ bool delete_char;
 /*
  * Local functions.
  */
-int hit_gain args((CHAR_DATA * ch));
-int mana_gain args((CHAR_DATA * ch));
-int move_gain args((CHAR_DATA * ch));
-void mobile_update args((void));
-void weather_update args((void));
-void char_update args((void));
-void obj_update args((void));
-void aggr_update args((void));
-void comb_update args((void));	/* XOR */
-void auc_update args((void));	/* Altrag */
-void rdam_update args((void));	/* Altrag */
-void arena_update args((void));	/* Altrag */
-void strew_corpse args((OBJ_DATA * obj, AREA_DATA * inarea));
-void orprog_update args((void));
+static void comb_update(void);
+static void auc_update(void);
+static void rdam_update(void);
+static void arena_update(void);
+static void strew_corpse(OBJ_DATA * obj, AREA_DATA * inarea);
+static void orprog_update(void);
 void trap_update args((void));
-void rtime_update args((void));	/* Timed room progs */
+static void rtime_update(void);	/* Timed room progs */
 void quest_update args((void));	/* quest.c */
 /*
  * Advancement stuff.
@@ -131,7 +123,7 @@ void gain_exp(CHAR_DATA * ch, int gain)
 /*
  * Regeneration stuff.
  */
-int hit_gain(CHAR_DATA * ch)
+static int hit_gain(CHAR_DATA * ch)
 {
 	int gain;
 
@@ -184,7 +176,7 @@ int hit_gain(CHAR_DATA * ch)
 	return UMIN(gain, MAX_HIT(ch) - ch->hit);
 }
 
-int mana_gain(CHAR_DATA * ch)
+static int mana_gain(CHAR_DATA * ch)
 {
 	int gain;
 
@@ -218,7 +210,7 @@ int mana_gain(CHAR_DATA * ch)
 	return UMIN(gain, MAX_MOVE(ch) - ch->mana);
 }
 
-int move_gain(CHAR_DATA * ch)
+static int move_gain(CHAR_DATA * ch)
 {
 	int gain;
 
@@ -296,7 +288,7 @@ void gain_condition(CHAR_DATA * ch, int iCond, int value)
  * This function takes 25% of ALL Merc cpu time.
  * -- Furey
  */
-void mobile_update(void)
+static void mobile_update(void)
 {
 	CHAR_DATA *ch;
 	EXIT_DATA *pexit;
@@ -418,7 +410,7 @@ void mobile_update(void)
 /*
  * Update the weather.
  */
-void weather_update(void)
+static void weather_update(void)
 {
 	DESCRIPTOR_DATA *d;
 	char buf[MAX_STRING_LENGTH];
@@ -588,7 +580,7 @@ void weather_update(void)
  * Update all chars, including mobs.
  * This function is performance sensitive.
  */
-void char_update(void)
+static void char_update(void)
 {
 	CHAR_DATA *ch;
 	CHAR_DATA *ch_save;
@@ -829,8 +821,7 @@ void char_update(void)
 /* XOR */
 	for (ch = char_list; ch != NULL; ch = ch_next) {
 		ch_next = ch->next;
-		if (ch->summon_timer <= 0) ;
-		else
+		if (ch->summon_timer > 0)
 			ch->summon_timer--;
 		if (IS_NPC(ch) && ch->summon_timer == 0) {
 			act(AT_BLUE, "$n is consumed by a swirling vortex.",
@@ -846,7 +837,7 @@ void char_update(void)
  * Update all objs.
  * This function is performance sensitive.
  */
-void obj_update(void)
+static void obj_update(void)
 {
 	OBJ_DATA *obj;
 	OBJ_DATA *obj_next;
@@ -961,7 +952,7 @@ void obj_update(void)
  *
  * -Kahn
  */
-void aggr_update(void)
+static void aggr_update(void)
 {
 	CHAR_DATA *ch;
 	CHAR_DATA *mch;
@@ -1118,7 +1109,7 @@ void time_update(void)
  * Remove deleted AFFECT_DATA from chars and objects.
  * Remove deleted CHAR_DATA and OBJ_DATA from char_list and object_list.
  */
-void list_update(void)
+static void list_update(void)
 {
 	CHAR_DATA *ch;
 	CHAR_DATA *ch_next;
@@ -1357,15 +1348,11 @@ void update_handler(void)
 		list_update();
 	}
 
-/* XOR causing alot of lag */
-/* yeah yeah, see if its fixed now =) */
 	if (--pulse_combat <= 0) {
 		pulse_combat = PULSE_PER_SECOND;
 		comb_update();
 	}
-/* END */
 
-/* Auction timer update -- Altrag */
 	if (auc_count >= 0 && ++auc_count % (8 * PULSE_PER_SECOND) == 0)
 		auc_update();
 
@@ -1379,8 +1366,7 @@ void update_handler(void)
 	return;
 }
 
-/* X combat timer update */
-void comb_update()
+static void comb_update()
 {
 	CHAR_DATA *ch;
 	for (ch = char_list; ch != NULL; ch = ch->next) {
@@ -1391,7 +1377,7 @@ void comb_update()
 	}
 }
 
-void arena_update()
+static void arena_update()
 {
 	if (!arena.cch)
 		return;
@@ -1433,7 +1419,7 @@ void arena_update()
 }
 
 /* Auctioneer timer update -- Altrag */
-void auc_update()
+static void auc_update()
 {
 	extern OBJ_DATA *auc_obj;
 	extern CHAR_DATA *auc_held;
@@ -1557,7 +1543,7 @@ void auc_update()
 	return;
 }
 
-void rdam_update()
+static void rdam_update()
 {
 	DESCRIPTOR_DATA *d;
 	CHAR_DATA *ch;
@@ -1592,7 +1578,7 @@ const char *dir_wind[] = { "north", "northeast", "east", "southeast",
 
 /* END */
 
-void strew_corpse(OBJ_DATA * obj, AREA_DATA * inarea)
+static void strew_corpse(OBJ_DATA * obj, AREA_DATA * inarea)
 {
 	OBJ_DATA *currobj;
 	ROOM_INDEX_DATA *newroom;
@@ -1639,7 +1625,7 @@ void strew_corpse(OBJ_DATA * obj, AREA_DATA * inarea)
 	return;
 }
 
-void orprog_update(void)
+static void orprog_update(void)
 {
 	OBJ_DATA *obj;
 	OBJ_DATA *obj_next;
@@ -1682,7 +1668,7 @@ void trap_update(void)
 	return;
 }
 
-void rtime_update(void)
+static void rtime_update(void)
 {
 	AREA_DATA *pArea;
 

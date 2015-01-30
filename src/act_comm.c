@@ -1844,8 +1844,8 @@ void do_quit(CHAR_DATA * ch, char *argument)
 	if (!IS_NPC(ch))
 		if (IS_SET(ch->act, PLR_QUEST))
 			REMOVE_BIT(ch->act, PLR_QUEST);
-	if (IS_SET(ch->act, PLR_QUESTOR)) ;
-	REMOVE_BIT(ch->act, PLR_QUESTOR);
+	if (IS_SET(ch->act, PLR_QUESTOR))
+		REMOVE_BIT(ch->act, PLR_QUESTOR);
 	if (auc_held && ch == auc_held && auc_obj) {
 		if (auc_bid) {
 #ifdef NEW_MONEY

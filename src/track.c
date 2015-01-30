@@ -80,7 +80,7 @@ bool can_go(CHAR_DATA * ch, int dir)
 	return TRUE;
 }
 
-void track_enqueue(ROOM_INDEX_DATA * room, char dir)
+static void track_enqueue(ROOM_INDEX_DATA * room, char dir)
 {
 	struct track_queue_struct *curr;
 
@@ -96,7 +96,7 @@ void track_enqueue(ROOM_INDEX_DATA * room, char dir)
 		queue_head = queue_tail = curr;
 }
 
-void track_dequeue(void)
+static void track_dequeue(void)
 {
 	struct track_queue_struct *curr;
 
@@ -107,7 +107,7 @@ void track_dequeue(void)
 	free_mem(curr, sizeof(*curr));
 }
 
-void track_clear_queue(void)
+static void track_clear_queue(void)
 {
 	while (queue_head)
 		track_dequeue();
@@ -120,7 +120,7 @@ void track_clear_queue(void)
    tracking another mob or a PC.  Or, a 'track' skill for PCs.
 */
 
-int find_first_step(ROOM_INDEX_DATA * src, ROOM_INDEX_DATA * target)
+static int find_first_step(ROOM_INDEX_DATA * src, ROOM_INDEX_DATA * target)
 {
 	int curr_dir;
 	int curr_room;

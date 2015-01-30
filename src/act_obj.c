@@ -1972,7 +1972,7 @@ void do_sacrifice(CHAR_DATA * ch, char *argument)
 				continue;
 			if (CAN_WEAR(obj, ITEM_TAKE)
 			    && obj->item_type != ITEM_MONEY)
-				do_sacrifice(ch, strdup(obj->name));
+				do_sacrifice(ch, str_dup(obj->name));
 		}
 		return;
 	}

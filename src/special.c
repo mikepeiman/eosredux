@@ -130,7 +130,7 @@ SPEC_FUN *spec_lookup(const char *name)
 /*
  * Core procedure for dragons.
  */
-bool dragon(CHAR_DATA * ch, char *spell_name)
+static bool dragon(CHAR_DATA * ch, char *spell_name)
 {
 	CHAR_DATA *victim;
 	int sn;

@@ -62,7 +62,6 @@ bool tprog_percent_check args((CHAR_DATA * actor, OBJ_DATA * obj,
 void check_smob args((void));
 void oprog_mob args((OBJ_DATA * obj));
 void rprog_mob args((ROOM_INDEX_DATA * room));
-void eprog_mob args((EXIT_DATA * pExit, ROOM_INDEX_DATA * room));
 void tprog_cleanup args((void));
 
 /***************************************************************************
@@ -252,7 +251,7 @@ void oprog_mob(OBJ_DATA * obj)
 	return;
 }
 
-void eprog_mob(EXIT_DATA * pExit, ROOM_INDEX_DATA * room)
+static void eprog_mob(EXIT_DATA * pExit, ROOM_INDEX_DATA * room)
 {
 	char buf[MAX_STRING_LENGTH];
 
