@@ -30,7 +30,7 @@
  * New typedefs.
  */
 typedef bool OLC_FUN (CHAR_DATA * ch, char *argument);
-#define DECLARE_OLC_FUN( fun )	OLC_FUN    fun
+#define DECLARE_OLC_FUN( fun )	bool fun(CHAR_DATA *ch, char *argument)
 
 /*
  * Connected states for editor.

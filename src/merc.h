@@ -18,6 +18,8 @@
  *  around, comes around.                                                  *
  ***************************************************************************/
 
+#include <stdbool.h>
+
 /* To turn on and off certain features off the mud */
 #define NEW_MONEY
 
@@ -34,9 +36,9 @@
 #define DECLARE_SPELL_FUN( fun )	void fun( )
 #else
 #define args( list )			list
-#define DECLARE_DO_FUN( fun )		DO_FUN    fun
+#define DECLARE_DO_FUN( fun )		void fun(CHAR_DATA *ch, char *argument)
 #define DECLARE_SPEC_FUN( fun )		SPEC_FUN  fun
-#define DECLARE_SPELL_FUN( fun )	SPELL_FUN fun
+#define DECLARE_SPELL_FUN( fun )	void fun(int sn, int level, CHAR_DATA *ch, void *vo)
 #endif
 
 /*
@@ -44,14 +46,14 @@
  * Diavolo reports AIX compiler has bugs with short types.
  */
 #if	!defined( FALSE )
-#define FALSE	 0
+#define FALSE	 false
 #endif
 
 #if	!defined( TRUE )
-#define TRUE	 1
+#define TRUE	 true
 #endif
 
-typedef unsigned char bool;
+//typedef unsigned char bool;
 
 /*
  * Structure types.
@@ -109,7 +111,7 @@ typedef struct money_data MONEY_DATA;
 /*
  * Function types.
  */
-typedef void DO_FUN args((CHAR_DATA * ch, char *argument));
+typedef void DO_FUN(CHAR_DATA * ch, char *argument);
 typedef bool SPEC_FUN args((CHAR_DATA * ch));
 typedef void SPELL_FUN args((int sn, int level, CHAR_DATA * ch, void *vo));
 
