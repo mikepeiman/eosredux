@@ -691,7 +691,7 @@ static void char_update(void)
 				continue;
 			if (paf->duration > 0)
 				paf->duration--;
-			else if (paf->duration < 0) ;
+			else if (paf->duration < 0) continue;
 			else {
 				if (!paf->next
 				    || paf->next->type != paf->type
@@ -724,7 +724,7 @@ static void char_update(void)
 				continue;
 			if (paf->duration > 0)
 				paf->duration--;
-			else if (paf->duration < 0) ;
+			else if (paf->duration < 0) continue;
 			else {
 				if (!paf->next
 				    || paf->next->type != paf->type
