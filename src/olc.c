@@ -1255,6 +1255,7 @@ void tedit(CHAR_DATA * ch, char *argument)
 {
 	AREA_DATA *pArea;
 	TRAP_DATA *pTrap;
+	TRAP_DATA *trap;
 	EXIT_DATA *pExit = NULL;
 	char command[MAX_INPUT_LENGTH];
 	char arg[MAX_STRING_LENGTH];
@@ -1342,8 +1343,6 @@ void tedit(CHAR_DATA * ch, char *argument)
 	}
 
 	switch (ch->desc->editor) {
-		TRAP_DATA *trap;
-
 	case ED_OPROG:
 		if ((value = flag_value(oprog_types, arg)) != NO_FLAG) {
 			OBJ_INDEX_DATA *obj =

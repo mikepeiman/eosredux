@@ -3041,6 +3041,8 @@ bool set_ac_setspell(CHAR_DATA * ch, char *argument)
 static bool set_obj_values(CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num,
 		    char *argument)
 {
+	int value;
+
 	switch (pObj->item_type) {
 	default:
 		break;
@@ -3195,8 +3197,6 @@ static bool set_obj_values(CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num,
 
 	case ITEM_CONTAINER:
 		switch (value_num) {
-			int value;
-
 		default:
 			do_help(ch, "ITEM_CONTAINER");
 			return FALSE;
@@ -5695,9 +5695,10 @@ bool tedit_create(CHAR_DATA * ch, char *argument)
 	ROOM_INDEX_DATA *pRoom = NULL;
 	EXIT_DATA *pExit = NULL;
 
+	int dir;
+	char arg[MAX_STRING_LENGTH];
+
 	switch (ch->desc->editor) {
-		int dir;
-		char arg[MAX_STRING_LENGTH];
 	case ED_OPROG:
 		pExit = NULL;
 		EDIT_OBJ(ch, pObj);
