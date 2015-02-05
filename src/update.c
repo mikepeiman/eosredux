@@ -52,7 +52,7 @@ static void strew_corpse(OBJ_DATA * obj, AREA_DATA * inarea);
 static void orprog_update(void);
 void trap_update args((void));
 static void rtime_update(void);	/* Timed room progs */
-void quest_update args((void));	/* quest.c */
+extern void quest_update(void);	/* quest.c */
 /*
  * Advancement stuff.
  */

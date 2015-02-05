@@ -30,9 +30,9 @@ extern int num_trap_progs;
  */
 extern void clan_sort(CLAN_DATA * pClan);
 char *mprog_type_to_name args((int type));
-HELP_DATA *get_help args((char *argument));
-SOCIAL_DATA *get_social args((char *argument));
-NEWBIE_DATA *get_newbie_data args((char *argument));
+extern HELP_DATA *get_help(char *argument);
+extern SOCIAL_DATA *get_social(char *argument);
+extern NEWBIE_DATA *get_newbie_data(char *argument);
 
 struct olc_help_type {
 	char *command;

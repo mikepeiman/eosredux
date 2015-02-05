@@ -36,7 +36,7 @@ static OBJ_DATA *rgObjNest[MAX_NEST];
  *  playerlist function  --Decklarean
  */
 
-void update_playerlist args((CHAR_DATA * ch));
+extern void update_playerlist(CHAR_DATA * ch);
 
 /*
  * Local functions.
@@ -48,7 +48,7 @@ static void fread_char(CHAR_DATA * ch, FILE * fp);
 static void fread_obj(CHAR_DATA * ch, FILE * fp, bool storage);
 static void fread_pet(CHAR_DATA * ch, FILE * fp);
 static void save_pet(CHAR_DATA * ch, FILE * fp, CHAR_DATA * pet);
-void add_alias args((CHAR_DATA * ch, ALIAS_DATA * pAl, char *old, char *new));
+extern void add_alias(CHAR_DATA * ch, ALIAS_DATA * pAl, char *old, char *new);
 void fwrite_alias args((CHAR_DATA * ch, FILE * fp));
 void fread_alias args((CHAR_DATA * ch, FILE * fp));
 

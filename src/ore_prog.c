@@ -43,8 +43,8 @@ static CHAR_DATA *smob;
  * External function prototype (from mob_prog.c)
  */
 
-void mprog_driver args((char *com_list, CHAR_DATA * mob,
-			CHAR_DATA * actor, OBJ_DATA * obj, void *vo));
+extern void mprog_driver(char *com_list, CHAR_DATA * mob,
+			CHAR_DATA * actor, OBJ_DATA * obj, void *vo);
 
 /*
  * Local function prototypes
