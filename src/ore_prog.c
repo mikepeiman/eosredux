@@ -37,7 +37,7 @@
 TRAP_DATA *trap_list;
 
 /* Local globals */
-CHAR_DATA *smob;
+static CHAR_DATA *smob;
 
 /*
  * External function prototype (from mob_prog.c)
@@ -53,16 +53,6 @@ void mprog_driver args((char *com_list, CHAR_DATA * mob,
 bool tprog_wordlist_check args((char *arg, CHAR_DATA * actor,
 				OBJ_DATA * obj, void *vo, int type,
 				TRAP_DATA * tprogs));
-bool tprog_spell_check args((int sn, CHAR_DATA * actor,
-			     OBJ_DATA * obj, void *vo, int type,
-			     TRAP_DATA * tprogs));
-bool tprog_percent_check args((CHAR_DATA * actor, OBJ_DATA * obj,
-			       void *vo, int type, TRAP_DATA * tprogs));
-
-void check_smob args((void));
-void oprog_mob args((OBJ_DATA * obj));
-void rprog_mob args((ROOM_INDEX_DATA * room));
-void tprog_cleanup args((void));
 
 /***************************************************************************
  * Local function code and brief comments.
@@ -164,7 +154,7 @@ bool tprog_wordlist_check(char *arg, CHAR_DATA * actor, OBJ_DATA * obj,
 
 }
 
-bool tprog_spell_check(int sn, CHAR_DATA * actor, OBJ_DATA * obj,
+static bool tprog_spell_check(int sn, CHAR_DATA * actor, OBJ_DATA * obj,
 		       void *vo, int type, TRAP_DATA * tprogs)
 {
 	TRAP_DATA *tprg;
@@ -180,7 +170,7 @@ bool tprog_spell_check(int sn, CHAR_DATA * actor, OBJ_DATA * obj,
 	return FALSE;
 }
 
-bool tprog_percent_check(CHAR_DATA * actor, OBJ_DATA * obj, void *vo,
+static bool tprog_percent_check(CHAR_DATA * actor, OBJ_DATA * obj, void *vo,
 			 int type, TRAP_DATA * tprogs)
 {
 	TRAP_DATA *tprg;
@@ -199,7 +189,7 @@ bool tprog_percent_check(CHAR_DATA * actor, OBJ_DATA * obj, void *vo,
  * mprog stuff..
  * -- Altrag
  */
-void check_smob(void)
+static void check_smob(void)
 {
 	if (!smob) {
 		smob = create_mobile(get_mob_index(MOB_VNUM_SUPERMOB));
@@ -214,7 +204,7 @@ void check_smob(void)
 	free_string(smob->short_descr);
 }
 
-void rprog_mob(ROOM_INDEX_DATA * room)
+static void rprog_mob(ROOM_INDEX_DATA * room)
 {
 	check_smob();
 	smob->name = str_dup(room->name);
@@ -222,7 +212,7 @@ void rprog_mob(ROOM_INDEX_DATA * room)
 	char_to_room(smob, room);
 }
 
-void oprog_mob(OBJ_DATA * obj)
+static void oprog_mob(OBJ_DATA * obj)
 {
 	check_smob();
 	smob->name = str_dup(obj->name);
@@ -290,7 +280,7 @@ static void eprog_mob(EXIT_DATA * pExit, ROOM_INDEX_DATA * room)
 	return;
 }
 
-void tprog_cleanup(void)
+static void tprog_cleanup(void)
 {
 	if (!smob)
 		return;

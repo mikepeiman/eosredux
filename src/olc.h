@@ -71,7 +71,6 @@ void forge_object (CHAR_DATA * ch, char *argument);
 void mreset (CHAR_DATA * ch, char *argument);
 void spedit (CHAR_DATA * ch, char *argument);
 void nedit (CHAR_DATA * ch, char *argument);
-void race_edit (CHAR_DATA * ch, char *argument);
 
 /*
  * OLC Constants
@@ -104,30 +103,9 @@ char *flag_string (const struct flag_type * flag_table, int bits);
 void add_reset (ROOM_INDEX_DATA * room, RESET_DATA * pReset, int index);
 
 /*
- * Interpreter Table Prototypes
- */
-extern const struct olc_cmd_type aedit_table[];
-extern const struct olc_cmd_type redit_table[];
-extern const struct olc_cmd_type oedit_table[];
-extern const struct olc_cmd_type medit_table[];
-extern const struct olc_cmd_type cedit_table[];
-extern const struct olc_cmd_type mpedit_table[];
-extern const struct olc_cmd_type hedit_table[];
-extern const struct olc_cmd_type tedit_table[];
-extern const struct olc_cmd_type sedit_table[];
-extern const struct olc_cmd_type rename_obj_table[];
-extern const struct olc_cmd_type forge_obj_table[];
-extern const struct olc_cmd_type mreset_table[];
-extern const struct olc_cmd_type spedit_table[];
-extern const struct olc_cmd_type nedit_table[];
-extern const struct olc_cmd_type race_edit_table[];
-
-/*
  * General Functions
  */
-bool show_commands (CHAR_DATA * ch, char *argument);
 bool show_help (CHAR_DATA * ch, char *argument);
-bool edit_done (CHAR_DATA * ch);
 bool show_version (CHAR_DATA * ch, char *argument);
 
 /*

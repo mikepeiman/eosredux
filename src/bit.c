@@ -537,7 +537,7 @@ const struct flag_type wear_loc_strings[] = {
 	{"on the right ankle", WEAR_ANKLE_R, TRUE},
 	{"in the left ear", WEAR_EAR_L, TRUE},
 	{"in the right ear", WEAR_EAR_R, TRUE},
-	{"", 0}
+	{"", 0, 0}
 };
 
 /*

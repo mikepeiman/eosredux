@@ -47,10 +47,10 @@
 
 /* Local functions */
 
-void generate_quest args((CHAR_DATA * ch, CHAR_DATA * questman));
+static void generate_quest args((CHAR_DATA * ch, CHAR_DATA * questman));
 void quest_update args((void));
-ROOM_INDEX_DATA *room;
-int cnt = 0;
+static ROOM_INDEX_DATA *room;
+static int cnt = 0;
 
 bool chance(int num)
 {
@@ -513,7 +513,7 @@ void do_quest(CHAR_DATA * ch, char *argument)
 	}
 }
 
-void generate_quest(CHAR_DATA * ch, CHAR_DATA * questman)
+static void generate_quest(CHAR_DATA * ch, CHAR_DATA * questman)
 {
 	CHAR_DATA *vsearch, *vsearch_next;
 	CHAR_DATA *victim = NULL;

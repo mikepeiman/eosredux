@@ -28,7 +28,7 @@ extern int num_trap_progs;
 /*
  * External functions.
  */
-void clan_sort args((CLAN_DATA * pClan));
+extern void clan_sort(CLAN_DATA * pClan);
 char *mprog_type_to_name args((int type));
 HELP_DATA *get_help args((char *argument));
 SOCIAL_DATA *get_social args((char *argument));
@@ -58,7 +58,7 @@ bool show_version(CHAR_DATA * ch, char *argument)
  * This table contains help commands and a brief description of each.
  * ------------------------------------------------------------------
  */
-const struct olc_help_type help_table[] = {
+static const struct olc_help_type help_table[] = {
 	{"area", area_flags, "Area attributes."},
 	{"room", room_flags, "Room attributes."},
 	{"sector", sector_flags, "Sector types, terrain."},
@@ -94,7 +94,7 @@ const struct olc_help_type help_table[] = {
  Purpose:	Displays settable flags and stats.
  Called by:	show_help(olc_act.c).
  ****************************************************************************/
-void show_flag_cmds(CHAR_DATA * ch, const struct flag_type *flag_table)
+static void show_flag_cmds(CHAR_DATA * ch, const struct flag_type *flag_table)
 {
 	char buf[MAX_STRING_LENGTH];
 	char buf1[MAX_STRING_LENGTH];
@@ -128,7 +128,7 @@ void show_flag_cmds(CHAR_DATA * ch, const struct flag_type *flag_table)
  		(2) Adding a check for a level range.
  Called by:	show_help(olc_act.c).
  ****************************************************************************/
-void show_skill_cmds(CHAR_DATA * ch, int tar)
+static void show_skill_cmds(CHAR_DATA * ch, int tar)
 {
 	char buf[MAX_STRING_LENGTH];
 	char buf1[MAX_STRING_LENGTH * 2];
@@ -165,7 +165,7 @@ void show_skill_cmds(CHAR_DATA * ch, int tar)
  Purpose:	Displays settable special functions.
  Called by:	show_help(olc_act.c).
  ****************************************************************************/
-void show_spec_cmds(CHAR_DATA * ch)
+static void show_spec_cmds(CHAR_DATA * ch)
 {
 	char buf[MAX_STRING_LENGTH];
 	char buf1[MAX_STRING_LENGTH];
@@ -590,7 +590,7 @@ bool redit_oshow(CHAR_DATA * ch, char *argument)
  Purpose:	Ensures the range spans only one area.
  Called by:	aedit_vnum(olc_act.c).
  ****************************************************************************/
-bool check_range(int lower, int upper)
+static bool check_range(int lower, int upper)
 {
 	AREA_DATA *pArea;
 	int cnt = 0;
@@ -1554,7 +1554,7 @@ bool redit_rdamage(CHAR_DATA * ch, char *argument)
  Purpose:	Command interpreter for changing exits.
  Called by:	redit_<dir>.  This is a local function.
  ****************************************************************************/
-bool change_exit(CHAR_DATA * ch, char *argument, int door)
+static bool change_exit(CHAR_DATA * ch, char *argument, int door)
 {
 	ROOM_INDEX_DATA *pRoom;
 	char command[MAX_INPUT_LENGTH];
@@ -2353,7 +2353,7 @@ struct wear_type {
 	int wear_bit;
 };
 
-const struct wear_type wear_table[] = {
+static const struct wear_type wear_table[] = {
 	{WEAR_NONE, ITEM_TAKE},
 	{WEAR_LIGHT, ITEM_LIGHT},
 	{WEAR_FINGER_L, ITEM_WEAR_FINGER},
@@ -2408,7 +2408,7 @@ int wear_loc(int bits, int count)
  Purpose:	Converts a wear_loc into a bit.
  Called by:	redit_oreset(olc_act.c).
  ****************************************************************************/
-int wear_bit(int loc)
+static int wear_bit(int loc)
 {
 	int flag;
 
@@ -2722,7 +2722,7 @@ bool redit_rreset(CHAR_DATA * ch, char *argument)
 /*
  * Object Editor Functions.
  */
-void show_obj_values(CHAR_DATA * ch, OBJ_INDEX_DATA * obj)
+static void show_obj_values(CHAR_DATA * ch, OBJ_INDEX_DATA * obj)
 {
 	char buf[MAX_STRING_LENGTH];
 
@@ -3038,7 +3038,7 @@ bool set_ac_setspell(CHAR_DATA * ch, char *argument)
 
 }
 
-bool set_obj_values(CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num,
+static bool set_obj_values(CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num,
 		    char *argument)
 {
 	switch (pObj->item_type) {
@@ -3629,7 +3629,7 @@ bool oedit_long(CHAR_DATA * ch, char *argument)
 	return TRUE;
 }
 
-bool set_value(CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, char *argument, int value)
+static bool set_value(CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, char *argument, int value)
 {
 	if (argument[0] == '\0') {
 		set_obj_values(ch, pObj, -1, NULL);
@@ -3729,7 +3729,7 @@ bool oedit_septwo(CHAR_DATA * ch, char *argument)
  Purpose:	Finds the object and sets its value.
  Called by:	The four valueX functions below.
  ****************************************************************************/
-bool oedit_values(CHAR_DATA * ch, char *argument, int value)
+static bool oedit_values(CHAR_DATA * ch, char *argument, int value)
 {
 	OBJ_INDEX_DATA *pObj;
 

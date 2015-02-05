@@ -32,7 +32,7 @@
  Name:		fix_string
  Purpose:	Returns a string without \r and ~.
  ****************************************************************************/
-char *fix_string(const char *str)
+static char *fix_string(const char *str)
 {
 	static char strfix[MAX_STRING_LENGTH];
 	int i;
@@ -67,7 +67,7 @@ extern char *mprog_type_to_name(int type);
  * Sorry TRI!.. :)
  * -- Altrag
  */
-void save_mobprogs(FILE * fp, MOB_INDEX_DATA * pMob)
+static void save_mobprogs(FILE * fp, MOB_INDEX_DATA * pMob)
 {
 	MPROG_DATA *mprog;
 
@@ -84,7 +84,7 @@ void save_mobprogs(FILE * fp, MOB_INDEX_DATA * pMob)
 	fprintf(fp, "|\n");
 }
 
-void save_traps(FILE * fp, TRAP_DATA * pFirst, const struct flag_type *flags)
+static void save_traps(FILE * fp, TRAP_DATA * pFirst, const struct flag_type *flags)
 {
 	TRAP_DATA *pTrap;
 
@@ -108,7 +108,7 @@ void save_traps(FILE * fp, TRAP_DATA * pFirst, const struct flag_type *flags)
  Purpose:	Saves the listing of files to be loaded at startup.
  Called by:	do_asave(olc_save.c).
  ****************************************************************************/
-void save_area_list()
+static void save_area_list()
 {
 	FILE *fp;
 	AREA_DATA *pArea;
@@ -138,7 +138,7 @@ void save_area_list()
  Purpose:	Save #MOBILES secion of an area file.
  Called by:	save_area(olc_save.c).
  ****************************************************************************/
-void save_mobiles(FILE * fp, AREA_DATA * pArea)
+static void save_mobiles(FILE * fp, AREA_DATA * pArea)
 {
 	int vnum;
 	MOB_INDEX_DATA *pMobIndex;
@@ -313,7 +313,7 @@ void save_newbie()
  Purpose:	Save #OBJECTS section of an area file.
  Called by:	save_area(olc_save.c).
  ****************************************************************************/
-void save_objects(FILE * fp, AREA_DATA * pArea)
+static void save_objects(FILE * fp, AREA_DATA * pArea)
 {
 	int vnum;
 	OBJ_INDEX_DATA *pObjIndex;
@@ -420,7 +420,7 @@ void save_objects(FILE * fp, AREA_DATA * pArea)
  Purpose:	Save #ROOMDATA section of an area file.
  Called by:	save_area(olc_save.c).
  ****************************************************************************/
-void save_rooms(FILE * fp, AREA_DATA * pArea)
+static void save_rooms(FILE * fp, AREA_DATA * pArea)
 {
 	ROOM_INDEX_DATA *pRoomIndex;
 	EXTRA_DESCR_DATA *pEd;
@@ -482,7 +482,7 @@ void save_rooms(FILE * fp, AREA_DATA * pArea)
  Purpose:	Save #SPECIALS section of area file.
  Called by:	save_area(olc_save.c).
  ****************************************************************************/
-void save_specials(FILE * fp, AREA_DATA * pArea)
+static void save_specials(FILE * fp, AREA_DATA * pArea)
 {
 	int vnum;
 	MOB_INDEX_DATA *pMobIndex;
@@ -509,7 +509,7 @@ void save_specials(FILE * fp, AREA_DATA * pArea)
  		New formating thanks to Rac.
  Called by:	save_area(olc_save.c).
  ****************************************************************************/
-void vsave_specials(FILE * fp, AREA_DATA * pArea)
+static void vsave_specials(FILE * fp, AREA_DATA * pArea)
 {
 	int vnum;
 	MOB_INDEX_DATA *pMobIndex;
@@ -537,7 +537,7 @@ void vsave_specials(FILE * fp, AREA_DATA * pArea)
                 New format thanks to Rac.
  Called by:	save_area(olc_save.c)
  ****************************************************************************/
-void save_resets(FILE * fp, AREA_DATA * pArea)
+static void save_resets(FILE * fp, AREA_DATA * pArea)
 {
 	RESET_DATA *pReset;
 	MOB_INDEX_DATA *pLastMob = NULL;
@@ -632,7 +632,7 @@ void save_resets(FILE * fp, AREA_DATA * pArea)
                 New format thanks to Rac.
  Called by:	save_area(olc_save.c)
  ****************************************************************************/
-void vsave_resets(FILE * fp, AREA_DATA * pArea)
+static void vsave_resets(FILE * fp, AREA_DATA * pArea)
 {
 	RESET_DATA *pReset;
 	MOB_INDEX_DATA *pLastMob = NULL;
@@ -766,7 +766,7 @@ void vsave_resets(FILE * fp, AREA_DATA * pArea)
  Purpose:	Saves the #SHOPS section of an area file.
  Called by:	save_area(olc_save.c)
  ****************************************************************************/
-void save_shops(FILE * fp, AREA_DATA * pArea)
+static void save_shops(FILE * fp, AREA_DATA * pArea)
 {
 	SHOP_DATA *pShopIndex;
 	MOB_INDEX_DATA *pMobIndex;
@@ -808,7 +808,7 @@ void save_shops(FILE * fp, AREA_DATA * pArea)
                 New formating thanks to Rac.
  Called by:	save_area(olc_save.c)
  ****************************************************************************/
-void vsave_shops(FILE * fp, AREA_DATA * pArea)
+static void vsave_shops(FILE * fp, AREA_DATA * pArea)
 {
 	SHOP_DATA *pShopIndex;
 	MOB_INDEX_DATA *pMobIndex;

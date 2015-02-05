@@ -24,8 +24,441 @@
  * Local functions.
  */
 void save_area args((AREA_DATA * pArea));
-void forge_pay_cost args((CHAR_DATA * ch));
-MPROG_DATA *get_mprog_data args((MOB_INDEX_DATA * pMob, int vnum));
+static void forge_pay_cost args((CHAR_DATA * ch));
+
+
+static DECLARE_OLC_FUN(show_commands);
+
+/*****************************************************************************
+ *                           Interpreter Tables.                             *
+ *****************************************************************************/
+static const struct olc_cmd_type aedit_table[] = {
+/*  {   command		function		}, */
+
+	{"age", aedit_age},
+	{"builders", aedit_builder},
+	{"commands", show_commands},
+	{"create", aedit_create},
+	{"filename", aedit_file},
+	{"name", aedit_name},
+	{"recall", aedit_recall},
+	{"reset", aedit_reset},
+	{"security", aedit_security},
+	{"show", aedit_show},
+	{"links", aedit_links},
+	{"vnum", aedit_vnum},
+	{"lvnum", aedit_lvnum},
+	{"uvnum", aedit_uvnum},
+	{"sounds", aedit_sounds},
+	{"prototype", aedit_prototype},
+	{"clan_hq", aedit_clan_hq},
+	{"?", show_help},
+	{"version", show_version},
+	{"llevel", aedit_llevel},
+	{"ulevel", aedit_ulevel},
+	{"noquest", aedit_noquest},
+	{"mudschool", aedit_mudschool},
+	{"color", aedit_color},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type cedit_table[] = {
+/*  {   command         function                }, */
+
+	{"commands", show_commands},
+	{"create", cedit_create},
+	{"clist", cedit_clist},
+	{"deity", cedit_diety},
+	{"members", cedit_members},
+	{"mkills", cedit_mkills},
+	{"civil", cedit_civil},
+	{"pkill", cedit_pkill},
+	{"pkilled", cedit_pkilled},
+	{"pkills", cedit_pkills},
+	{"name", cedit_name},
+	{"object", cedit_object},
+	{"recall", cedit_recall},
+	{"description", cedit_desc},
+	{"power", cedit_power},
+	{"induct", cedit_induct},
+	{"", 0,}
+};
+
+static const struct olc_cmd_type redit_table[] = {
+/*  {   command		function		}, */
+
+	{"commands", show_commands},
+	{"create", redit_create},
+	{"delet", redit_delet},
+	{"delete", redit_delete},
+	{"desc", redit_desc},
+	{"ed", redit_ed},
+	{"format", redit_format},
+	{"name", redit_name},
+	{"show", redit_show},
+
+	{"north", redit_north},
+	{"south", redit_south},
+	{"east", redit_east},
+	{"west", redit_west},
+	{"up", redit_up},
+	{"down", redit_down},
+	{"walk", redit_move},
+
+	/* New reset commands. */
+	{"mreset", redit_mreset},
+	{"oreset", redit_oreset},
+	{"rreset", redit_rreset},
+	{"mlist", redit_mlist},
+	{"olist", redit_olist},
+	{"rlist", redit_rlist},
+	{"mshow", redit_mshow},
+	{"oshow", redit_oshow},
+	{"proglist", redit_proglist},
+	{"rdamage", redit_rdamage},
+	{"rpedit", redit_rpedit},
+	{"rplist", redit_rplist},
+	{"rpremove", redit_rpremove},
+	{"epedit", redit_epedit},
+	{"eplist", redit_eplist},
+	{"epremove", redit_epremove},
+
+	{"?", show_help},
+	{"version", show_version},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type oedit_table[] = {
+/*  {   command		function		}, */
+
+	{"addaffect", oedit_addaffect},
+	{"commands", show_commands},
+	{"cost", oedit_cost},
+	{"level", oedit_level},
+	{"ac_type", set_ac_type},
+	{"ac_vnum", set_ac_vnum},
+	{"ac_v1", set_ac_v1},
+	{"ac_v2", set_ac_v2},
+	{"ac_setspell", set_ac_setspell},
+	{"create", oedit_create},
+	{"delaffect", oedit_delaffect},
+	{"delet", oedit_delet},
+	{"delete", oedit_delete},
+	{"ed", oedit_ed},
+	{"long", oedit_long},
+	{"name", oedit_name},
+	{"short", oedit_short},
+	{"show", oedit_show},
+	{"v0", oedit_value0},
+	{"v1", oedit_value1},
+	{"v2", oedit_value2},
+	{"v3", oedit_value3},
+	{"weight", oedit_weight},
+	{"ojoin", oedit_join},
+	{"osepone", oedit_sepone},
+	{"oseptwo", oedit_septwo},
+	{"opedit", oedit_opedit},
+	{"oplist", oedit_oplist},
+	{"opremove", oedit_opremove},
+
+	{"mlist", redit_mlist},
+	{"olist", redit_olist},
+	{"rlist", redit_rlist},
+
+	{"?", show_help},
+	{"version", show_version},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type medit_table[] = {
+/*  {   command		function		}, */
+
+	{"alignment", medit_align},
+	{"commands", show_commands},
+#ifdef NEW_MONEY
+	{"copper", medit_copper},
+#endif
+	{"create", medit_create},
+	{"desc", medit_desc},
+	{"delet", medit_delet},
+	{"delete", medit_delete},
+	{"level", medit_level},
+	{"hp", medit_hitpoint},
+	{"gold", medit_gold},
+	{"long", medit_long},
+	{"name", medit_name},
+	{"shop", medit_shop},
+	{"class", medit_class},
+	{"short", medit_short},
+	{"show", medit_show},
+#ifdef NEW_MONEY
+	{"silver", medit_silver},
+#endif
+	{"spec", medit_spec},
+	{"immune", medit_immune},	/* XOR */
+	{"mpedit", medit_mpedit},	/* Altrag */
+	{"mplist", medit_mplist},	/* Altrag */
+	{"mpremove", medit_mpremove},	/* Altrag */
+
+	{"mlist", redit_mlist},
+	{"olist", redit_olist},
+	{"rlist", redit_rlist},
+
+	{"?", show_help},
+	{"version", show_version},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type mpedit_table[] = {
+/*  {   command         function                }, */
+
+	{"arglist", mpedit_arglist,},
+	{"comlist", mpedit_comlist,},
+
+	{"?", show_help,},
+	{"version", show_version,},
+	{"commands", show_commands,},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type tedit_table[] = {
+/*  {   command         function                }, */
+
+	{"arglist", tedit_arglist,},
+	{"comlist", tedit_comlist,},
+
+	{"?", show_help,},
+	{"version", show_version,},
+	{"commands", show_commands,},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type hedit_table[] = {
+/*  {   command		function		}, */
+
+	{"commands", show_commands},
+	{"delet", edit_delet},
+	{"delete", hedit_delete},
+	{"keyword", hedit_name},
+	{"name", hedit_name},
+	{"level", hedit_level},
+	{"show", hedit_show},
+	{"desc", hedit_desc},
+	{"text", hedit_desc},
+
+	{"?", show_help},
+	{"version", show_version},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type mreset_table[] = {
+/*  {   command		function		}, */
+
+	{"?", show_help},
+	{"commands", show_commands},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type spedit_table[] = {
+/*  {   command         function                }, */
+
+	{"commands", show_commands},
+	{"1", spedit_damage_msg},
+	{"2", spedit_spell_ends},
+	{"3", spedit_spell_ends_room},
+	{"dispelable", spedit_dispelable},
+	{"min", spedit_min},
+	{"mana", spedit_mana},
+	{"name", spedit_name},
+	{"show", spedit_show},
+	{"wait", spedit_wait},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type race_edit_table[] = {
+/*  {   command         function                }, */
+
+	{"commands", show_commands},
+	{"name", race_edit_name},
+	{"full", race_edit_full},
+	{"mstr", race_edit_mstr},
+	{"mint", race_edit_mint},
+	{"mwis", race_edit_mwis},
+	{"mdex", race_edit_mdex},
+	{"mcon", race_edit_mcon},
+	{"delet", edit_delet},
+	{"delete", race_edit_delete},
+	{"", 0,}
+};
+
+static const struct olc_cmd_type sedit_table[] = {
+/*  {   command         function                }, */
+
+	{"keyword", sedit_name},
+
+	{"char_no_arg", sedit_char_no_arg},
+	{"others_no_arg", sedit_others_no_arg},
+	{"char_found", sedit_char_found},
+	{"others_found", sedit_others_found},
+	{"vict_found", sedit_vict_found},
+	{"char_auto", sedit_char_auto},
+	{"others_auto", sedit_others_auto},
+
+	{"1", sedit_char_no_arg},
+	{"2", sedit_others_no_arg},
+	{"3", sedit_char_found},
+	{"4", sedit_others_found},
+	{"5", sedit_vict_found},
+	{"6", sedit_char_auto},
+	{"7", sedit_others_auto},
+
+	{"delet", edit_delet},
+	{"delete", sedit_delete},
+
+	{"?", show_help},
+	{"commands", show_commands},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type nedit_table[] = {
+/* { command		function		}, */
+
+	{"keyword", nedit_keyword},
+	{"answer1", nedit_answer1},
+	{"answer2", nedit_answer2},
+
+	{"1", nedit_answer1},
+	{"2", nedit_answer2},
+
+	{"?", show_help},
+	{"commands", show_commands},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type rename_obj_table[] = {
+/*  {   command         function                }, */
+
+	{"keyword", rename_keyword},
+	{"short", rename_short},
+	{"long", rename_long},
+
+	{"1", rename_keyword},
+	{"2", rename_short},
+	{"3", rename_long},
+
+	{"commands", show_commands},
+
+	{"", 0,}
+};
+
+static const struct olc_cmd_type forge_obj_table[] = {
+
+	{"keyword", rename_keyword,},
+	{"short", rename_short,},
+	{"long", rename_long,},
+	{"type", forge_type},
+
+	{"1", forge_addaffect,},
+	{"2", forge_addaffect,},
+	{"3", forge_addaffect,},
+	{"4", forge_addaffect,},
+	{"5", forge_addaffect,},
+	{"6", forge_addaffect,},
+	{"7", forge_addaffect,},
+	{"8", forge_addaffect,},
+	{"9", forge_addaffect,},
+
+	{"commands", show_commands,},
+
+	{"", 0,}
+};
+
+/*****************************************************************************
+ *                          End Interpreter Tables.                          *
+ *****************************************************************************/
+
+
+
+/*****************************************************************************
+ Name:		edit_done
+ Purpose:	Resets builder information on completion.
+ Called by:	aedit, redit, oedit, medit(olc.c), mpedit(Altrag)
+ ****************************************************************************/
+static bool edit_done(CHAR_DATA * ch)
+{
+/*
+ * Well, since i have the inEdit for mpedit, why not make it usable for
+ * all nested editors..?
+ * -- Altrag
+ */
+	if (ch->desc->editin || ch->desc->inEdit) {
+		ch->desc->pEdit = ch->desc->inEdit;
+		ch->desc->inEdit = NULL;
+		ch->desc->editor = ch->desc->editin;
+		ch->desc->editin = 0;
+		return FALSE;
+	}
+	if (ch->desc->editor == FORGE_OBJECT)
+		forge_pay_cost(ch);
+	ch->desc->pEdit = NULL;
+	ch->desc->editor = 0;
+	return FALSE;
+}
+
+/*
+ *  Race editor by Decklarean
+ */
+
+static void race_edit(CHAR_DATA * ch, char *argument)
+{
+	char command[MAX_INPUT_LENGTH];
+	char arg[MAX_STRING_LENGTH];
+	int cmd;
+
+	smash_tilde(argument);
+	strcpy(arg, argument);
+	argument = one_argument(argument, command);
+
+	if (command[0] == '\0') {
+		race_edit_show(ch, argument);
+		return;
+	}
+
+	if (!str_cmp(command, "credit")) {
+		send_to_char(AT_YELLOW, "Made by Decklarean, 1997.\n\r", ch);
+		return;
+	}
+
+	if (!str_cmp(command, "done")) {
+		save_race();
+		edit_done(ch);
+		return;
+	}
+
+	/* Call editor function */
+	for (cmd = 0; *race_edit_table[cmd].name; cmd++) {
+		if (!str_prefix(command, race_edit_table[cmd].name)) {
+			(*race_edit_table[cmd].olc_fun) (ch, argument);
+			return;
+		}
+	}
+
+	/* Default to Standard Interpreter. */
+	interpret(ch, arg);
+	return;
+}
+
 /* Executed from comm.c.  Minimizes compiling when changes are made. */
 bool run_olc_editor(DESCRIPTOR_DATA * d)
 {
@@ -229,7 +662,7 @@ char *olc_ed_vnum(CHAR_DATA * ch)
  Purpose:	Format up the commands from given table.
  Called by:	show_commands(olc_act.c).
  ****************************************************************************/
-void show_olc_cmds(CHAR_DATA * ch, const struct olc_cmd_type *olc_table)
+static void show_olc_cmds(CHAR_DATA * ch, const struct olc_cmd_type *olc_table)
 {
 	char buf[MAX_STRING_LENGTH];
 	char buf1[MAX_STRING_LENGTH];
@@ -252,12 +685,14 @@ void show_olc_cmds(CHAR_DATA * ch, const struct olc_cmd_type *olc_table)
 	return;
 }
 
+
+
 /*****************************************************************************
  Name:		show_commands
  Purpose:	Display all olc commands.
  Called by:	olc interpreters.
  ****************************************************************************/
-bool show_commands(CHAR_DATA * ch, char *argument)
+static bool show_commands(CHAR_DATA * ch, char *argument)
 {
 	switch (ch->desc->editor) {
 	case ED_AREA:
@@ -313,365 +748,6 @@ bool show_commands(CHAR_DATA * ch, char *argument)
 }
 
 /*****************************************************************************
- *                           Interpreter Tables.                             *
- *****************************************************************************/
-const struct olc_cmd_type aedit_table[] = {
-/*  {   command		function		}, */
-
-	{"age", aedit_age},
-	{"builders", aedit_builder},
-	{"commands", show_commands},
-	{"create", aedit_create},
-	{"filename", aedit_file},
-	{"name", aedit_name},
-	{"recall", aedit_recall},
-	{"reset", aedit_reset},
-	{"security", aedit_security},
-	{"show", aedit_show},
-	{"links", aedit_links},
-	{"vnum", aedit_vnum},
-	{"lvnum", aedit_lvnum},
-	{"uvnum", aedit_uvnum},
-	{"sounds", aedit_sounds},
-	{"prototype", aedit_prototype},
-	{"clan_hq", aedit_clan_hq},
-	{"?", show_help},
-	{"version", show_version},
-	{"llevel", aedit_llevel},
-	{"ulevel", aedit_ulevel},
-	{"noquest", aedit_noquest},
-	{"mudschool", aedit_mudschool},
-	{"color", aedit_color},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type cedit_table[] = {
-/*  {   command         function                }, */
-
-	{"commands", show_commands},
-	{"create", cedit_create},
-	{"clist", cedit_clist},
-	{"deity", cedit_diety},
-	{"members", cedit_members},
-	{"mkills", cedit_mkills},
-	{"civil", cedit_civil},
-	{"pkill", cedit_pkill},
-	{"pkilled", cedit_pkilled},
-	{"pkills", cedit_pkills},
-	{"name", cedit_name},
-	{"object", cedit_object},
-	{"recall", cedit_recall},
-	{"description", cedit_desc},
-	{"power", cedit_power},
-	{"induct", cedit_induct},
-	{"", 0,}
-};
-
-const struct olc_cmd_type redit_table[] = {
-/*  {   command		function		}, */
-
-	{"commands", show_commands},
-	{"create", redit_create},
-	{"delet", redit_delet},
-	{"delete", redit_delete},
-	{"desc", redit_desc},
-	{"ed", redit_ed},
-	{"format", redit_format},
-	{"name", redit_name},
-	{"show", redit_show},
-
-	{"north", redit_north},
-	{"south", redit_south},
-	{"east", redit_east},
-	{"west", redit_west},
-	{"up", redit_up},
-	{"down", redit_down},
-	{"walk", redit_move},
-
-	/* New reset commands. */
-	{"mreset", redit_mreset},
-	{"oreset", redit_oreset},
-	{"rreset", redit_rreset},
-	{"mlist", redit_mlist},
-	{"olist", redit_olist},
-	{"rlist", redit_rlist},
-	{"mshow", redit_mshow},
-	{"oshow", redit_oshow},
-	{"proglist", redit_proglist},
-	{"rdamage", redit_rdamage},
-	{"rpedit", redit_rpedit},
-	{"rplist", redit_rplist},
-	{"rpremove", redit_rpremove},
-	{"epedit", redit_epedit},
-	{"eplist", redit_eplist},
-	{"epremove", redit_epremove},
-
-	{"?", show_help},
-	{"version", show_version},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type oedit_table[] = {
-/*  {   command		function		}, */
-
-	{"addaffect", oedit_addaffect},
-	{"commands", show_commands},
-	{"cost", oedit_cost},
-	{"level", oedit_level},
-	{"ac_type", set_ac_type},
-	{"ac_vnum", set_ac_vnum},
-	{"ac_v1", set_ac_v1},
-	{"ac_v2", set_ac_v2},
-	{"ac_setspell", set_ac_setspell},
-	{"create", oedit_create},
-	{"delaffect", oedit_delaffect},
-	{"delet", oedit_delet},
-	{"delete", oedit_delete},
-	{"ed", oedit_ed},
-	{"long", oedit_long},
-	{"name", oedit_name},
-	{"short", oedit_short},
-	{"show", oedit_show},
-	{"v0", oedit_value0},
-	{"v1", oedit_value1},
-	{"v2", oedit_value2},
-	{"v3", oedit_value3},
-	{"weight", oedit_weight},
-	{"ojoin", oedit_join},
-	{"osepone", oedit_sepone},
-	{"oseptwo", oedit_septwo},
-	{"opedit", oedit_opedit},
-	{"oplist", oedit_oplist},
-	{"opremove", oedit_opremove},
-
-	{"mlist", redit_mlist},
-	{"olist", redit_olist},
-	{"rlist", redit_rlist},
-
-	{"?", show_help},
-	{"version", show_version},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type medit_table[] = {
-/*  {   command		function		}, */
-
-	{"alignment", medit_align},
-	{"commands", show_commands},
-#ifdef NEW_MONEY
-	{"copper", medit_copper},
-#endif
-	{"create", medit_create},
-	{"desc", medit_desc},
-	{"delet", medit_delet},
-	{"delete", medit_delete},
-	{"level", medit_level},
-	{"hp", medit_hitpoint},
-	{"gold", medit_gold},
-	{"long", medit_long},
-	{"name", medit_name},
-	{"shop", medit_shop},
-	{"class", medit_class},
-	{"short", medit_short},
-	{"show", medit_show},
-#ifdef NEW_MONEY
-	{"silver", medit_silver},
-#endif
-	{"spec", medit_spec},
-	{"immune", medit_immune},	/* XOR */
-	{"mpedit", medit_mpedit},	/* Altrag */
-	{"mplist", medit_mplist},	/* Altrag */
-	{"mpremove", medit_mpremove},	/* Altrag */
-
-	{"mlist", redit_mlist},
-	{"olist", redit_olist},
-	{"rlist", redit_rlist},
-
-	{"?", show_help},
-	{"version", show_version},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type mpedit_table[] = {
-/*  {   command         function                }, */
-
-	{"arglist", mpedit_arglist,},
-	{"comlist", mpedit_comlist,},
-
-	{"?", show_help,},
-	{"version", show_version,},
-	{"commands", show_commands,},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type tedit_table[] = {
-/*  {   command         function                }, */
-
-	{"arglist", tedit_arglist,},
-	{"comlist", tedit_comlist,},
-
-	{"?", show_help,},
-	{"version", show_version,},
-	{"commands", show_commands,},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type hedit_table[] = {
-/*  {   command		function		}, */
-
-	{"commands", show_commands},
-	{"delet", edit_delet},
-	{"delete", hedit_delete},
-	{"keyword", hedit_name},
-	{"name", hedit_name},
-	{"level", hedit_level},
-	{"show", hedit_show},
-	{"desc", hedit_desc},
-	{"text", hedit_desc},
-
-	{"?", show_help},
-	{"version", show_version},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type mreset_table[] = {
-/*  {   command		function		}, */
-
-	{"?", show_help},
-	{"commands", show_commands},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type spedit_table[] = {
-/*  {   command         function                }, */
-
-	{"commands", show_commands},
-	{"1", spedit_damage_msg},
-	{"2", spedit_spell_ends},
-	{"3", spedit_spell_ends_room},
-	{"dispelable", spedit_dispelable},
-	{"min", spedit_min},
-	{"mana", spedit_mana},
-	{"name", spedit_name},
-	{"show", spedit_show},
-	{"wait", spedit_wait},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type race_edit_table[] = {
-/*  {   command         function                }, */
-
-	{"commands", show_commands},
-	{"name", race_edit_name},
-	{"full", race_edit_full},
-	{"mstr", race_edit_mstr},
-	{"mint", race_edit_mint},
-	{"mwis", race_edit_mwis},
-	{"mdex", race_edit_mdex},
-	{"mcon", race_edit_mcon},
-	{"delet", edit_delet},
-	{"delete", race_edit_delete},
-	{"", 0,}
-};
-
-const struct olc_cmd_type sedit_table[] = {
-/*  {   command         function                }, */
-
-	{"keyword", sedit_name},
-
-	{"char_no_arg", sedit_char_no_arg},
-	{"others_no_arg", sedit_others_no_arg},
-	{"char_found", sedit_char_found},
-	{"others_found", sedit_others_found},
-	{"vict_found", sedit_vict_found},
-	{"char_auto", sedit_char_auto},
-	{"others_auto", sedit_others_auto},
-
-	{"1", sedit_char_no_arg},
-	{"2", sedit_others_no_arg},
-	{"3", sedit_char_found},
-	{"4", sedit_others_found},
-	{"5", sedit_vict_found},
-	{"6", sedit_char_auto},
-	{"7", sedit_others_auto},
-
-	{"delet", edit_delet},
-	{"delete", sedit_delete},
-
-	{"?", show_help},
-	{"commands", show_commands},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type nedit_table[] = {
-/* { command		function		}, */
-
-	{"keyword", nedit_keyword},
-	{"answer1", nedit_answer1},
-	{"answer2", nedit_answer2},
-
-	{"1", nedit_answer1},
-	{"2", nedit_answer2},
-
-	{"?", show_help},
-	{"commands", show_commands},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type rename_obj_table[] = {
-/*  {   command         function                }, */
-
-	{"keyword", rename_keyword},
-	{"short", rename_short},
-	{"long", rename_long},
-
-	{"1", rename_keyword},
-	{"2", rename_short},
-	{"3", rename_long},
-
-	{"commands", show_commands},
-
-	{"", 0,}
-};
-
-const struct olc_cmd_type forge_obj_table[] = {
-
-	{"keyword", rename_keyword,},
-	{"short", rename_short,},
-	{"long", rename_long,},
-	{"type", forge_type},
-
-	{"1", forge_addaffect,},
-	{"2", forge_addaffect,},
-	{"3", forge_addaffect,},
-	{"4", forge_addaffect,},
-	{"5", forge_addaffect,},
-	{"6", forge_addaffect,},
-	{"7", forge_addaffect,},
-	{"8", forge_addaffect,},
-	{"9", forge_addaffect,},
-
-	{"commands", show_commands,},
-
-	{"", 0,}
-};
-
-/*****************************************************************************
- *                          End Interpreter Tables.                          *
- *****************************************************************************/
-
-/*****************************************************************************
  Name:		get_area_data
  Purpose:	Returns pointer to area with given vnum.
  Called by:	do_aedit(olc.c).
@@ -691,7 +767,7 @@ AREA_DATA *get_area_data(int vnum)
 /*
  * Get data for a MobProg -- Altrag
  */
-MPROG_DATA *get_mprog_data(MOB_INDEX_DATA * pMob, int vnum)
+static MPROG_DATA *get_mprog_data(MOB_INDEX_DATA * pMob, int vnum)
 {
 	int value = 0;
 	MPROG_DATA *pMProg;
@@ -703,7 +779,7 @@ MPROG_DATA *get_mprog_data(MOB_INDEX_DATA * pMob, int vnum)
 	return NULL;
 }
 
-TRAP_DATA *get_trap_data(void *vo, int vnum, int type)
+static TRAP_DATA *get_trap_data(void *vo, int vnum, int type)
 {
 	int value = 0;
 	OBJ_INDEX_DATA *obj = (OBJ_INDEX_DATA *) vo;
@@ -735,32 +811,6 @@ TRAP_DATA *get_trap_data(void *vo, int vnum, int type)
 		return NULL;
 	}
 	return NULL;
-}
-
-/*****************************************************************************
- Name:		edit_done
- Purpose:	Resets builder information on completion.
- Called by:	aedit, redit, oedit, medit(olc.c), mpedit(Altrag)
- ****************************************************************************/
-bool edit_done(CHAR_DATA * ch)
-{
-/*
- * Well, since i have the inEdit for mpedit, why not make it usable for
- * all nested editors..?
- * -- Altrag
- */
-	if (ch->desc->editin || ch->desc->inEdit) {
-		ch->desc->pEdit = ch->desc->inEdit;
-		ch->desc->inEdit = NULL;
-		ch->desc->editor = ch->desc->editin;
-		ch->desc->editin = 0;
-		return FALSE;
-	}
-	if (ch->desc->editor == FORGE_OBJECT)
-		forge_pay_cost(ch);
-	ch->desc->pEdit = NULL;
-	ch->desc->editor = 0;
-	return FALSE;
 }
 
 /*****************************************************************************
@@ -1775,7 +1825,7 @@ bool redit_epedit(CHAR_DATA * ch, char *argument)
 	return FALSE;
 }
 
-void display_resets(CHAR_DATA * ch)
+static void display_resets(CHAR_DATA * ch)
 {
 	ROOM_INDEX_DATA *pRoom;
 	RESET_DATA *pReset;
@@ -2536,7 +2586,7 @@ void forge_object(CHAR_DATA * ch, char *argument)
 	return;
 }
 
-void forge_pay_cost(CHAR_DATA * ch)
+static void forge_pay_cost(CHAR_DATA * ch)
 {
 	OBJ_DATA *obj;
 
@@ -2743,52 +2793,9 @@ void do_nedit(CHAR_DATA * ch, char *argument)
 
 }
 
-/*
- *  Race editor by Decklarean
- */
-
-void race_edit(CHAR_DATA * ch, char *argument)
-{
-	char command[MAX_INPUT_LENGTH];
-	char arg[MAX_STRING_LENGTH];
-	int cmd;
-
-	smash_tilde(argument);
-	strcpy(arg, argument);
-	argument = one_argument(argument, command);
-
-	if (command[0] == '\0') {
-		race_edit_show(ch, argument);
-		return;
-	}
-
-	if (!str_cmp(command, "credit")) {
-		send_to_char(AT_YELLOW, "Made by Decklarean, 1997.\n\r", ch);
-		return;
-	}
-
-	if (!str_cmp(command, "done")) {
-		save_race();
-		edit_done(ch);
-		return;
-	}
-
-	/* Call editor function */
-	for (cmd = 0; *race_edit_table[cmd].name; cmd++) {
-		if (!str_prefix(command, race_edit_table[cmd].name)) {
-			(*race_edit_table[cmd].olc_fun) (ch, argument);
-			return;
-		}
-	}
-
-	/* Default to Standard Interpreter. */
-	interpret(ch, arg);
-	return;
-}
-
 /* get a race out of the race list */
 
-RACE_DATA *get_race(char *argument)
+static RACE_DATA *get_race(char *argument)
 {
 	RACE_DATA *pRace;
 	for (pRace = first_race; pRace; pRace = pRace->next) {
