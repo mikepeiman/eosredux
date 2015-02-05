@@ -1372,6 +1372,7 @@ char *mprog_process_if(char *ifchck, char *com_list, CHAR_DATA * mob,
 			morebuf = one_argument(cmnd, buf);
 		}
 	}
+	return null;
 }
 
 /* This routine handles the variables for command expansion.
