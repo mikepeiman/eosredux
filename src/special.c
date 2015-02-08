@@ -1056,8 +1056,6 @@ static bool spec_wanderer(CHAR_DATA * ch)
 		return FALSE;
 	(*skill_table[sn].spell_fun) (sn, ch->level, ch, ch);
 	return TRUE;
-
-	return FALSE;
 }
 
 static bool spec_summon_demon(CHAR_DATA * ch)
@@ -1125,8 +1123,6 @@ static bool spec_summon_demon(CHAR_DATA * ch)
 		return FALSE;
 	(*skill_table[sn].spell_fun) (sn, ch->level, ch, ch);
 	return TRUE;
-
-	return FALSE;
 }
 
 static bool spec_summon_light(CHAR_DATA * ch)
@@ -1196,7 +1192,6 @@ static bool spec_summon_light(CHAR_DATA * ch)
 	(*skill_table[sn].spell_fun) (sn, ch->level, ch, ch);
 	return TRUE;
 
-	return FALSE;
 }
 
 /*

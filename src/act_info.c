@@ -4186,7 +4186,6 @@ void do_setlev(CHAR_DATA * ch, char *argument)
 		victim->clev = level;
 		return;
 	}
-	return;
 }
 
 void do_smash(CHAR_DATA * ch, char *argument)
@@ -4626,7 +4625,6 @@ void do_questflag(CHAR_DATA * ch, char *argument)
 		send_to_char(AT_WHITE, "Ok, you are now questing.\n\r", ch);
 		return;
 	}
-	return;
 }
 
 void do_autocoins(CHAR_DATA * ch, char *argument)

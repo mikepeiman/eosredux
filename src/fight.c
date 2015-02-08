@@ -3852,7 +3852,6 @@ int per_type(CHAR_DATA * ch, OBJ_DATA * Obj)
 	default:
 		return number_range(1, ch->level);
 	}
-	return number_range(1, ch->level);
 }
 
 void do_throw(CHAR_DATA * ch, char *argument)

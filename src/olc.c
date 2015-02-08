@@ -810,7 +810,6 @@ static TRAP_DATA *get_trap_data(void *vo, int vnum, int type)
 		bug("Get_trap_index: Invalid type %d", type);
 		return NULL;
 	}
-	return NULL;
 }
 
 /*****************************************************************************

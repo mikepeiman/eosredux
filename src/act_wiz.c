@@ -5773,8 +5773,6 @@ void do_qset(CHAR_DATA * ch, char *argument)
 			return;
 		}
 	}
-	return;
-
 }
 
 void do_pload(CHAR_DATA * ch, char *argument)

@@ -963,7 +963,6 @@ bool aedit_sounds(CHAR_DATA * ch, char *argument)
 bool aedit_clan_hq(CHAR_DATA * ch, char *argument)
 {
 	AREA_DATA *pArea;
-
 	EDIT_AREA(ch, pArea);
 
 	if (get_trust(ch) >= L_CON || !str_cmp(ch->guild->name, "CREATION")) {
@@ -976,13 +975,11 @@ bool aedit_clan_hq(CHAR_DATA * ch, char *argument)
 			     ch);
 		return FALSE;
 	}
-	return TRUE;
 }
 
 bool aedit_prototype(CHAR_DATA * ch, char *argument)
 {
 	AREA_DATA *pArea;
-
 	EDIT_AREA(ch, pArea);
 
 	if (get_trust(ch) >= L_CON || !str_cmp(ch->guild->name, "CREATION")) {
@@ -995,13 +992,11 @@ bool aedit_prototype(CHAR_DATA * ch, char *argument)
 			     ch);
 		return FALSE;
 	}
-	return TRUE;
 }
 
 bool aedit_noquest(CHAR_DATA * ch, char *argument)
 {
 	AREA_DATA *pArea;
-
 	EDIT_AREA(ch, pArea);
 
 	if (get_trust(ch) >= L_CON || !str_cmp(ch->guild->name, "CREATION")) {
@@ -1014,16 +1009,11 @@ bool aedit_noquest(CHAR_DATA * ch, char *argument)
 			     ch);
 		return FALSE;
 	}
-
-	return TRUE;
-
 }
 
 bool aedit_mudschool(CHAR_DATA * ch, char *argument)
 {
-
 	AREA_DATA *pArea;
-
 	EDIT_AREA(ch, pArea);
 
 	if (get_trust(ch) >= L_CON || !str_cmp(ch->guild->name, "CREATION")) {
@@ -1036,9 +1026,6 @@ bool aedit_mudschool(CHAR_DATA * ch, char *argument)
 			     ch);
 		return FALSE;
 	}
-
-	return TRUE;
-
 }
 
 bool aedit_color(CHAR_DATA * ch, char *argument)
@@ -1194,8 +1181,6 @@ bool aedit_builder(CHAR_DATA * ch, char *argument)
 		send_to_char(C_DEFAULT, "Builder added.\n\r", ch);
 		return TRUE;
 	}
-
-	return FALSE;
 }
 
 bool aedit_vnum(CHAR_DATA * ch, char *argument)
@@ -6689,7 +6674,6 @@ bool forge_type(CHAR_DATA * ch, char *argument)
 		send_to_char(AT_GREY, "Weapon type set.\n\r", ch);
 		return TRUE;
 	}
-	return FALSE;
 }
 
 void do_rpstat(CHAR_DATA * ch, char *argument)

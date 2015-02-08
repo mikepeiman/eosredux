@@ -2473,11 +2473,9 @@ void spell_molecular_unbind(int sn, int level, CHAR_DATA * ch, void *vo)
 				extract_obj(obj_lose);
 				obj_to_room(pObj, victim->in_room);
 				break;
-
-				act(AT_YELLOW, msg, victim, obj_lose, NULL,
-				    TO_CHAR);
 			}
 		}
+		act(AT_YELLOW, msg, victim, obj_lose, NULL, TO_CHAR);
 	}
 	return;
 }
@@ -2537,10 +2535,9 @@ void spell_shatter(int sn, int level, CHAR_DATA * ch, void *vo)
 				obj_to_room(pObj, victim->in_room);
 				break;
 
-				act(AT_YELLOW, msg, victim, obj_lose, NULL,
-				    TO_CHAR);
 			}
 		}
+		act(AT_YELLOW, msg, victim, obj_lose, NULL, TO_CHAR);
 	}
 	return;
 }

@@ -1229,9 +1229,7 @@ void do_auction(CHAR_DATA * ch, char *argument)
 			return;
 		}
 	}
-
 /*    talk_channel( ch, argument, CHANNEL_AUCTION, "auction" );*/
-	return;
 }
 
 void do_bid(CHAR_DATA * ch, char *argument)

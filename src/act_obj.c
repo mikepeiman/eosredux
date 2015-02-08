@@ -4093,7 +4093,6 @@ void do_deposit(CHAR_DATA * ch, char *argument)
 		return;
 	}
 #endif
-	return;
 }
 
 void do_withdraw(CHAR_DATA * ch, char *argument)
@@ -4249,7 +4248,6 @@ void do_withdraw(CHAR_DATA * ch, char *argument)
 		return;
 	}
 #endif
-	return;
 }
 
 void do_repair(CHAR_DATA * ch, char *argument)
@@ -4502,11 +4500,7 @@ void do_repair(CHAR_DATA * ch, char *argument)
 		REMOVE_BIT(pObj->extra_flags, ITEM_PATCHED);
 		return;
 	}
-
 #endif
-
-	return;
-
 }
 
 void do_account(CHAR_DATA * ch, char *argument)

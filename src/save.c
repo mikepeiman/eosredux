@@ -1343,7 +1343,6 @@ void fread_alias(CHAR_DATA * ch, FILE * fp)
 			break;
 		}
 	}
-	return;
 }
 
 void fwrite_alias(CHAR_DATA * ch, FILE * fp)

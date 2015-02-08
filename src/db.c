@@ -564,11 +564,9 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA * mprg,
 	case '|':
 		bug("empty mobprog file.", 0);
 		exit(EXIT_FAILURE);
-		break;
 	default:
 		bug("in mobprog file syntax error.", 0);
 		exit(EXIT_FAILURE);
-		break;
 	}
 
 	while (!done) {
@@ -577,11 +575,9 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA * mprg,
 		case ERROR_PROG:
 			bug("mobprog file type error", 0);
 			exit(EXIT_FAILURE);
-			break;
 		case IN_FILE_PROG:
 			bug("mprog file contains a call to file.", 0);
 			exit(EXIT_FAILURE);
-			break;
 		default:
 			pMobIndex->progtypes =
 			    pMobIndex->progtypes | mprg2->type;
@@ -602,7 +598,6 @@ MPROG_DATA *mprog_file_read(char *f, MPROG_DATA * mprg,
 			default:
 				bug("in mobprog file syntax error.", 0);
 				exit(EXIT_FAILURE);
-				break;
 			}
 			break;
 		}
@@ -626,7 +621,6 @@ void load_mobprogs(FILE * fp)
 		default:
 			bug("Load_mobprogs: bad command '%c'.", letter);
 			exit(EXIT_FAILURE);
-			break;
 		case 'S':
 		case 's':
 			fread_to_eol(fp);
@@ -661,9 +655,6 @@ void load_mobprogs(FILE * fp)
 			fread_to_eol(fp);
 			break;
 		}
-
-	return;
-
 }
 
 /* This procedure is responsible for reading any in_file MOBprograms.
@@ -690,7 +681,6 @@ void mprog_read_programs(FILE * fp, MOB_INDEX_DATA * pMobIndex)
 			bug("Load_mobiles: vnum %d MOBPROG type.",
 			    pMobIndex->vnum);
 			exit(EXIT_FAILURE);
-			break;
 		case IN_FILE_PROG:
 			mprg =
 			    mprog_file_read(fread_string(fp), mprg, pMobIndex);
@@ -712,7 +702,6 @@ void mprog_read_programs(FILE * fp, MOB_INDEX_DATA * pMobIndex)
 				bug("Load_mobiles: vnum %d bad MOBPROG.",
 				    pMobIndex->vnum);
 				exit(EXIT_FAILURE);
-				break;
 			}
 			break;
 		default:
@@ -740,7 +729,6 @@ void mprog_read_programs(FILE * fp, MOB_INDEX_DATA * pMobIndex)
 				bug("Load_mobiles: vnum %d bad MOBPROG.",
 				    pMobIndex->vnum);
 				exit(EXIT_FAILURE);
-				break;
 			}
 			break;
 		}
@@ -1448,7 +1436,6 @@ void load_resets(FILE * fp)
 		default:
 			bug("Load_resets: bad command '%c'.", letter);
 			exit(EXIT_FAILURE);
-			break;
 
 		case 'M':
 			get_mob_index(pReset->arg1);
@@ -4102,7 +4089,6 @@ char *wind_str(int str)
 	default:
 		return "wierdly";
 	}
-	return "";
 }
 
 /*
@@ -4591,7 +4577,6 @@ void load_race(void)
 		}
 		race_sort(pRace);
 	}
-	fclose(fp);
 }
 
 RACE_DATA *get_race_data(int vnum)

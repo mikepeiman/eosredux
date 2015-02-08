@@ -257,7 +257,6 @@ int main(int argc, char **argv)
 	 */
 	log_string("Normal termination of game.", CHANNEL_NONE, -1);
 	exit(EXIT_SUCCESS);
-	return 0;
 }
 
 int init_socket(int port)
@@ -1470,7 +1469,6 @@ void nanny(DESCRIPTOR_DATA * d, char *argument)
 			d->connected = CON_CONFIRM_NEW_NAME;
 			return;
 		}
-		break;
 
 	case CON_GET_OLD_PASSWORD:
 		write_to_buffer(d, "\n\r", 2);
