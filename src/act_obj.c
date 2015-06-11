@@ -5281,7 +5281,7 @@ void do_gravebind(CHAR_DATA * ch, char *argument)
 		return;
 	}
 	one_argument(argument, arg);
-	if (arg == '\0') {
+	if (arg[0] == '\0') {
 		send_to_char(AT_DGREY, "You must gravebind something.\n\r", ch);
 		return;
 	}

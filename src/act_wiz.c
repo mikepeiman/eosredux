@@ -4944,7 +4944,7 @@ void do_oset(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!str_cmp(arg2, "ac_type")) {
-		if (arg3 == '\0' || !is_number(arg3)) {
+		if (arg3[0] == '\0' || !is_number(arg3)) {
 			send_to_char(AT_WHITE,
 				     "Syntax: oset ac_type [type #]\n\r", ch);
 			return;
@@ -4957,7 +4957,7 @@ void do_oset(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!str_cmp(arg2, "ac_vnum")) {
-		if (arg3 == '\0' || !is_number(arg3)) {
+		if (arg3[0] == '\0' || !is_number(arg3)) {
 			send_to_char(AT_WHITE,
 				     "Syntax: oset ac_vnum [ # ]\n\r", ch);
 			return;
@@ -4968,7 +4968,7 @@ void do_oset(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!str_cmp(arg2, "ac_v1")) {
-		if (arg3 == '\0' || !is_number(arg3)) {
+		if (arg3[0] == '\0' || !is_number(arg3)) {
 			send_to_char(AT_WHITE,
 				     "Syntax: oset ac_v1 [ current charges ]\n\r",
 				     ch);
@@ -4982,7 +4982,7 @@ void do_oset(CHAR_DATA * ch, char *argument)
 	}
 
 	if (!str_cmp(arg2, "ac_v2")) {
-		if (arg3 == '\0' || !is_number(arg3)) {
+		if (arg3[0] == '\0' || !is_number(arg3)) {
 			send_to_char(AT_WHITE,
 				     "Syntax: oset ac_v2 [ max charges (-1 unlimited) ]\n\r",
 				     ch);
@@ -5000,7 +5000,7 @@ void do_oset(CHAR_DATA * ch, char *argument)
 
 		spn = skill_lookup(arg3);
 
-		if ((arg3 == '\0') || (spn == -1)) {
+		if ((arg3[0] == '\0') || (spn == -1)) {
 			send_to_char(AT_WHITE,
 				     "Syntax: oset ac_setspell [ valid spell name ]\n\r",
 				     ch);
