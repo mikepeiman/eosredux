@@ -3090,22 +3090,7 @@ void ban(CHAR_DATA * ch, char *argument, char ban_type)
 		   "You MUST use the @ symbol if you specify a username.\n\r", ch ); */
 		return;
 	}
-/*
-    parse_ban( argument, to_ban ); 
-    for ( pban = ban_list; pban; pban = pban->next )
-	{
-	if ( ( to_ban->name == pban->name && !to_ban->user )
-	|| ( to_ban->user && pban->user 
-			  && to_ban->user == pban->user
-			  && to_ban->name == pban->name ) )
-	  {
-	  if ( to_ban->user )
-	    send_to_char( AT_RED, "The user from that site is already banned.\n\r", ch );
-	  else
-	    send_to_char( AT_RED, "That site is already banned.\n\r", ch );
-	  }
-	}
-*/
+
 	for (pban = ban_list; pban; pban = pban->next) {
 		if ((!str_cmp(arg, pban->name) && arg1[0] == '\0')
 		    || (arg1[0] != '\0' && pban->user
@@ -3487,22 +3472,11 @@ void do_mset(CHAR_DATA * ch, char *argument)
 		return;
 	}
 
-/*    if ( !is_number( arg1 ) )*/
 	if (!(victim = get_char_room(ch, arg1))) {
 		send_to_char(AT_WHITE, "They aren't here.\n\r", ch);
 		return;
 	}
-/*    else
-      if ( !(pMob = get_mob_index( atoi( arg1  )) ) )
-      {
-         send_to_char(AT_WHITE, "Nothing like that in hell, earth, or heaven.\n\r", ch );
-         return;
-      }
-      else 
-      {
-         p = TRUE;
-         victim = get_char_world( ch, pMob->player_name );
-      }*/
+
 
 	/*
 	 * Snarf the value (which need not be numeric).
@@ -3789,46 +3763,6 @@ void do_mset(CHAR_DATA * ch, char *argument)
 		return;
 	}
 
-/*    if ( !str_cmp( arg2, "clvl" ) && get_trust( ch ) >= L_CON )
-    {
-       if IS_NPC( victim)
-       {
-          send_to_char(AT_WHITE, "Not on NPC's.\n\r", ch );
-          return;
-       }
-       victim->clev = value;
-       send_to_char(AT_WHITE, "Ok.\n\r", ch );
-       return;
-    }
-    else if ( !str_cmp( arg2, "clvl" ) && get_trust( ch ) < L_CON )
-    {
-       send_to_char(AT_WHITE, "You are too low of trust to set one's clan level.\n\r", ch );
-       return;
-    }
-       
-    if ( !str_cmp( arg2, "clan" ) && get_trust( ch ) >= L_CON )
-    {
-       if IS_NPC( victim )
-       {
-          send_to_char(AT_WHITE, "Not on NPC's.\n\r", ch );
-          return;
-		           }
-*//*if ( ( value < 0 ) || ( value > MAX_CLAN ) ) */
-/*       if ( !get_clan_index(value) )
-       {
-          send_to_char(AT_WHITE, "Invalid clan.\n\r", ch );
-          return;
-       }
-       victim->clan = value;
-       send_to_char(AT_WHITE, "Ok.\n\r", ch );
-       return;
-    }
-    else if ( !str_cmp( arg2, "clan" ) && get_trust( ch ) < L_CON )
-    {
-       send_to_char(AT_WHITE, "You are too low of trust to set one's clan.\n\r", ch );
-       return;
-    }
-*/
 	if (!str_cmp(arg2, "act")) {
 		if (!IS_NPC(victim))
 			if (get_trust(ch) < L_DIR	/*&& !IS_SET( ch->affected_by2, CODER
@@ -4065,38 +3999,7 @@ void do_mset(CHAR_DATA * ch, char *argument)
 				break;
 			}
 		}
-		/*
-		   if ( !str_cmp( arg3, "human" ) || !str_cmp( arg3, "hum" ) )
-		   value = RACE_HUMAN;
-		   if ( !str_cmp( arg3, "elf" ) )
-		   value = RACE_ELF;
-		   if ( !str_cmp( arg3, "dwarf" ) || !str_cmp( arg3, "dwa" ) )
-		   value = RACE_DWARF;
-		   if ( !str_cmp( arg3, "pixie" ) || !str_cmp( arg3, "pix" ) )
-		   value = RACE_PIXIE;
-		   if ( !str_cmp( arg3, "halfling" ) || !str_cmp( arg3, "hal" ) )
-		   value = RACE_HALFLING;
-		   if ( !str_cmp( arg3, "drow" ) )
-		   value = RACE_DROW;
-		   if ( !str_cmp( arg3, "elder" ) || !str_cmp( arg3, "eld" ) )
-		   value = RACE_ELDER;
-		   if ( !str_cmp( arg3, "ogre" ) || !str_cmp( arg3, "ogr" ) )
-		   value = RACE_OGRE;
-		   if ( !str_cmp( arg3, "lizardman" ) || !str_cmp( arg3, "liz" ) )
-		   value = RACE_LIZARDMAN;
-		   if ( !str_cmp( arg3, "demon" ) || !str_cmp( arg3, "dem" ) )
-		   value = RACE_DEMON;
-		   if ( !str_cmp( arg3, "ghoul" ) || !str_cmp( arg3, "ghl" ) )
-		   value = RACE_GHOUL;
-		   if ( !str_cmp( arg3, "illithid" ) || !str_cmp( arg3, "ill" ) )
-		   value = RACE_ILLITHID;
-		   if ( !str_cmp( arg3, "minotaur" ) || !str_cmp( arg3, "min" ) )
-		   value = RACE_MINOTAUR;
-		   if ( !str_cmp( arg3, "troll" ) || !str_cmp( arg3, "tro" ) )
-		   value = RACE_TROLL;
-		   if ( !str_cmp( arg3, "shadow" ) || !str_cmp( arg3, "shd" ) )
-		   value = RACE_SHADOW;
-		 */
+
 		if (value < 0 || value >= MAX_RACE) {
 			char buf[MAX_STRING_LENGTH];
 
@@ -5819,9 +5722,6 @@ void do_sstat(CHAR_DATA * ch, char *argument)
 	strcpy(spbuf, "\n\r");
 	strcpy(skbuf, "\n\r");
 	strcpy(wzbuf, "\n\r");
-/*  spbuf[0] = '\n'; spbuf[1] = '\r'; spbuf[2] = '\0';
-  skbuf[0] = '\n'; skbuf[1] = '\r'; skbuf[2] = '\0';
-  wzbuf[0] = '\n'; wzbuf[1] = '\r'; wzbuf[2] = '\0';*/
 
 	/* Use 1 to skip the reserved sn -- Altrag */
 	for (sn = 1; skill_table[sn].name[0] != '\0'; sn++) {
@@ -7117,81 +7017,3 @@ void do_rebuild(CHAR_DATA * ch, char *argument)
 	send_to_char(AT_WHITE, "Ok.\n\r", ch);
 
 }
-
-/*
-void do_nuke( CHAR_DATA *ch, char *argument )
-{
- CHAR_DATA *vch;
- bool playing = FALSE;
-  char arg[MAX_INPUT_LENGTH];
-  DESCRIPTOR_DATA d;
-
-  argument = one_argument( argument, arg );
-
- for ( vch = char_list; vch != NULL; vch = vch->next )
- {
-   if ( vch->deleted )
-     continue;
-   if ( !IS_NPC( vch ) && !str_cmp( arg, vch->name ) )
-   {
-     if ( ch == vch )
-     {
-       send_to_char( AT_WHITE, "You cannot nuke yourself.\n\r", ch );
-       return;
-     }
-     send_to_char( AT_WHITE, "Character is playing.\n\r", ch );
-     playing = TRUE;
-     break;
-   }
- }
-
- if (!playing)
- { 
-   vch = NULL;
-
-   if ( !load_char_obj( &d, arg ) )
-   {
-     free_char( d.character );
-     send_to_char( AT_WHITE, "Player does not exist.\n\r", ch );
-     return;
-   }
-   vch = d.character;
-   d.character = NULL;
-   vch->desc = NULL;
-   vch->next = char_list;
-   char_list = vch;
-   char_to_room( vch, ch->in_room );
-   {
-     char buf[MAX_INPUT_LENGTH];
-     strcpy( buf, vch->name );
-     free_string( vch->name );
-     vch->name = str_dup( capitalize( buf ) );
-     act( AT_RED, "$n ghost like form appears in the room.", vch, NULL, NULL, TO_ROOM );
-   }
- }
-
- act( AT_RED, "A rift opens beneath $n, who falls into oblivion.", vch, NULL, NULL, TO_ROOM );
- act( AT_RED, "A rift opens beneath you, you fall into oblivion.", vch, NULL, NULL, TO_VICT );
- 
- sprintf(log_buf, "%s%c/%s", PLAYER_DIR, LOWER(vch->name[0]),
-     capitalize(vch->name));
- remove(log_buf);
- strcat(log_buf, ".fng");
- remove(log_buf);
- sprintf(log_buf, "%s%c/%s", PLAYER_DIR, LOWER(vch->name[0]),
-     capitalize(vch->name));
- strcat(log_buf, ".cps");
- remove(log_buf);
-
- delete_playerlist( vch->name );
-
- d = vch->desc;
- extract_char(vch, TRUE);
- if ( d )
-  close_socket(d);
-
- send_to_char( AT_WHITE, "Ok.\n\r", ch );
-
-}
-
-*/

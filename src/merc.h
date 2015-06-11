@@ -161,32 +161,6 @@ typedef void SPELL_FUN args((int sn, int level, CHAR_DATA * ch, void *vo));
 /* Save the database - OLC 1.1b */
 #define PULSE_DB_DUMP		  (1800* PULSE_PER_SECOND )	/* 30 minutes  */
 
-/* Not used -Deck
-#define SIZE_TINY                 0
-#define SIZE_SMALL                1
-#define SIZE_MEDIUM               2
-#define SIZE_LARGE                3
-#define SIZE_GIANT                4
-#define SIZE_HUGE                 5
-#define SIZE_GARGANTUAN           6
-#define SIZE_TITANIC              7
-*/
-
-/*
- *  User list structure
- */
-
-/* is not used -Deck
-struct  userl_data
-{
-    USERL_DATA *  next;
-    char *        name;
-    int           level;
-    char *        user;
-    char *        host;
-    char *        lastlogin;
-    char *        desc;
-}; */
 
 #ifdef NEW_MONEY
 struct money_data {
@@ -516,26 +490,6 @@ struct race_data {
 	int mcon;
 };
 
-/* not used - Decklarean
-struct  nrace_type
-{
-    char        lname  [20];
-    char        sname  [4];
-    int         size;
-    int         mstr;
-    int         mdex;
-    int         mint;
-    int         mwis;
-    int         mcon;
-    int         mods [5];
-    long        res_flags;
-    long        vul_flags;
-    long        affects;
-    int         hplev;
-    int         manalev;
-    int         movelev;
-};
-*/
 /*
  * Data structure for notes.
  */
@@ -2117,66 +2071,6 @@ extern int gsn_ward_safe;
 extern int gsn_ward_heal;
 extern int gsn_incinerate;
 extern int gsn_grip;
-
-/*  do not need gsn for imm commands  -Deck
-extern  int     gsn_advance; 
-extern  int     gsn_allow;
-extern  int     gsn_at;
-extern  int     gsn_bamfin;
-extern  int     gsn_bamfout;
-extern  int     gsn_ban;
-extern  int     gsn_cset;
-extern  int     gsn_deny;
-extern  int     gsn_disconnect;
-extern  int     gsn_echo;
-extern  int 	gsn_fighting;
-extern  int     gsn_force;
-extern  int     gsn_freeze;
-extern  int     gsn_goto;
-extern  int     gsn_holylight;
-extern  int     gsn_immtalk;
-extern  int     gsn_log;
-extern  int     gsn_memory;
-extern  int     gsn_mfind;
-extern  int     gsn_mload;
-extern  int     gsn_mset;
-extern  int     gsn_mstat;
-extern  int     gsn_mwhere;
-extern  int     gsn_newlock;
-extern  int     gsn_noemote;
-extern  int     gsn_notell;
-extern  int     gsn_numlock;
-extern  int     gsn_ofind;
-extern  int     gsn_oload;
-extern  int     gsn_oset;
-extern  int     gsn_ostat;
-extern  int     gsn_owhere;
-extern  int     gsn_pardon;
-extern  int     gsn_peace;
-extern  int     gsn_purge;
-extern  int     gsn_reboot;
-extern  int     gsn_recho;
-extern  int     gsn_restore;
-extern  int     gsn_return;
-extern  int     gsn_rset;
-extern  int     gsn_rstat;
-extern  int     gsn_shutdown;
-extern  int     gsn_silence;
-extern  int     gsn_slay;
-extern  int     gsn_slookup;
-extern  int     gsn_snoop;
-extern  int     gsn_sset;
-extern  int     gsn_sstime;
-extern  int     gsn_switch;
-extern  int     gsn_transfer;
-extern  int     gsn_trust;
-extern  int     gsn_users;
-extern  int     gsn_wizhelp;
-extern  int     gsn_wizify;
-extern  int     gsn_wizinvis;
-extern  int     gsn_wizlock;
-*/
-
 extern int gsn_shadow_walk;
 /*
  * Psionicist gsn's.
@@ -2302,23 +2196,6 @@ struct cmd_type {
 	int level;
 	int log;
 };
-
-/*
- * Structure for a social in the socials table.
- */
-/*
-struct	social_type
-{
-    char * const	name;
-    char * const	char_no_arg;
-    char * const	others_no_arg;
-    char * const	char_found;
-    char * const	others_found;
-    char * const	vict_found;
-    char * const	char_auto;
-    char * const	others_auto;
-};
-*/
 
 /*
  * Global constants.

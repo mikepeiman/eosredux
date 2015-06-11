@@ -682,20 +682,7 @@ void close_socket(DESCRIPTOR_DATA * dclose)
 			if (!IS_SET(ch->act, PLR_WIZINVIS)
 			    && !IS_SET(ch->act, PLR_CLOAKED))
 				info("The link between %s and the storm has been torn.", (int)(ch->name), 0);
-/*	  {
-	    CHAR_DATA *PeT;
-	    for ( PeT = ch->in_room->people; PeT; PeT = PeT->next_in_room )
-	      {
-	      if ( IS_NPC( PeT ) )
-		if ( IS_SET( PeT->act, ACT_PET ) && PeT->master == ch )
-		   {
-		
-		   REMOVE_BIT( PeT->act, ACT_PET );  
-		   break;
-		
-		   }
-	      } 
-	  }*/
+
 			ch->desc = NULL;
 		} else {
 			free_char(dclose->character);
@@ -723,9 +710,6 @@ void close_socket(DESCRIPTOR_DATA * dclose)
 	free_string(dclose->showstr_head);
 	/* RT socket leak fix */
 	free_mem(dclose->outbuf, dclose->outsize);
-
-/*    dclose->next	= descriptor_free;
-    descriptor_free	= dclose;*/
 	free_mem(dclose, sizeof(*dclose));
 	return;
 }
@@ -929,25 +913,7 @@ bool process_output(DESCRIPTOR_DATA * d, bool fPrompt)
 						"is in awful condition.");
 				else
 					sprintf(wound, "is bleeding to death.");
-/*
-  	  strcpy( buf2, "&z[" );
-	  if ( percent >= 66 )
-	    strcat( buf2, "&G" );
-	  else if( percent >= 33 )
-	    strcat( buf2, "&Y" );
-	  else
-	    strcat( buf2, "&r" );
-	  health[0] = '+';
-	  for( iHealth = 1; iHealth < 20; iHealth++ )
-	    if ( percent >= iHealth * 5 )
-	      health[iHealth] = '+';
-	    else
-	      health[iHealth] = ' ';
-	  health[iHealth] = '\0';
-	  strcat( buf2, health );
-	  strcat( buf2, "&z]" );
-	  sprintf( wound, "%s", buf2 );
-*/
+
 				sprintf(buf, "\n\r&R%s %s",
 					IS_NPC(victim) ? victim->
 					short_descr : victim->name, wound);
@@ -1160,14 +1126,6 @@ void bust_a_prompt(DESCRIPTOR_DATA * d)
 		while ((*point = *i) != '\0')
 			++point, ++i;
 	}
-/*log_string("first",0);
-   while( ( *point = *i ) != '\0' )
-     {
-log_string("next",0);
-      ++point, ++i;
-}
-   *point = '\0';
-log_string("last",0);*/
 	write_to_buffer(d, buf, point - buf);
 	return;
 }
@@ -2942,11 +2900,7 @@ bool check_ban(DESCRIPTOR_DATA * dnew, bool loggedin)
 	for (pban = ban_list; pban; pban = pban->next) {
 		if (pban->type == 'N')
 			continue;
-/*
-    sprintf( buf, "pban->user: %s, pban->site: %s\n\rdnew->user: %s, dnew->site: %s\n\r", 
-	     !pban->user ? "NULL" : pban->user, pban->name, dnew->user, dnew->host );
-    write_to_descriptor( buf, 0, dnew );
-*/
+
 		if ((!str_suffix(pban->name, dnew->host) && !pban->user)
 
 		    || (pban->user && !str_cmp(pban->user, dnew->user)

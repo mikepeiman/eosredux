@@ -809,18 +809,7 @@ NULL, 50, 12,
 "", "!Astral Walk!", "", FALSE, SLOT(0) 
 }, 
  
-/*
-    "barkskin"
-    { L_APP, L_APP, L_APP, L_APP, 18, L_APP, 15, L_APP, L_APP, L_APP,
-      L_APP, L_APP, L_APP, L_APP, L_APP, L_APP},
-      spell_barkskin,           TAR_CHAR_DEFENSIVE,     POS_STANDING,
-      NULL,                     15,     12,
-      "",               "Your skin turns back to it's original texture."
-      FALSE,   SLOT(1)
-     },
-*/ 
-	
-	    {
+{
 "bless", 
 		 {L_APP, 5, L_APP, L_APP, L_APP, 14, L_APP, 6, L_APP, L_APP,
 		      
@@ -5595,5 +5584,3 @@ const struct gskill_type gskill_table[MAX_GSPELL] =
 	{3, SLOT(221), {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}}, 
 	    {2, SLOT(227), {2, 1, 0, 0, 2, 1, 0, 0, 0, 0, 0}}, 
 };
-
-

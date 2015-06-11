@@ -28,19 +28,6 @@ extern int top_exit;
 extern int top_ed;
 extern int top_room;
 
-/*AREA_DATA		*	area_free;
-EXTRA_DESCR_DATA	*	extra_descr_free;
-EXIT_DATA		*	exit_free;
-ROOM_INDEX_DATA		*	room_index_free;
-SOCIAL_DATA		*	social_index_free;
-CLAN_DATA               *       clan_index_free;
-OBJ_INDEX_DATA		*	obj_index_free;
-SHOP_DATA		*	shop_free;
-MOB_INDEX_DATA		*	mob_index_free;
-MPROG_DATA              *       mprog_free;
-TRAP_DATA               *       trap_free;
-RESET_DATA		*	reset_free;
-HELP_DATA		*	help_free;*/
 
 /*****************************************************************************
  Name:		new_reset_data

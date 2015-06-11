@@ -60,9 +60,6 @@ bool is_class(CHAR_DATA * ch, int class)
 	if (IS_NPC(ch))
 		return FALSE;
 
-/*  if( ch->class[0] == class )
-     return TRUE;  */
-
 	for (iClass = 0; ch->class[iClass] != -1; iClass++) {
 		if (ch->class[iClass] == class)
 			return TRUE;
