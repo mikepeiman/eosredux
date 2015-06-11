@@ -503,21 +503,6 @@ struct class_type {
 	bool multi[MAX_CLASS];	/* Which classes can multiclass */
 	bool objtype[14];	/* Which classes can wield what types of weapons */
 };
-#if 0
-struct race_type {
-	char race_name[4];
-	char race_full[20];
-	int mstr;
-	int mint;
-	int mwis;
-	int mdex;
-	int mcon;
-/*  int         atribmod1;
-    int         atribmod2;     OLD VERSION.
-    int         modamount1;
-    int         modamount2; */
-};
-#endif
 
 struct race_data {
 	RACE_DATA *next;
@@ -1651,25 +1636,6 @@ struct alias_data {
 	char *old;
 	char *new;
 };
-
-/* Not used -Deck
-#define PHOBIA_FIRE      0
-#define PHOBIA_LIGHTNING 1
-#define PHOBIA_WATER     2
-#define PHOBIA_MAGIC     3
-#define PHOBIA_NONMAGIC  4
-#define PHOBIA_PSI       5
-#define PHOBIA_DRAGON    6
-#define PHOBIA_MAX       7
-
-struct  phobia_data
-{
-    PHOBIA_DATA *next;
-    int          type;
-    int          duration;
-    int          strength;
-};
-*/
 
 /*
  * heh.. were discussing obj/room progs.. and then these triggers started

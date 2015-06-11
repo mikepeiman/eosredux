@@ -466,45 +466,6 @@ void do_wizhelp(CHAR_DATA * ch, char *argument)
 
 }
 
-#if 0
-/* taken out because it was replaced */
-void do_bamfin(CHAR_DATA * ch, char *argument)
-{
-	if (!IS_NPC(ch)) {
-		if (longstring(ch, argument))
-			return;
-
-		smash_tilde(argument);
-		free_string(ch->pcdata->bamfin);
-		ch->pcdata->bamfin = str_dup(argument);
-		send_to_char(AT_GREY, "Ok.\n\r", ch);
-	}
-	return;
-
-}
-
-#endif				/* 
-				 */
-
-#if 0
-/* Taken out because it was replaced */
-void do_bamfout(CHAR_DATA * ch, char *argument)
-{
-	if (!IS_NPC(ch)) {
-		if (longstring(ch, argument))
-			return;
-
-		smash_tilde(argument);
-		free_string(ch->pcdata->bamfout);
-		ch->pcdata->bamfout = str_dup(argument);
-		send_to_char(C_DEFAULT, "Ok.\n\r", ch);
-	}
-	return;
-
-}
-
-#endif				/* 
-				 */
 void do_slaymes(CHAR_DATA * ch, char *argument)
 {
 	char arg[MAX_INPUT_LENGTH];

@@ -852,32 +852,6 @@ static void vsave_shops(FILE * fp, AREA_DATA * pArea)
  Written by:	Walker <nkrendel@evans.Denver.Colorado.EDU>
  Called by:	save_area(olc_save.c).
  ****************************************************************************/
-/*  new one just below this one -Deck */
-#if 0
-void save_helps(FILE * fp, AREA_DATA * pArea)
-{
-	HELP_DATA *pHelp;
-	bool found = FALSE;
-
-	for (pHelp = help_first; pHelp; pHelp = pHelp->next) {
-		if (pHelp->area && pHelp->area == pArea) {
-			if (!found) {
-				fprintf(fp, "#HELPS\n\n");
-				found = TRUE;
-			}
-			fprintf(fp, "%d %s~\n%s~\n",
-				pHelp->level,
-				all_capitalize(pHelp->keyword),
-				fix_string(pHelp->text));
-		}
-	}
-
-	if (found)
-		fprintf(fp, "\n0 $~\n\n");
-
-	return;
-}
-#endif
 /*
  *  This is the new save_helps it saves all the helps in help.dat
  *  -Decklarean
