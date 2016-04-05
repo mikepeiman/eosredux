@@ -5162,7 +5162,7 @@ void do_cloak(CHAR_DATA * ch, char *argument)
 		return;
 
 	argument = one_argument(argument, arg);
-	if (arg && arg[0] != '\0') {
+	if (arg[0] != '\0') {
 		if (!is_number(arg)) {
 			send_to_char(AT_WHITE,
 				     "Usage: cloak | cloak <level>\n\r", ch);
@@ -5207,7 +5207,7 @@ void do_invis(CHAR_DATA * ch, char *argument)
 		return;
 
 	argument = one_argument(argument, arg);
-	if (arg && arg[0] != '\0') {
+	if (arg[0] != '\0') {
 		if (!is_number(arg)) {
 			send_to_char(AT_WHITE,
 				     "Usage: invis | invis <level>\n\r", ch);
